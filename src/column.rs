@@ -1,4 +1,4 @@
-use super::FurDataType;
+use crate::FurDataType;
 
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct FurColumn {
