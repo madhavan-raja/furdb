@@ -1,5 +1,16 @@
 #+TITLE: FurDB
 
+* Table of Contents                                                     :toc:
+- [[#introduction][Introduction]]
+- [[#installation][Installation]]
+- [[#usage][Usage]]
+  - [[#creating-a-new-database][Creating a new database]]
+  - [[#creating-a-new-table][Creating a new table]]
+  - [[#creating-the-columns][Creating the columns]]
+  - [[#adding-data-to-the-table][Adding data to the table]]
+  - [[#getting-the-data][Getting the data]]
+
+* Introduction
 A small and space-efficient Database Management System that allows you to allocate the size of individual data types in bits (not bytes).
 
 #+BEGIN_SRC
@@ -8,17 +19,26 @@ A small and space-efficient Database Management System that allows you to alloca
 d1   d2   d3
 #+END_SRC
 
+You can find the demo project for FurDB [[https://github.com/madhavan-raja/fur][here]].
+
 * Installation
 This project (along with the documentation) will be moved to [[https://crates.io][crates.io]] at some point in the future. Right now, you can clone this repo with
 
 #+BEGIN_SRC bash
-  git clone https://github.com/madhavan-raja/fur.git
+  git clone https://github.com/madhavan-raja/furdb.git
 #+END_SRC
 
-and use the =FurDB= crate inside the src directory.
+and use the directory as an external crate.
+
+Alternatively, you can directly use the main branch of this repository by putting the following in =Cargo.toml=:
+
+#+BEGIN_SRC bash
+  [dependencies]
+  furdb = { git = "https://github.com/madhavan-raja/furdb" }
+#+END_SRC
 
 * Usage
-As of now, this is just a Rust library. No REST API or command line interface has been (or will be) implemented in this version. The only way to use it is in an existing/new Rust project.
+As of now, this is just a Rust library. No REST API or command line interface has been implemented in this version. The only way to use it is in an existing/new Rust project.
 
 Import the crate using
 #+BEGIN_SRC rust
