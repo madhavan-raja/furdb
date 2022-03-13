@@ -24,18 +24,20 @@ You can find the demo project for FurDB [[https://github.com/madhavan-raja/fur][
 * Installation
 This project (along with the documentation) will be moved to [[https://crates.io][crates.io]] at some point in the future. Right now, you can clone this repo with
 
-#+BEGIN_SRC bash
+#+BEGIN_SRC sh
   git clone https://github.com/madhavan-raja/furdb.git
 #+END_SRC
 
 and use the directory as an external crate.
 
-Alternatively, you can directly use the main branch of this repository by putting the following in =Cargo.toml=:
+Alternatively, you can directly use this repository as a git dependency by adding the following in your project's =Cargo.toml=:
 
-#+BEGIN_SRC bash
+#+BEGIN_SRC toml
   [dependencies]
   furdb = { git = "https://github.com/madhavan-raja/furdb" }
 #+END_SRC
+
+Additionally, you will also need a conversion server such as [[https://github.com/madhavan-raja/fur-converter][Fur Converter]] for the data conversion. The conversion server should be running at the time of all data operations.
 
 * Usage
 As of now, this is just a Rust library. No REST API or command line interface has been implemented in this version. The only way to use it is in an existing/new Rust project.
