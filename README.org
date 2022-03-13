@@ -1,16 +1,8 @@
 #+TITLE: FurDB
 
-* Table of Contents                                                     :toc:
-- [[#introduction][Introduction]]
-- [[#installation][Installation]]
-- [[#usage][Usage]]
-  - [[#creating-a-new-database][Creating a new database]]
-  - [[#creating-a-new-table][Creating a new table]]
-  - [[#creating-the-columns][Creating the columns]]
-  - [[#adding-data-to-the-table][Adding data to the table]]
-  - [[#getting-the-data][Getting the data]]
+[[#api-branch][https://img.shields.io/badge/api-master-yellow.svg]]
+[[#rust-version-requirements][https://img.shields.io/badge/rustc-1.58+-lightgray.svg]]
 
-* Introduction
 A small and space-efficient Database Management System that allows you to allocate the size of individual data types in bits (not bytes).
 
 #+BEGIN_SRC
@@ -20,6 +12,15 @@ d1   d2   d3
 #+END_SRC
 
 You can find the demo project for FurDB [[https://github.com/madhavan-raja/fur][here]].
+
+* Table of Contents                                                     :toc:
+- [[#installation][Installation]]
+- [[#usage][Usage]]
+  - [[#creating-a-new-database][Creating a new database]]
+  - [[#creating-a-new-table][Creating a new table]]
+  - [[#creating-the-columns][Creating the columns]]
+  - [[#adding-data-to-the-table][Adding data to the table]]
+  - [[#getting-the-data][Getting the data]]
 
 * Installation
 This project (along with the documentation) will be moved to [[https://crates.io][crates.io]] at some point in the future. Right now, you can clone this repo with
