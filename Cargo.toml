@@ -2,6 +2,13 @@
 name = "furdb"
 version = "0.1.0"
 edition = "2021"
+authors = ["Madhavan Raja"]
+license = "GNU Public License"
+readme = "README.org"
+repository = "https://github.com/madhavan-raja/furdb"
+description = """
+A space-efficient database management system.
+"""
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
