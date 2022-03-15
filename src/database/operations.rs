@@ -20,11 +20,11 @@ impl FurDB {
     pub fn get_table(
         &self,
         table_id: &str,
-        table_info: FurTableInfo,
+        table_info: Option<FurTableInfo>,
     ) -> Result<FurTable, Box<dyn Error>> {
         let mut table_dir_path = self.dir.clone();
         table_dir_path.push(table_id);
-        let tb = FurTable::new(table_dir_path, Some(table_info))?;
+        let tb = FurTable::new(table_dir_path, table_info)?;
 
         Ok(tb)
     }

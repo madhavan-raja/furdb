@@ -31,7 +31,7 @@ impl FurTable {
         Ok(table_info)
     }
 
-    pub(super) fn save_info(&self) -> Result<(), Box<dyn Error>> {
+    pub fn save_info(&self) -> Result<(), Box<dyn Error>> {
         let table_info_raw = serde_json::to_string(&self.table_info)?;
         let table_info_file_path = Self::get_info_file_path(&self.dir);
         std::fs::write(table_info_file_path, table_info_raw)?;
