@@ -26,4 +26,12 @@ impl FurDB {
     pub fn get_info(&self) -> Result<&FurDBInfo, Box<dyn Error>> {
         Ok(&self.db_info)
     }
+
+    pub fn save_info(&self) -> Result<(), Box<dyn Error>> {
+        let db_info_raw = serde_json::to_string(&self.db_info)?;
+        let db_info_file_path = Self::get_info_file_path(&self.dir);
+        std::fs::write(db_info_file_path, db_info_raw)?;
+
+        Ok(())
+    }
 }

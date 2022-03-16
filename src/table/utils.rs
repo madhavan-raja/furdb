@@ -31,14 +31,6 @@ impl FurTable {
         Ok(table_info)
     }
 
-    pub fn save_info(&self) -> Result<(), Box<dyn Error>> {
-        let table_info_raw = serde_json::to_string(&self.table_info)?;
-        let table_info_file_path = Self::get_info_file_path(&self.dir);
-        std::fs::write(table_info_file_path, table_info_raw)?;
-
-        Ok(())
-    }
-
     pub(super) fn get_data_file_size(dir: &PathBuf) -> Result<u64, Box<dyn Error>> {
         let data_file_metadata = std::fs::metadata(Self::get_data_file_path(&dir))?;
         let data_file_size = data_file_metadata.len();
