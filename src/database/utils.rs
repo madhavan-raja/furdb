@@ -10,7 +10,7 @@ impl FurDB {
         db_info_file_path
     }
 
-    pub(super) fn ensure_db_files(dir: &PathBuf) -> std::io::Result<()> {
+    pub(super) fn ensure_db_files(dir: &PathBuf) -> Result<(), Box<dyn Error>> {
         if !dir.exists() {
             std::fs::create_dir(&dir)?;
         }

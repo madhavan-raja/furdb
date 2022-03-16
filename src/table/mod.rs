@@ -43,7 +43,7 @@ impl FurTable {
         })
     }
 
-    pub fn get_info(&mut self) -> std::io::Result<&FurTableInfo> {
+    pub fn get_info(&mut self) -> Result<&FurTableInfo, Box<dyn Error>> {
         Ok(&self.table_info)
     }
 
