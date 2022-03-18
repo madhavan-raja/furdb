@@ -1,6 +1,5 @@
 use crate::{FurTable, FurTableInfo};
-use bitvec::prelude::*;
-use std::{collections::HashMap, error::Error, io::Write, path::PathBuf};
+use std::{error::Error, path::PathBuf};
 
 impl FurTable {
     pub(super) fn ensure_table_files(dir: &PathBuf) -> Result<(), Box<dyn Error>> {
@@ -37,31 +36,6 @@ impl FurTable {
         Ok(data_file_size)
     }
 
-    pub(super) fn add_row(
-        &mut self,
-        row: &HashMap<&str, &str>,
-    ) -> Result<BitVec<u8, Msb0>, Box<dyn Error>> {
-        let mut row_bin = BitVec::new();
-
-        for column in self.table_info.get_columns() {
-            let column_id = column.get_id();
-            let column_id = column_id.as_str();
-
-            let data = row.get(column_id).unwrap_or(&&"");
-
-            let data_type = column.get_data_type();
-
-            let mut column_bin = data_type.encode(
-                data,
-                column.get_size(),
-                self.table_info.get_converter_server(),
-            )?;
-            row_bin.append(&mut column_bin);
-        }
-
-        Ok(row_bin)
-    }
-
     pub(super) fn get_row_size(&mut self) -> Result<usize, Box<dyn Error>> {
         let table_info = self.get_info()?;
         let mut size = 0;
@@ -71,12 +45,6 @@ impl FurTable {
         }
 
         Ok(size as usize)
-    }
-
-    pub(super) fn write_data(&mut self, bytes: &Vec<u8>) -> Result<(), Box<dyn Error>> {
-        self.data_file.write(&bytes)?;
-
-        Ok(())
     }
 
     pub(super) fn get_info_file_path(dir: &PathBuf) -> PathBuf {
