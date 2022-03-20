@@ -38,14 +38,30 @@ impl FurTable {
         Ok(result)
     }
 
-    pub fn get_rows_bin(
+    pub fn get_row(&mut self, index: u64) -> Result<HashMap<String, String>, Box<dyn Error>> {
+        let row_bin = self.get_row_bin(index)?;
+        let mut result = HashMap::<String, String>::new();
+
+        for column in self.table_info.get_columns() {
+            let data_type = column.get_data_type();
+
+            let data_bin = row_bin.get(&column.get_id()).unwrap();
+            let data = data_type.decode(data_bin, self.table_info.get_converter_server())?;
+
+            result.insert(column.get_id(), data);
+        }
+
+        Ok(result)
+    }
+
+    pub fn get_rows(
         &mut self,
         indices: Vec<u64>,
-    ) -> Result<Vec<HashMap<String, BitVec<u8, Msb0>>>, Box<dyn Error>> {
-        let mut results = Vec::<HashMap<String, BitVec<u8, Msb0>>>::new();
+    ) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
+        let mut results = Vec::<HashMap<String, String>>::new();
 
         for index in indices {
-            let result = self.get_row_bin(index)?;
+            let result = self.get_row(index)?;
 
             results.push(result);
         }
@@ -53,36 +69,12 @@ impl FurTable {
         Ok(results)
     }
 
-    pub fn get_bin(&mut self) -> Result<Vec<HashMap<String, BitVec<u8, Msb0>>>, Box<dyn Error>> {
+    pub fn get_all(&mut self) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
         let row_size = self.get_row_size()? / 8;
 
         let indices: Vec<u64> = (0..self.data_file_size / row_size as u64).collect();
 
-        let results = self.get_rows_bin(indices)?;
-
-        Ok(results)
-    }
-
-    pub fn get(&mut self) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
-        let rows_bin = self.get_bin()?;
-        let mut results = Vec::<HashMap<String, String>>::new();
-
-        let table_info = self.get_info()?;
-
-        for row_bin in rows_bin {
-            let mut row = HashMap::new();
-
-            for column in table_info.get_columns() {
-                let data_type = column.get_data_type();
-
-                let data_bin = row_bin.get(&column.get_id()).unwrap();
-                let data = data_type.decode(data_bin, table_info.get_converter_server())?;
-
-                row.insert(column.get_id(), data);
-            }
-
-            results.push(row);
-        }
+        let results = self.get_rows(indices)?;
 
         Ok(results)
     }
