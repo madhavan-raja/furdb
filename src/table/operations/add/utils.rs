@@ -3,14 +3,14 @@ use bitvec::prelude::*;
 use std::{collections::HashMap, error::Error, io::Write};
 
 impl FurTable {
-    pub(super) fn write_data(&mut self, bytes: &Vec<u8>) -> Result<(), Box<dyn Error>> {
+    pub(crate) fn write_data(&mut self, bytes: &Vec<u8>) -> Result<(), Box<dyn Error>> {
         self.data_file.write(&bytes)?;
         self.data_file_size = Self::get_data_file_size(&self.dir)?;
 
         Ok(())
     }
 
-    pub(super) fn convert_row_to_bin(
+    pub(crate) fn convert_row_to_bin(
         &mut self,
         row: &HashMap<&str, &str>,
     ) -> Result<BitVec<u8, Msb0>, Box<dyn Error>> {

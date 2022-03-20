@@ -2,7 +2,7 @@ use crate::{FurTable, FurTableInfo};
 use std::{error::Error, path::PathBuf};
 
 impl FurTable {
-    pub(super) fn ensure_table_files(dir: &PathBuf) -> Result<(), Box<dyn Error>> {
+    pub(crate) fn ensure_table_files(dir: &PathBuf) -> Result<(), Box<dyn Error>> {
         if !dir.exists() {
             std::fs::create_dir(&dir)?;
         }
@@ -12,7 +12,7 @@ impl FurTable {
         Ok(())
     }
 
-    pub(super) fn ensure_data_file(dir: &PathBuf) -> Result<(), Box<dyn Error>> {
+    pub(crate) fn ensure_data_file(dir: &PathBuf) -> Result<(), Box<dyn Error>> {
         let data_file_path = Self::get_data_file_path(&dir);
         if !data_file_path.exists() {
             std::fs::write(data_file_path, "")?;
@@ -21,7 +21,7 @@ impl FurTable {
         Ok(())
     }
 
-    pub(super) fn load_info(dir: &PathBuf) -> Result<FurTableInfo, Box<dyn Error>> {
+    pub(crate) fn load_info(dir: &PathBuf) -> Result<FurTableInfo, Box<dyn Error>> {
         let table_info_file_path = Self::get_info_file_path(&dir);
         let table_info_contents_raw = std::fs::read_to_string(&table_info_file_path)?;
         let table_info_contents = serde_json::from_str(&table_info_contents_raw)?;
@@ -30,13 +30,13 @@ impl FurTable {
         Ok(table_info)
     }
 
-    pub(super) fn get_data_file_size(dir: &PathBuf) -> Result<u64, Box<dyn Error>> {
+    pub(crate) fn get_data_file_size(dir: &PathBuf) -> Result<u64, Box<dyn Error>> {
         let data_file_metadata = std::fs::metadata(Self::get_data_file_path(&dir))?;
         let data_file_size = data_file_metadata.len();
         Ok(data_file_size)
     }
 
-    pub(super) fn get_row_size(&mut self) -> Result<usize, Box<dyn Error>> {
+    pub(crate) fn get_row_size(&mut self) -> Result<usize, Box<dyn Error>> {
         let table_info = self.get_info()?;
         let mut size = 0;
 
@@ -47,14 +47,14 @@ impl FurTable {
         Ok(size as usize)
     }
 
-    pub(super) fn get_info_file_path(dir: &PathBuf) -> PathBuf {
+    pub(crate) fn get_info_file_path(dir: &PathBuf) -> PathBuf {
         let mut table_info_file_path = dir.clone();
         table_info_file_path.push("fur_table.json");
 
         table_info_file_path
     }
 
-    pub(super) fn get_data_file_path(dir: &PathBuf) -> PathBuf {
+    pub(crate) fn get_data_file_path(dir: &PathBuf) -> PathBuf {
         let mut data_file_path = dir.clone();
         data_file_path.push("data.fur");
 
