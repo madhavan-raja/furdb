@@ -71,9 +71,7 @@ impl FurTable {
 
     pub fn get_all(&mut self) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
         let row_size = self.get_row_size()? / 8;
-
         let indices: Vec<u64> = (0..self.data_file_size / row_size as u64).collect();
-
         let results = self.get_rows(indices)?;
 
         Ok(results)
