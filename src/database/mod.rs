@@ -11,7 +11,7 @@ mod operations;
 mod utils;
 
 impl FurDB {
-    pub fn new(dir: PathBuf, db_info: Option<FurDBInfo>) -> Result<FurDB, Box<dyn Error>> {
+    pub fn new(dir: PathBuf, db_info: Option<FurDBInfo>) -> Result<Self, Box<dyn Error>> {
         Self::ensure_db_files(&dir)?;
 
         let db_info = if db_info.is_some() {

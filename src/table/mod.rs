@@ -17,7 +17,7 @@ mod operations;
 mod utils;
 
 impl FurTable {
-    pub fn new(dir: PathBuf, table_info: Option<FurTableInfo>) -> Result<FurTable, Box<dyn Error>> {
+    pub fn new(dir: PathBuf, table_info: Option<FurTableInfo>) -> Result<Self, Box<dyn Error>> {
         Self::ensure_table_files(&dir)?;
 
         let data_file_path = Self::get_data_file_path(&dir);

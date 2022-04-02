@@ -12,7 +12,7 @@ impl FurTableInfo {
         name: &str,
         converter_server: Option<&str>,
         columns: Option<Vec<FurColumn>>,
-    ) -> std::io::Result<FurTableInfo> {
+    ) -> std::io::Result<Self> {
         let name = String::from(name);
         let converter_server = converter_server.map(str::to_string);
         let columns = columns.unwrap_or(Vec::new());
