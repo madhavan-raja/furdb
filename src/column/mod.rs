@@ -1,4 +1,5 @@
 use crate::FurDataType;
+use std::error::Error;
 
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct FurColumn {
@@ -9,13 +10,18 @@ pub struct FurColumn {
 }
 
 impl FurColumn {
-    pub fn new(id: &str, description: Option<&str>, size: u128, data_type: FurDataType) -> Self {
-        Self {
+    pub fn new(
+        id: &str,
+        description: Option<&str>,
+        size: u128,
+        data_type: FurDataType,
+    ) -> Result<Self, Box<dyn Error>> {
+        Ok(Self {
             id: String::from(id),
             description: String::from(description.unwrap_or(&id)),
             size,
             data_type: data_type,
-        }
+        })
     }
 
     pub fn get_id(&self) -> String {
