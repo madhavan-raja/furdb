@@ -1,4 +1,5 @@
 use super::column::FurColumn;
+use std::error::Error;
 
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct FurTableInfo {
@@ -12,16 +13,16 @@ impl FurTableInfo {
         name: &str,
         converter_server: Option<&str>,
         columns: Option<Vec<FurColumn>>,
-    ) -> std::io::Result<Self> {
+    ) -> Result<Self, Box<dyn Error>> {
         let name = String::from(name);
         let converter_server = converter_server.map(str::to_string);
         let columns = columns.unwrap_or(Vec::new());
 
         if !Self::is_size_valid(&columns) {
-            return Err(std::io::Error::new(
+            return Err(Box::new(std::io::Error::new(
                 std::io::ErrorKind::Unsupported,
                 "Size of the row should be a multiple of 8.",
-            ));
+            )));
         }
 
         Ok(Self {
