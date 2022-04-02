@@ -17,7 +17,7 @@ impl FurDataType {
         let id = String::from(id);
         let converter_endpoint_override = converter_endpoint_override.map(str::to_string);
 
-        Ok(FurDataType {
+        Ok(Self {
             id,
             converter_endpoint_override,
         })

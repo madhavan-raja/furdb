@@ -10,7 +10,7 @@ pub struct FurColumn {
 
 impl FurColumn {
     pub fn new(id: &str, description: Option<&str>, size: u128, data_type: FurDataType) -> Self {
-        FurColumn {
+        Self {
             id: String::from(id),
             description: String::from(description.unwrap_or(&id)),
             size,

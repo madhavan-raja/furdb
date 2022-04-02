@@ -24,7 +24,7 @@ impl FurTableInfo {
             ));
         }
 
-        Ok(FurTableInfo {
+        Ok(Self {
             name,
             converter_server,
             columns,

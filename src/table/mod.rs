@@ -35,7 +35,7 @@ impl FurTable {
             Self::load_info(&dir)?
         };
 
-        Ok(FurTable {
+        Ok(Self {
             dir,
             data_file,
             data_file_size,

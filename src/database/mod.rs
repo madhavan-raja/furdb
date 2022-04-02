@@ -20,7 +20,7 @@ impl FurDB {
             Self::load_info(&dir)?
         };
 
-        Ok(FurDB { dir, db_info })
+        Ok(Self { dir, db_info })
     }
 
     pub fn get_info(&self) -> Result<&FurDBInfo, Box<dyn Error>> {

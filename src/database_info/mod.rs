@@ -7,6 +7,6 @@ impl FurDBInfo {
     pub fn new(name: &str) -> Self {
         let name = String::from(name);
 
-        FurDBInfo { name }
+        Self { name }
     }
 }
