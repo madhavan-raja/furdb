@@ -34,4 +34,22 @@ impl FurTable {
 
         Ok(sortfile_content)
     }
+
+    pub fn generate_sortfile_contents(
+        &mut self,
+        columns: &[FurColumn],
+    ) -> Result<(), Box<dyn Error>> {
+        for column in columns {
+            let sortfile_content = self.generate_sortfile_content(column)?;
+            println!("Sortfile: {}: {:?}", column.get_id(), sortfile_content);
+        }
+
+        Ok(())
+    }
+
+    // pub fn generate_all_sortfiles(&mut self) -> Result<(), Box<dyn Error>> {
+    //     let columns = self.table_info.get_columns();
+
+    //     self.generate_sortfile_contents(&columns)
+    // }
 }
