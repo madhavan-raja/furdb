@@ -36,7 +36,7 @@ impl FurTable {
         Ok(data_file_size)
     }
 
-    pub(crate) fn get_row_size(&mut self) -> Result<usize, Box<dyn Error>> {
+    pub(crate) fn get_row_size(&self) -> Result<usize, Box<dyn Error>> {
         let table_info = self.get_info()?;
         let mut size = 0;
 

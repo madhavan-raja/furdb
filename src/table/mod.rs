@@ -43,7 +43,7 @@ impl FurTable {
         })
     }
 
-    pub fn get_info(&mut self) -> Result<&FurTableInfo, Box<dyn Error>> {
+    pub fn get_info(&self) -> Result<&FurTableInfo, Box<dyn Error>> {
         Ok(&self.table_info)
     }
 

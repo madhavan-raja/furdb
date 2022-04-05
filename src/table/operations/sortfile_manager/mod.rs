@@ -47,9 +47,9 @@ impl FurTable {
         Ok(())
     }
 
-    // pub fn generate_all_sortfiles(&mut self) -> Result<(), Box<dyn Error>> {
-    //     let columns = self.table_info.get_columns();
+    pub fn generate_all_sortfiles(&mut self) -> Result<(), Box<dyn Error>> {
+        let columns = self.table_info.get_columns().clone();
 
-    //     self.generate_sortfile_contents(&columns)
-    // }
+        self.generate_sortfile_contents(&columns)
+    }
 }

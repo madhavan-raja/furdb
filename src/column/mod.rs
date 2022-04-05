@@ -1,7 +1,7 @@
 use crate::FurDataType;
 use std::error::Error;
 
-#[derive(Debug, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct FurColumn {
     id: String,
     description: String,
