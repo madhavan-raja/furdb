@@ -3,7 +3,7 @@ use bitvec::prelude::*;
 use std::{collections::HashMap, error::Error, io::Write};
 
 impl FurTable {
-    pub(crate) fn write_data(&mut self, bytes: &Vec<u8>) -> Result<(), Box<dyn Error>> {
+    pub(crate) fn write_data(&mut self, bytes: &[u8]) -> Result<(), Box<dyn Error>> {
         self.data_file.write(&bytes)?;
         self.data_file_size = Self::get_data_file_size(&self.dir)?;
 
@@ -11,7 +11,7 @@ impl FurTable {
     }
 
     pub(crate) fn convert_row_to_bin(
-        &mut self,
+        &self,
         row: &HashMap<&str, &str>,
     ) -> Result<BitVec<u8, Msb0>, Box<dyn Error>> {
         let mut row_bin = BitVec::new();
