@@ -28,9 +28,7 @@ impl FurTable {
         let sortfile_contents = serde_json::to_string(sortfile_contents)?;
         let sortfile_path = Self::get_sortfile_path(&self.dir, &column_id);
 
-        // std::fs::write(sortfile_path, sortfile_contents)?;
-
-        println!("Writing: {:?} {:?}", sortfile_path, sortfile_contents);
+        std::fs::write(sortfile_path, sortfile_contents)?;
 
         Ok(())
     }

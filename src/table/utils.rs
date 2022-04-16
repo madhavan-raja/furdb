@@ -7,7 +7,9 @@ impl FurTable {
             std::fs::create_dir(&dir)?;
         }
 
-        Self::ensure_data_file(dir)?;
+        Self::ensure_data_file(&dir)?;
+
+        Self::ensure_sortfile_directory(&dir)?;
 
         Ok(())
     }
@@ -16,6 +18,16 @@ impl FurTable {
         let data_file_path = Self::get_data_file_path(&dir);
         if !data_file_path.exists() {
             std::fs::write(data_file_path, "")?;
+        }
+
+        Ok(())
+    }
+
+    pub(crate) fn ensure_sortfile_directory(dir: &PathBuf) -> Result<(), Box<dyn Error>> {
+        let sortfile_directory_path = Self::get_sortfile_directory(&dir);
+
+        if !sortfile_directory_path.exists() {
+            std::fs::create_dir(&sortfile_directory_path)?;
         }
 
         Ok(())
@@ -61,9 +73,15 @@ impl FurTable {
         data_file_path
     }
 
+    pub(crate) fn get_sortfile_directory(dir: &PathBuf) -> PathBuf {
+        let mut sortfile_directory = dir.clone();
+        sortfile_directory.push("sortfiles");
+
+        sortfile_directory
+    }
+
     pub(crate) fn get_sortfile_path(dir: &PathBuf, column_id: &str) -> PathBuf {
-        let mut sortfile_path = dir.clone();
-        sortfile_path.push("sortfiles");
+        let mut sortfile_path = Self::get_sortfile_directory(&dir);
         sortfile_path.push(format!("{column_id}.sortfile"));
 
         sortfile_path
