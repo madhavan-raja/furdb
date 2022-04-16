@@ -60,4 +60,12 @@ impl FurTable {
 
         data_file_path
     }
+
+    pub(crate) fn get_sortfile_path(dir: &PathBuf, column_id: &str) -> PathBuf {
+        let mut sortfile_path = dir.clone();
+        sortfile_path.push("sortfiles");
+        sortfile_path.push(format!("{column_id}.sortfile"));
+
+        sortfile_path
+    }
 }

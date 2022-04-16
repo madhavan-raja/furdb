@@ -49,7 +49,7 @@ impl FurTable {
 
             println!("{:?}", current_sortfile);
 
-            current_sortfile.dump()?;
+            self.dump(&current_sortfile)?;
         }
 
         Ok(())
