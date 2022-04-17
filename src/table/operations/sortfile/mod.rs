@@ -70,4 +70,25 @@ impl FurTable {
 
         Ok(())
     }
+
+    pub fn clear_sortfile(&self, column: &FurColumn) -> Result<(), Box<dyn Error>> {
+        let sortfile_path = Self::get_sortfile_path(&self.dir, &column.get_id().clone());
+        std::fs::remove_file(sortfile_path)?;
+
+        Ok(())
+    }
+
+    pub fn clear_sortfiles(&self, columns: &[FurColumn]) -> Result<(), Box<dyn Error>> {
+        for column in columns {
+            self.clear_sortfile(&column)?;
+        }
+
+        Ok(())
+    }
+
+    pub fn clear_all_sortfiles(&self) -> Result<(), Box<dyn Error>> {
+        let columns = self.get_info()?.get_columns().clone();
+
+        self.clear_sortfiles(&columns)
+    }
 }
