@@ -60,4 +60,14 @@ impl FurTable {
 
         self.generate_sortfile_contents(&columns)
     }
+
+    pub fn dump(&self, sortfile_contents: &Sortfile) -> Result<(), Box<dyn Error>> {
+        let column_id = sortfile_contents.get_column_id();
+        let sortfile_contents = serde_json::to_string(sortfile_contents)?;
+        let sortfile_path = Self::get_sortfile_path(&self.dir, &column_id);
+
+        std::fs::write(sortfile_path, sortfile_contents)?;
+
+        Ok(())
+    }
 }
