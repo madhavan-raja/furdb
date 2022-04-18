@@ -37,13 +37,17 @@ impl FurTable {
         Ok(current_sortfile)
     }
 
+    pub fn generate_sortfile(&mut self, column: &FurColumn) -> Result<(), Box<dyn Error>> {
+        let current_sortfile = self.get_sortfile(column)?;
+
+        println!("{:?}", current_sortfile);
+
+        self.dump(&current_sortfile)
+    }
+
     pub fn generate_sortfiles(&mut self, columns: &[FurColumn]) -> Result<(), Box<dyn Error>> {
         for column in columns {
-            let current_sortfile = self.get_sortfile(column)?;
-
-            println!("{:?}", current_sortfile);
-
-            self.dump(&current_sortfile)?;
+            self.generate_sortfile(column)?;
         }
 
         Ok(())
