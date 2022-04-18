@@ -5,10 +5,7 @@ mod sortfile;
 use sortfile::Sortfile;
 
 impl FurTable {
-    pub fn generate_sortfile_content(
-        &mut self,
-        column: &FurColumn,
-    ) -> Result<Sortfile, Box<dyn Error>> {
+    pub fn get_sortfile(&mut self, column: &FurColumn) -> Result<Sortfile, Box<dyn Error>> {
         let rows = &self.get_all()?;
         let mut sortlist: Vec<u64> = (0..(rows.len() as u64)).collect();
 
@@ -40,12 +37,9 @@ impl FurTable {
         Ok(current_sortfile)
     }
 
-    pub fn generate_sortfile_contents(
-        &mut self,
-        columns: &[FurColumn],
-    ) -> Result<(), Box<dyn Error>> {
+    pub fn generate_sortfiles(&mut self, columns: &[FurColumn]) -> Result<(), Box<dyn Error>> {
         for column in columns {
-            let current_sortfile = self.generate_sortfile_content(column)?;
+            let current_sortfile = self.get_sortfile(column)?;
 
             println!("{:?}", current_sortfile);
 
@@ -55,10 +49,10 @@ impl FurTable {
         Ok(())
     }
 
-    pub fn generate_all_sortfile_contents(&mut self) -> Result<(), Box<dyn Error>> {
+    pub fn generate_all_sortfiles(&mut self) -> Result<(), Box<dyn Error>> {
         let columns = self.table_info.get_columns().clone();
 
-        self.generate_sortfile_contents(&columns)
+        self.generate_sortfiles(&columns)
     }
 
     pub fn dump(&self, sortfile_contents: &Sortfile) -> Result<(), Box<dyn Error>> {
