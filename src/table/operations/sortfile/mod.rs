@@ -67,6 +67,15 @@ impl FurTable {
         Ok(())
     }
 
+    pub(crate) fn read_sortfile(&self, column_id: &str) -> Result<Sortfile, Box<dyn Error>> {
+        let sortfile_path = Self::get_sortfile_path(&self.dir, column_id);
+        let sortfile_contents_raw = std::fs::read_to_string(&sortfile_path)?;
+        let sortfile_contents = serde_json::from_str(&sortfile_contents_raw)?;
+        let sortfile = serde_json::from_value(sortfile_contents)?;
+
+        Ok(sortfile)
+    }
+
     pub fn clear_sortfile(&self, column: &FurColumn) -> Result<(), Box<dyn Error>> {
         let sortfile_path = Self::get_sortfile_path(&self.dir, &column.get_id().clone());
         std::fs::remove_file(sortfile_path)?;

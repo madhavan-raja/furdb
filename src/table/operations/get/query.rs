@@ -5,9 +5,11 @@ use std::error::Error;
 impl FurTable {
     pub fn query(
         &mut self,
-        column: FurColumn,
+        column_id: &str,
         value: &str,
     ) -> Result<HashMap<String, String>, Box<dyn Error>> {
+        let sortfile = self.read_sortfile(column_id)?;
+
         todo!()
     }
 }
