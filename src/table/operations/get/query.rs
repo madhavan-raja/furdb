@@ -1,4 +1,4 @@
-use crate::{FurColumn, FurTable};
+use crate::FurTable;
 use std::collections::HashMap;
 use std::error::Error;
 
