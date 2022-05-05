@@ -6,6 +6,8 @@ use std::{
     io::{Read, Seek, SeekFrom},
 };
 
+mod query;
+
 impl FurTable {
     pub fn get_row_bin(
         &mut self,
