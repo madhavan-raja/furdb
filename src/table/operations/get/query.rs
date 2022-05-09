@@ -9,8 +9,6 @@ impl FurTable {
     ) -> Result<Option<u64>, Box<dyn Error>> {
         let sortlist = self.read_sortfile(&column.get_id())?.get_sortlist();
 
-        println!("{:?}", sortlist);
-
         let data_type = column.get_data_type();
         let converter_server = self.table_info.get_converter_server();
 
