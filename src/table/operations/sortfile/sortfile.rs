@@ -16,4 +16,8 @@ impl Sortfile {
     pub fn get_column_id(&self) -> String {
         self.id.clone()
     }
+
+    pub fn get_sortlist(&self) -> Vec<u64> {
+        self.sortlist.clone()
+    }
 }
