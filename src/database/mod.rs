@@ -20,7 +20,11 @@ impl FurDB {
             Self::load_info(&dir)?
         };
 
-        Ok(Self { dir, db_info })
+        let db = Self { dir, db_info };
+
+        db.save_info()?;
+
+        Ok(db)
     }
 
     pub fn get_info(&self) -> Result<&FurDBInfo, Box<dyn Error>> {
