@@ -1,6 +1,6 @@
 use std::error::Error;
 
-#[derive(Debug, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct FurDBInfo {
     name: String,
 }
