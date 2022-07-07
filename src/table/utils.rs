@@ -1,5 +1,9 @@
 use crate::{FurTable, FurTableInfo};
-use std::{error::Error, path::PathBuf};
+use std::{
+    error::Error,
+    fs::{File, OpenOptions},
+    path::PathBuf,
+};
 
 impl FurTable {
     pub(crate) fn ensure_table_files(dir: &PathBuf) -> Result<(), Box<dyn Error>> {
@@ -85,5 +89,16 @@ impl FurTable {
         sortfile_path.push(format!("{column_id}.sortfile"));
 
         sortfile_path
+    }
+
+    pub(crate) fn get_data_file(dir: &PathBuf) -> Result<File, Box<dyn Error>> {
+        let data_file_path = Self::get_data_file_path(dir);
+        let data_file = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .append(true)
+            .open(data_file_path)?;
+
+        Ok(data_file)
     }
 }

@@ -19,11 +19,13 @@ impl FurTable {
 
         let row_start = index * row_size as u64;
 
-        self.data_file.seek(SeekFrom::Start(row_start))?;
+        let mut data_file = Self::get_data_file(&self.dir)?;
+
+        data_file.seek(SeekFrom::Start(row_start))?;
 
         let mut buf = vec![0u8; row_size];
 
-        self.data_file.read_exact(&mut buf)?;
+        data_file.read_exact(&mut buf)?;
         let row_bin: BitVec<u8, Msb0> = BitVec::from_slice(&buf);
 
         let mut column_start = 0;
