@@ -26,7 +26,10 @@ impl FurTable {
             let mid_row_bin = self.get_row_bin(mid)?;
             let mid_value = mid_row_bin.get(&column_id).unwrap().clone();
 
-            match data_type.compare(&mid_value, &target_value, converter_server.clone())? {
+            match data_type
+                .compare(&mid_value, &target_value, converter_server.clone())
+                .await?
+            {
                 std::cmp::Ordering::Less => left = mid + 1,
                 std::cmp::Ordering::Greater => right = mid - 1,
                 std::cmp::Ordering::Equal => return Ok(Some(mid)),
