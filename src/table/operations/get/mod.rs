@@ -10,7 +10,7 @@ mod query;
 
 impl FurTable {
     pub fn get_row_bin(
-        &mut self,
+        &self,
         index: u64,
     ) -> Result<HashMap<String, BitVec<u8, Msb0>>, Box<dyn Error>> {
         let mut result = HashMap::<String, BitVec<u8, Msb0>>::new();
@@ -42,7 +42,7 @@ impl FurTable {
         Ok(result)
     }
 
-    pub fn get_row(&mut self, index: u64) -> Result<HashMap<String, String>, Box<dyn Error>> {
+    pub fn get_row(&self, index: u64) -> Result<HashMap<String, String>, Box<dyn Error>> {
         let row_bin = self.get_row_bin(index)?;
         let mut result = HashMap::<String, String>::new();
 
@@ -59,7 +59,7 @@ impl FurTable {
     }
 
     pub fn get_rows(
-        &mut self,
+        &self,
         indices: Vec<u64>,
     ) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
         let mut results = Vec::<HashMap<String, String>>::new();
@@ -73,9 +73,10 @@ impl FurTable {
         Ok(results)
     }
 
-    pub fn get_all(&mut self) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
+    pub fn get_all(&self) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
         let row_size = self.get_row_size()? / 8;
-        let indices: Vec<u64> = (0..self.data_file_size / row_size as u64).collect();
+        let indices: Vec<u64> =
+            (0..Self::get_data_file_size(&self.dir)? / row_size as u64).collect();
         let results = self.get_rows(indices)?;
 
         Ok(results)

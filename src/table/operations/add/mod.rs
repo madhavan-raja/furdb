@@ -5,7 +5,7 @@ use std::{collections::HashMap, error::Error};
 mod utils;
 
 impl FurTable {
-    pub fn add(&mut self, rows: &[HashMap<&str, &str>]) -> Result<(), Box<dyn Error>> {
+    pub fn add(&self, rows: &[HashMap<&str, &str>]) -> Result<(), Box<dyn Error>> {
         let mut rows_bin = BitVec::<u8, Msb0>::new();
 
         for row in rows {

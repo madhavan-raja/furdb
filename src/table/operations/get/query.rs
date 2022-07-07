@@ -2,11 +2,7 @@ use crate::{FurColumn, FurTable};
 use std::error::Error;
 
 impl FurTable {
-    pub fn query(
-        &mut self,
-        column: &FurColumn,
-        value: &str,
-    ) -> Result<Option<u64>, Box<dyn Error>> {
+    pub fn query(&self, column: &FurColumn, value: &str) -> Result<Option<u64>, Box<dyn Error>> {
         let sortlist = self.read_sortfile(&column.get_id())?.get_sortlist();
 
         let data_type = column.get_data_type();
