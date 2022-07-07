@@ -77,6 +77,7 @@ impl FurTable {
         let row_size = self.get_row_size()? / 8;
         let indices: Vec<u64> =
             (0..Self::get_data_file_size(&self.dir)? / row_size as u64).collect();
+
         let results = self.get_rows(indices)?;
 
         Ok(results)

@@ -26,7 +26,9 @@ impl FurDataType {
         let bits = Self::bitvec_to_string(bits);
         let converter_endpoint = self.get_converter(converter_server);
         let url = format!("{}/decode?binary={}", converter_endpoint, bits);
+        println!("CCCCCCCCCCCCCCCCC");
         let res = reqwest::blocking::get(url)?.text()?;
+        println!("DDDDDDDDDDDDDDDDD");
 
         Ok(res)
     }
