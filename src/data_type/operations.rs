@@ -31,7 +31,7 @@ impl FurDataType {
         Ok(res)
     }
 
-    pub fn compare(
+    pub async fn compare(
         &self,
         bits_a: &BitVec<u8, Msb0>,
         bits_b: &BitVec<u8, Msb0>,
@@ -41,7 +41,7 @@ impl FurDataType {
         let bits_b = Self::bitvec_to_string(bits_b);
         let converter_endpoint = self.get_converter(converter_server);
         let url = format!("{}/compare?a={}&b={}", converter_endpoint, bits_a, bits_b);
-        let res = reqwest::blocking::get(url)?.text()?;
+        let res = reqwest::get(url).await?.text().await?;
 
         let cmp: std::cmp::Ordering;
 

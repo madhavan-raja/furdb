@@ -9,7 +9,7 @@ impl FurTable {
         let rows = &self.get_all().await?;
         let mut sortlist: Vec<u64> = (0..(rows.len() as u64)).collect();
 
-        sortlist.sort_by(|a, b| {
+        sortlist.sort_by(async move |a, b| {
             let bits_a = self
                 .get_row_bin(*a)
                 .unwrap()
@@ -40,7 +40,7 @@ impl FurTable {
     pub async fn generate_sortfile(&self, column: &FurColumn) -> Result<(), Box<dyn Error>> {
         let current_sortfile = self.get_sortfile(column).await?;
 
-        self.save_sortfile(&current_sortfile)
+        self.save_sortfile(&current_sortfile).await
     }
 
     pub async fn generate_sortfiles(&self, columns: &[FurColumn]) -> Result<(), Box<dyn Error>> {
@@ -57,7 +57,10 @@ impl FurTable {
         self.generate_sortfiles(&columns).await
     }
 
-    pub(crate) fn save_sortfile(&self, sortfile_contents: &Sortfile) -> Result<(), Box<dyn Error>> {
+    pub(crate) async fn save_sortfile(
+        &self,
+        sortfile_contents: &Sortfile,
+    ) -> Result<(), Box<dyn Error>> {
         let column_id = sortfile_contents.get_column_id();
         let sortfile_contents = serde_json::to_string(sortfile_contents)?;
         let sortfile_path = Self::get_sortfile_path(&self.dir, &column_id);
@@ -78,7 +81,9 @@ impl FurTable {
 
     pub fn clear_sortfile(&self, column: &FurColumn) -> Result<(), Box<dyn Error>> {
         let sortfile_path = Self::get_sortfile_path(&self.dir, &column.get_id().clone());
-        std::fs::remove_file(sortfile_path)?;
+        if sortfile_path.exists() {
+            std::fs::remove_file(sortfile_path)?;
+        }
 
         Ok(())
     }
