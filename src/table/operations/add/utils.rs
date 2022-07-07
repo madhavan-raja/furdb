@@ -10,7 +10,7 @@ impl FurTable {
         Ok(())
     }
 
-    pub(crate) fn convert_row_to_bin(
+    pub(crate) async fn convert_row_to_bin(
         &self,
         row: &HashMap<&str, &str>,
     ) -> Result<BitVec<u8, Msb0>, Box<dyn Error>> {
@@ -23,11 +23,13 @@ impl FurTable {
             let data = row.get(column_id).unwrap_or(&&"");
 
             let data_type = column.get_data_type();
-            let mut column_bin = data_type.encode(
-                data,
-                column.get_size(),
-                self.table_info.get_converter_server(),
-            )?;
+            let mut column_bin = data_type
+                .encode(
+                    data,
+                    column.get_size(),
+                    self.table_info.get_converter_server(),
+                )
+                .await?;
             row_bin.append(&mut column_bin);
         }
 

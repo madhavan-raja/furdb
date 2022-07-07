@@ -42,7 +42,7 @@ impl FurTable {
         Ok(result)
     }
 
-    pub fn get_row(&self, index: u64) -> Result<HashMap<String, String>, Box<dyn Error>> {
+    pub async fn get_row(&self, index: u64) -> Result<HashMap<String, String>, Box<dyn Error>> {
         let row_bin = self.get_row_bin(index)?;
         let mut result = HashMap::<String, String>::new();
 
@@ -50,7 +50,9 @@ impl FurTable {
             let data_type = column.get_data_type();
 
             let data_bin = row_bin.get(&column.get_id()).unwrap();
-            let data = data_type.decode(data_bin, self.table_info.get_converter_server())?;
+            let data = data_type
+                .decode(data_bin, self.table_info.get_converter_server())
+                .await?;
 
             result.insert(column.get_id(), data);
         }
@@ -58,14 +60,14 @@ impl FurTable {
         Ok(result)
     }
 
-    pub fn get_rows(
+    pub async fn get_rows(
         &self,
         indices: Vec<u64>,
     ) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
         let mut results = Vec::<HashMap<String, String>>::new();
 
         for index in indices {
-            let result = self.get_row(index)?;
+            let result = self.get_row(index).await?;
 
             results.push(result);
         }
@@ -73,12 +75,12 @@ impl FurTable {
         Ok(results)
     }
 
-    pub fn get_all(&self) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
+    pub async fn get_all(&self) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
         let row_size = self.get_row_size()? / 8;
         let indices: Vec<u64> =
             (0..Self::get_data_file_size(&self.dir)? / row_size as u64).collect();
 
-        let results = self.get_rows(indices)?;
+        let results = self.get_rows(indices).await?;
 
         Ok(results)
     }

@@ -2,13 +2,19 @@ use crate::{FurColumn, FurTable};
 use std::error::Error;
 
 impl FurTable {
-    pub fn query(&self, column: &FurColumn, value: &str) -> Result<Option<u64>, Box<dyn Error>> {
+    pub async fn query(
+        &self,
+        column: &FurColumn,
+        value: &str,
+    ) -> Result<Option<u64>, Box<dyn Error>> {
         let sortlist = self.read_sortfile(&column.get_id())?.get_sortlist();
 
         let data_type = column.get_data_type();
         let converter_server = self.table_info.get_converter_server();
 
-        let target_value = data_type.encode(value, column.get_size(), converter_server.clone())?;
+        let target_value = data_type
+            .encode(value, column.get_size(), converter_server.clone())
+            .await?;
 
         let mut left = 0 as u64;
         let mut right = sortlist.len() as u64 - 1;

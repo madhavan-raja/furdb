@@ -5,8 +5,8 @@ mod sortfile;
 use sortfile::Sortfile;
 
 impl FurTable {
-    pub fn get_sortfile(&self, column: &FurColumn) -> Result<Sortfile, Box<dyn Error>> {
-        let rows = &self.get_all()?;
+    pub async fn get_sortfile(&self, column: &FurColumn) -> Result<Sortfile, Box<dyn Error>> {
+        let rows = &self.get_all().await?;
         let mut sortlist: Vec<u64> = (0..(rows.len() as u64)).collect();
 
         sortlist.sort_by(|a, b| {
@@ -37,24 +37,24 @@ impl FurTable {
         Ok(current_sortfile)
     }
 
-    pub fn generate_sortfile(&self, column: &FurColumn) -> Result<(), Box<dyn Error>> {
-        let current_sortfile = self.get_sortfile(column)?;
+    pub async fn generate_sortfile(&self, column: &FurColumn) -> Result<(), Box<dyn Error>> {
+        let current_sortfile = self.get_sortfile(column).await?;
 
         self.save_sortfile(&current_sortfile)
     }
 
-    pub fn generate_sortfiles(&self, columns: &[FurColumn]) -> Result<(), Box<dyn Error>> {
+    pub async fn generate_sortfiles(&self, columns: &[FurColumn]) -> Result<(), Box<dyn Error>> {
         for column in columns {
-            self.generate_sortfile(column)?;
+            self.generate_sortfile(column).await?;
         }
 
         Ok(())
     }
 
-    pub fn generate_all_sortfiles(&mut self) -> Result<(), Box<dyn Error>> {
+    pub async fn generate_all_sortfiles(&mut self) -> Result<(), Box<dyn Error>> {
         let columns = self.table_info.get_columns().clone();
 
-        self.generate_sortfiles(&columns)
+        self.generate_sortfiles(&columns).await
     }
 
     pub(crate) fn save_sortfile(&self, sortfile_contents: &Sortfile) -> Result<(), Box<dyn Error>> {
