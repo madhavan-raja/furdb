@@ -16,14 +16,15 @@ impl FurTable {
             .encode(value, column.get_size(), converter_server.clone())
             .await?;
 
-        let mut left = 0 as u64;
-        let mut right = sortlist.len() as u64 - 1;
+        let mut left = 0 as i64;
+        let mut right = sortlist.len() as i64 - 1;
 
         let column_id = column.get_id();
 
         while left <= right {
             let mid = (left + right) / 2;
-            let mid_row_bin = self.get_row_bin(mid)?;
+            let mid_index = sortlist[mid as usize];
+            let mid_row_bin = self.get_row_bin(mid_index as u64)?;
             let mid_value = mid_row_bin.get(&column_id).unwrap().clone();
 
             match data_type
@@ -32,7 +33,7 @@ impl FurTable {
             {
                 std::cmp::Ordering::Less => left = mid + 1,
                 std::cmp::Ordering::Greater => right = mid - 1,
-                std::cmp::Ordering::Equal => return Ok(Some(mid)),
+                std::cmp::Ordering::Equal => return Ok(Some(mid_index as u64)),
             }
         }
 
