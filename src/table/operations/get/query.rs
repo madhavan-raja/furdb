@@ -3,7 +3,7 @@ use std::error::Error;
 
 impl FurTable {
     pub async fn query(
-        &self,
+        &mut self,
         column: &FurColumn,
         value: &str,
     ) -> Result<Option<u64>, Box<dyn Error>> {

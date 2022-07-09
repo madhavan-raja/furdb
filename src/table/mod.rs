@@ -1,9 +1,5 @@
 use crate::FurTableInfo;
-use std::{
-    error::Error,
-    fs::{File, OpenOptions},
-    path::PathBuf,
-};
+use std::{error::Error, fs::File, path::PathBuf};
 
 #[derive(Debug)]
 pub struct FurTable {
@@ -20,12 +16,7 @@ impl FurTable {
     pub fn new(dir: PathBuf, table_info: Option<FurTableInfo>) -> Result<Self, Box<dyn Error>> {
         Self::ensure_table_files(&dir)?;
 
-        let data_file_path = Self::get_data_file_path(&dir);
-        let data_file = OpenOptions::new()
-            .read(true)
-            .write(true)
-            .append(true)
-            .open(data_file_path)?;
+        let data_file = Self::get_data_file(&dir)?;
 
         let data_file_size = Self::get_data_file_size(&dir)?;
 

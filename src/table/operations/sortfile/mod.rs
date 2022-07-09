@@ -9,7 +9,7 @@ struct QuickSort {}
 impl QuickSort {
     #![allow(unused_must_use)]
     pub async fn partition(
-        tb: &FurTable,
+        tb: &mut FurTable,
         column: &FurColumn,
         vec: &mut Vec<u64>,
         low: i64,
@@ -45,7 +45,7 @@ impl QuickSort {
     }
 
     pub async fn quicksort(
-        tb: &FurTable,
+        tb: &mut FurTable,
         column: &FurColumn,
         vec: &mut Vec<u64>,
         low: i64,
@@ -61,25 +61,28 @@ impl QuickSort {
 }
 
 impl FurTable {
-    pub async fn get_sortfile(&self, column: &FurColumn) -> Result<Sortfile, Box<dyn Error>> {
+    pub async fn get_sortfile(&mut self, column: &FurColumn) -> Result<Sortfile, Box<dyn Error>> {
         let row_count = Self::get_data_file_size(&self.dir)? / (self.get_row_size()? as u64 / 8);
 
         let mut sortlist: Vec<u64> = (0..(row_count)).collect();
 
-        QuickSort::quicksort(&self, column, &mut sortlist, 0, row_count as i64 - 1).await?;
+        QuickSort::quicksort(self, column, &mut sortlist, 0, row_count as i64 - 1).await?;
 
         let current_sortfile = Sortfile::new(&column.get_id().clone(), &sortlist)?;
 
         Ok(current_sortfile)
     }
 
-    pub async fn generate_sortfile(&self, column: &FurColumn) -> Result<(), Box<dyn Error>> {
+    pub async fn generate_sortfile(&mut self, column: &FurColumn) -> Result<(), Box<dyn Error>> {
         let current_sortfile = self.get_sortfile(column).await?;
 
         self.save_sortfile(&current_sortfile)
     }
 
-    pub async fn generate_sortfiles(&self, columns: &[FurColumn]) -> Result<(), Box<dyn Error>> {
+    pub async fn generate_sortfiles(
+        &mut self,
+        columns: &[FurColumn],
+    ) -> Result<(), Box<dyn Error>> {
         for column in columns {
             self.generate_sortfile(column).await?;
         }
