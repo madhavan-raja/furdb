@@ -26,12 +26,16 @@ impl FurTable {
             Self::load_info(&dir)?
         };
 
-        Ok(Self {
+        let table = Self {
             dir,
             data_file,
             data_file_size,
             table_info,
-        })
+        };
+
+        table.save_info()?;
+
+        Ok(table)
     }
 
     pub fn get_info(&self) -> Result<&FurTableInfo, Box<dyn Error>> {
