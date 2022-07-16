@@ -64,7 +64,7 @@ impl FurTable {
     pub async fn get_sortfile(&mut self, column: &FurColumn) -> Result<Sortfile, Box<dyn Error>> {
         let row_count = Self::get_data_file_size(&self.dir)? / (self.get_row_size()? as u64 / 8);
 
-        let mut sortlist: Vec<u64> = (0..(row_count)).collect();
+        let mut sortlist: Vec<u64> = (0..row_count).collect();
 
         QuickSort::quicksort(self, column, &mut sortlist, 0, row_count as i64 - 1).await?;
 
