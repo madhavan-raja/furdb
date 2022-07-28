@@ -12,8 +12,6 @@ A small and space-efficient Database Management System that allows you to alloca
   d1   d2    d3
 #+END_SRC
 
-You can find the demo project for FurDB [[https://github.com/madhavan-raja/fur][here]].
-
 * Table of Contents                                                     :toc:
 - [[#installation][Installation]]
 - [[#usage][Usage]]
