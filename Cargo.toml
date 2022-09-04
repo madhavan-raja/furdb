@@ -3,9 +3,10 @@ name = "furdb"
 version = "0.1.0"
 edition = "2021"
 authors = ["Madhavan Raja"]
-license = "GNU Public License"
+license-file = "LICENSE"
 readme = "README.org"
-repository = "https://github.com/madhavan-raja/furdb"
+repository = "https://github.com/furdb/furdb"
+homepage = "https://github.com/furdb"
 description = """
 A space-efficient database management system.
 """
