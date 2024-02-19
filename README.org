@@ -25,7 +25,7 @@ A small and space-efficient Database Management System that allows you to alloca
 The documentation of this project will be moved to [[https://crates.io/crates/furdb][crates.io]] at some point in the future. Right now, I am suffering from the realization that the site does not support rending Org files.
 
 #+BEGIN_SRC sh
-  git clone https://github.com/madhavan-raja/furdb.git
+  git clone https://github.com/furdb/furdb.git
 #+END_SRC
 
 and use the directory as an external crate.
@@ -37,7 +37,7 @@ Or, you can use =FurDB= directly by adding the following in your project's =Carg
   furdb = "0.1.0"
 #+END_SRC
 
-Additionally, you will need a conversion server such as [[https://github.com/madhavan-raja/fur-converter][Fur Converter]] for the data conversion. The server should be running at the time of all data operations.
+Additionally, you will need a conversion server such as [[https://github.com/furdb/fur-converter][Fur Converter]] for the data conversion. The server should be running at the time of all data operations.
 
 * Usage
 As of now, this is just a Rust library. No REST API or command line interface has been implemented in this version. The only way to use it is in an existing/new Rust project.
