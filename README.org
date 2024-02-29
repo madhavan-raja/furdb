@@ -1,6 +1,6 @@
 #+TITLE: FurDB
 
-[[#api-branch][https://img.shields.io/badge/api-master-yellow.svg]]
+[[#api-branch][https://img.shields.io/badge/api-main-yellow.svg]]
 [[#rust-version-requirements][https://img.shields.io/badge/rustc-1.58+-lightgray.svg]]
 
 A small and space-efficient Database Management System that allows you to allocate the size of individual data types in bits (not bytes).
