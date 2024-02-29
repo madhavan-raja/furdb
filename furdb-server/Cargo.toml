@@ -1,0 +1,13 @@
+[package]
+name = "furdb-server"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+openssl = { version = "0.10", features = ["vendored"] }
+furdb-core = { path = "../furdb-core" }
+actix-web = "4"
+serde = { version = "1.0.133", features = ["derive"] }
+serde_json = "1.0"

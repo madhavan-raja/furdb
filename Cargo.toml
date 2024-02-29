@@ -1,20 +1,3 @@
-[package]
-name = "furdb"
-version = "0.1.0"
-edition = "2021"
-authors = ["Madhavan Raja"]
-license-file = "LICENSE"
-readme = "README.org"
-repository = "https://github.com/furdb/furdb"
-homepage = "https://github.com/furdb"
-description = """
-A space-efficient database management system.
-"""
+[workspace]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-serde = { version = "1.0.133", features = ["derive"] }
-serde_json = "1.0"
-bitvec = "1.0.0"
-reqwest = { version = "0.11", features = ["blocking"] }
+members = ["furdb-core", "furdb-server"]
