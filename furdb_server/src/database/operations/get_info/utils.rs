@@ -4,16 +4,8 @@ use std::path::PathBuf;
 
 use crate::config::WORKSPACE_PATH;
 
-pub(crate) fn get_db(
-    working_dir: Option<PathBuf>,
-    db_id: &str,
-    db_name: Option<String>,
-) -> Result<FurDB, Box<dyn Error>> {
-    let working_dir = if working_dir.is_some() {
-        working_dir.unwrap()
-    } else {
-        PathBuf::from(WORKSPACE_PATH)
-    };
+pub(crate) fn get_db(db_id: &str, db_name: Option<String>) -> Result<FurDB, Box<dyn Error>> {
+    let working_dir = PathBuf::from(WORKSPACE_PATH);
 
     let mut db_path = working_dir.clone();
     db_path.push(db_id);

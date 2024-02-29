@@ -1,1 +1,1 @@
-pub const WORKSPACE_PATH: &str = "~/FurDB/TestDBs";
+pub const WORKSPACE_PATH: &str = "/home/madhavan/furdb";

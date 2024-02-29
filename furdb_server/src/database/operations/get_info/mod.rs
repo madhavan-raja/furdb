@@ -1,5 +1,5 @@
 use actix_web::{get, web, HttpRequest, Responder};
-use std::{error::Error, path::PathBuf};
+use std::error::Error;
 
 mod utils;
 use utils::get_db;
@@ -18,13 +18,7 @@ pub(crate) async fn get_info_handler(
     let db = path.into_inner();
     let params = web::Query::<DatabaseParams>::from_query(req.query_string()).unwrap();
 
-    let working_dir = if params.working_dir.is_some() {
-        Some(PathBuf::from(params.working_dir.clone().unwrap()))
-    } else {
-        None
-    };
-
-    let db = get_db(working_dir, &db, params.db_name.clone())?;
+    let db = get_db(&db, params.db_name.clone())?;
     let db_tables = db.get_all_table_ids()?;
 
     let info = db.get_info()?.clone();
