@@ -1,11 +1,11 @@
-use crate::{FurTable, FurTableInfo};
+use crate::{Table, TableInfo};
 use std::{
     error::Error,
     fs::{File, OpenOptions},
     path::PathBuf,
 };
 
-impl FurTable {
+impl Table {
     pub(crate) fn ensure_table_files(dir: &PathBuf) -> Result<(), Box<dyn Error>> {
         if !dir.exists() {
             std::fs::create_dir(&dir)?;
@@ -37,7 +37,7 @@ impl FurTable {
         Ok(())
     }
 
-    pub(crate) fn load_info(dir: &PathBuf) -> Result<FurTableInfo, Box<dyn Error>> {
+    pub(crate) fn load_info(dir: &PathBuf) -> Result<TableInfo, Box<dyn Error>> {
         let table_info_file_path = Self::get_info_file_path(&dir);
         let table_info_contents_raw = std::fs::read_to_string(&table_info_file_path)?;
         let table_info_contents = serde_json::from_str(&table_info_contents_raw)?;

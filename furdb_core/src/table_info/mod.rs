@@ -2,13 +2,13 @@ use super::column::FurColumn;
 use std::error::Error;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct FurTableInfo {
+pub struct TableInfo {
     name: String,
     converter_server: Option<String>,
     columns: Vec<FurColumn>,
 }
 
-impl FurTableInfo {
+impl TableInfo {
     pub fn new(
         name: &str,
         converter_server: Option<&str>,

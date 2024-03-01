@@ -1,4 +1,4 @@
-use furdb_core::{FurColumn, FurDB, FurDBInfo, FurDataType, FurTableInfo};
+use furdb_core::{Database, DatabaseInfo, FurColumn, FurDataType, TableInfo};
 use std::error::Error;
 use std::path::PathBuf;
 
@@ -10,7 +10,7 @@ pub(crate) fn get_db(
     working_dir: Option<PathBuf>,
     db_id: &str,
     db_name: Option<String>,
-) -> Result<FurDB, Box<dyn Error>> {
+) -> Result<Database, Box<dyn Error>> {
     let working_dir = if working_dir.is_some() {
         working_dir.unwrap()
     } else {
@@ -21,17 +21,17 @@ pub(crate) fn get_db(
     db_path.push(db_id);
 
     let db_info = if db_name.is_some() {
-        Some(FurDBInfo::new(&db_name.as_ref().unwrap())?)
+        Some(DatabaseInfo::new(&db_name.as_ref().unwrap())?)
     } else {
         None
     };
 
-    FurDB::new(db_path, db_info)
+    Database::new(db_path, db_info)
 }
 
 pub(crate) fn generate_table_info(
     table_info_generatable: TableGenerator,
-) -> Result<FurTableInfo, Box<dyn Error>> {
+) -> Result<TableInfo, Box<dyn Error>> {
     let columns = table_info_generatable.columns.map(|column_generators| {
         column_generators
             .iter()
@@ -39,7 +39,7 @@ pub(crate) fn generate_table_info(
             .collect()
     });
 
-    FurTableInfo::new(
+    TableInfo::new(
         &table_info_generatable.name,
         table_info_generatable.converter_server.as_deref(),
         columns,

@@ -1,10 +1,10 @@
-use crate::FurTable;
+use crate::Table;
 use bitvec::prelude::*;
 use std::{collections::HashMap, error::Error};
 
 mod utils;
 
-impl FurTable {
+impl Table {
     pub async fn add(&mut self, rows: &[HashMap<&str, &str>]) -> Result<(), Box<dyn Error>> {
         let mut rows_bin = BitVec::<u8, Msb0>::new();
 

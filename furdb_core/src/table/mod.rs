@@ -1,19 +1,19 @@
-use crate::FurTableInfo;
+use crate::TableInfo;
 use std::{error::Error, fs::File, path::PathBuf};
 
 #[derive(Debug)]
-pub struct FurTable {
+pub struct Table {
     dir: PathBuf,
     data_file: File,
     data_file_size: u64,
-    table_info: FurTableInfo,
+    table_info: TableInfo,
 }
 
 mod operations;
 mod utils;
 
-impl FurTable {
-    pub fn new(dir: PathBuf, table_info: Option<FurTableInfo>) -> Result<Self, Box<dyn Error>> {
+impl Table {
+    pub fn new(dir: PathBuf, table_info: Option<TableInfo>) -> Result<Self, Box<dyn Error>> {
         Self::ensure_table_files(&dir)?;
 
         let data_file = Self::get_data_file(&dir)?;
@@ -38,7 +38,7 @@ impl FurTable {
         Ok(table)
     }
 
-    pub fn get_info(&self) -> Result<&FurTableInfo, Box<dyn Error>> {
+    pub fn get_info(&self) -> Result<&TableInfo, Box<dyn Error>> {
         Ok(&self.table_info)
     }
 

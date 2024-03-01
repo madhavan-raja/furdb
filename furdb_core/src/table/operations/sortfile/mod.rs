@@ -1,4 +1,4 @@
-use crate::{FurColumn, FurTable};
+use crate::{FurColumn, Table};
 use std::{cmp::Ordering, error::Error};
 
 mod sortfile;
@@ -9,7 +9,7 @@ struct QuickSort {}
 impl QuickSort {
     #![allow(unused_must_use)]
     pub async fn partition(
-        tb: &mut FurTable,
+        tb: &mut Table,
         column: &FurColumn,
         vec: &mut Vec<u64>,
         low: i64,
@@ -45,7 +45,7 @@ impl QuickSort {
     }
 
     pub async fn quicksort(
-        tb: &mut FurTable,
+        tb: &mut Table,
         column: &FurColumn,
         vec: &mut Vec<u64>,
         low: i64,
@@ -60,7 +60,7 @@ impl QuickSort {
     }
 }
 
-impl FurTable {
+impl Table {
     pub async fn get_sortfile(&mut self, column: &FurColumn) -> Result<Sortfile, Box<dyn Error>> {
         let row_count = Self::get_data_file_size(&self.dir)? / (self.get_row_size()? as u64 / 8);
 

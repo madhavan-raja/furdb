@@ -1,8 +1,8 @@
-use crate::FurTable;
+use crate::Table;
 use bitvec::prelude::*;
 use std::{collections::HashMap, error::Error, io::Write};
 
-impl FurTable {
+impl Table {
     pub(crate) fn write_data(&mut self, bytes: &[u8]) -> Result<(), Box<dyn Error>> {
         self.data_file.write(&bytes)?;
 

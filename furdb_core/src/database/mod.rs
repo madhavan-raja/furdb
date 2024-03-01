@@ -1,17 +1,17 @@
-use crate::FurDBInfo;
+use crate::DatabaseInfo;
 use std::{error::Error, path::PathBuf};
 
 #[derive(Debug)]
-pub struct FurDB {
+pub struct Database {
     dir: PathBuf,
-    db_info: FurDBInfo,
+    db_info: DatabaseInfo,
 }
 
 mod operations;
 mod utils;
 
-impl FurDB {
-    pub fn new(dir: PathBuf, db_info: Option<FurDBInfo>) -> Result<Self, Box<dyn Error>> {
+impl Database {
+    pub fn new(dir: PathBuf, db_info: Option<DatabaseInfo>) -> Result<Self, Box<dyn Error>> {
         Self::ensure_db_files(&dir)?;
 
         let db_info = if db_info.is_some() {
@@ -27,7 +27,7 @@ impl FurDB {
         Ok(db)
     }
 
-    pub fn get_info(&self) -> Result<&FurDBInfo, Box<dyn Error>> {
+    pub fn get_info(&self) -> Result<&DatabaseInfo, Box<dyn Error>> {
         Ok(&self.db_info)
     }
 

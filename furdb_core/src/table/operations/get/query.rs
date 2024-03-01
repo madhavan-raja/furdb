@@ -1,7 +1,7 @@
-use crate::{FurColumn, FurTable};
+use crate::{FurColumn, Table};
 use std::error::Error;
 
-impl FurTable {
+impl Table {
     pub async fn query(
         &mut self,
         column: &FurColumn,

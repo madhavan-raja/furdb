@@ -1,4 +1,4 @@
-use crate::FurTable;
+use crate::Table;
 use bitvec::prelude::*;
 use std::{
     collections::HashMap,
@@ -8,7 +8,7 @@ use std::{
 
 mod query;
 
-impl FurTable {
+impl Table {
     pub fn get_row_bin(
         &mut self,
         index: u64,
