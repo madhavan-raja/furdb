@@ -1,4 +1,7 @@
 #[derive(serde::Deserialize)]
-pub(crate) struct DatabaseParams {
-    pub db_name: Option<String>,
+pub(crate) struct CreateDatabaseParams {
+    pub db_name: String,
 }
+
+#[derive(serde::Deserialize)]
+pub(crate) struct GetDatabaseParams {}

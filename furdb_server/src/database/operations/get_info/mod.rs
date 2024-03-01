@@ -2,28 +2,25 @@ use actix_web::{get, post, web, HttpRequest, Responder};
 use std::error::Error;
 
 mod utils;
-use utils::get_db;
 
 mod response;
 use response::DatabaseResponse;
 
 mod params;
-use params::DatabaseParams;
 
 #[post("/{db}")]
-pub(crate) async fn create_table_handler(
+pub(crate) async fn create_database_handler(
     path: web::Path<String>,
     req: HttpRequest,
 ) -> Result<impl Responder, Box<dyn Error>> {
-    let db_path = path.into_inner();
-    let params = web::Query::<DatabaseParams>::from_query(req.query_string()).unwrap();
+    let database_id = path.into_inner();
+    let params =
+        web::Query::<params::CreateDatabaseParams>::from_query(req.query_string()).unwrap();
 
-    todo!("Create database");
+    let database = utils::create_database(&database_id, params.db_name.clone())?;
+    let db_tables = database.get_all_table_ids()?;
 
-    let db = get_db(&db_path, params.db_name.clone())?;
-    let db_tables = db.get_all_table_ids()?;
-
-    let info = db.get_info()?.clone();
+    let info = database.get_info()?.clone();
     let res = DatabaseResponse::new(info, db_tables);
 
     Ok(web::Json(res))
@@ -32,15 +29,13 @@ pub(crate) async fn create_table_handler(
 #[get("/{db}")]
 pub(crate) async fn get_info_handler(
     path: web::Path<String>,
-    req: HttpRequest,
 ) -> Result<impl Responder, Box<dyn Error>> {
-    let db_path = path.into_inner();
-    let params = web::Query::<DatabaseParams>::from_query(req.query_string()).unwrap();
+    let database_id = path.into_inner();
 
-    let db = get_db(&db_path, params.db_name.clone())?;
-    let db_tables = db.get_all_table_ids()?;
+    let database = utils::get_database(&database_id)?;
+    let db_tables = database.get_all_table_ids()?;
 
-    let info = db.get_info()?.clone();
+    let info = database.get_info()?.clone();
     let res = DatabaseResponse::new(info, db_tables);
 
     Ok(web::Json(res))

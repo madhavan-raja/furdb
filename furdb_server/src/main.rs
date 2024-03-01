@@ -17,6 +17,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(check)
+            .service(database::create_database_handler)
             .service(database::get_info_handler)
             .service(table::get_info_handler)
             .service(table::get_data_handler)

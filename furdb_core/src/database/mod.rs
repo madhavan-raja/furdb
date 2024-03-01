@@ -4,35 +4,37 @@ use std::{error::Error, path::PathBuf};
 #[derive(Debug)]
 pub struct Database {
     dir: PathBuf,
-    db_info: DatabaseInfo,
+    database_info: DatabaseInfo,
 }
 
 mod operations;
 mod utils;
 
 impl Database {
-    pub fn new(dir: PathBuf, db_info: Option<DatabaseInfo>) -> Result<Self, Box<dyn Error>> {
-        Self::ensure_db_files(&dir)?;
+    pub fn create_database(
+        dir: PathBuf,
+        database_info: DatabaseInfo,
+    ) -> Result<(), Box<dyn Error>> {
+        std::fs::create_dir(&dir)?;
+        let database = Self { dir, database_info };
+        database.save_info()?;
 
-        let db_info = if db_info.is_some() {
-            db_info.unwrap()
-        } else {
-            Self::load_info(&dir)?
-        };
+        Ok(())
+    }
 
-        let db = Self { dir, db_info };
+    pub fn get_database(dir: PathBuf) -> Result<Self, Box<dyn Error>> {
+        let database_info = Self::load_info(&dir)?;
+        let database = Self { dir, database_info };
 
-        db.save_info()?;
-
-        Ok(db)
+        Ok(database)
     }
 
     pub fn get_info(&self) -> Result<&DatabaseInfo, Box<dyn Error>> {
-        Ok(&self.db_info)
+        Ok(&self.database_info)
     }
 
     pub fn save_info(&self) -> Result<(), Box<dyn Error>> {
-        let db_info_raw = serde_json::to_string(&self.db_info)?;
+        let db_info_raw = serde_json::to_string(&self.database_info)?;
         let db_info_file_path = Self::get_info_file_path(&self.dir);
         std::fs::write(db_info_file_path, db_info_raw)?;
 

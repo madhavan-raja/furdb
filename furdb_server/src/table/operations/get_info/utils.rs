@@ -20,13 +20,11 @@ pub(crate) fn get_db(
     let mut db_path = working_dir.clone();
     db_path.push(db_id);
 
-    let db_info = if db_name.is_some() {
-        Some(DatabaseInfo::new(&db_name.as_ref().unwrap())?)
-    } else {
-        None
-    };
+    let db_info = DatabaseInfo::new(&db_name.as_ref().unwrap())?;
 
-    Database::new(db_path, db_info)
+    Database::create_database(db_path.clone(), db_info)?;
+
+    Database::get_database(db_path)
 }
 
 pub(crate) fn generate_table_info(
