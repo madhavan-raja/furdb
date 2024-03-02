@@ -1,15 +1,6 @@
 use furdb_core::DatabaseInfo;
 
 #[derive(serde::Serialize, serde::Deserialize)]
-pub(crate) struct CreateDatabaseResponse {}
-
-impl CreateDatabaseResponse {
-    pub fn new() -> Self {
-        Self {}
-    }
-}
-
-#[derive(serde::Serialize, serde::Deserialize)]
 pub(crate) struct GetDatabaseResponse {
     pub database_info: DatabaseInfo,
     pub database_tables: Vec<String>,

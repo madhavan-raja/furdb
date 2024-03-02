@@ -1,2 +1,5 @@
-mod get_info;
-pub use get_info::{create_database_handler, get_info_handler};
+mod get_database_info;
+pub use get_database_info::get_database_info_handler;
+
+mod create_database;
+pub use create_database::create_database_handler;
