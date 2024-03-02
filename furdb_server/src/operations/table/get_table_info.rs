@@ -1,10 +1,34 @@
+use actix_web::{get, web, HttpRequest, Responder};
+use std::{error::Error, path::PathBuf};
+
 use furdb_core::{Column, DataType, Database, DatabaseInfo, TableInfo};
-use std::error::Error;
-use std::path::PathBuf;
 
 use crate::config::get_fur_directory;
 
-use super::request::{ColumnGenerator, DataTypeGenerator, TableGenerator};
+use crate::models;
+
+#[get("/{database_id}/{table_id}")]
+pub(crate) async fn get_table_info_handler(
+    path: web::Path<(String, String)>,
+    req: HttpRequest,
+    table_generatable: Option<web::Json<models::TableGenerator>>,
+) -> Result<impl Responder, Box<dyn Error>> {
+    let (database_id, table_id) = path.into_inner();
+    let params = web::Query::<models::TableParams>::from_query(req.query_string()).unwrap();
+
+    let working_dir = params.working_dir.as_ref().map(|wd| PathBuf::from(wd));
+    let db = get_db(working_dir, &database_id, params.db_name.clone())?;
+
+    let table_info = table_generatable
+        .map(|table_generatable| generate_table_info(table_generatable.clone()).unwrap());
+
+    let tb = db.get_table(&table_id, table_info)?;
+
+    let info = tb.get_info()?.clone();
+    let res = models::TableResponse::new(info);
+
+    Ok(web::Json(res))
+}
 
 pub(crate) fn get_db(
     working_dir: Option<PathBuf>,
@@ -27,7 +51,7 @@ pub(crate) fn get_db(
 }
 
 pub(crate) fn generate_table_info(
-    table_info_generatable: TableGenerator,
+    table_info_generatable: models::TableGenerator,
 ) -> Result<TableInfo, Box<dyn Error>> {
     let columns = table_info_generatable.columns.map(|column_generators| {
         column_generators
@@ -44,7 +68,7 @@ pub(crate) fn generate_table_info(
 }
 
 pub(crate) fn generate_column(
-    column_generatable: ColumnGenerator,
+    column_generatable: models::ColumnGenerator,
 ) -> Result<Column, Box<dyn Error>> {
     Column::new(
         &column_generatable.id,
@@ -55,7 +79,7 @@ pub(crate) fn generate_column(
 }
 
 pub(crate) fn generate_data_type(
-    data_type_generatable: DataTypeGenerator,
+    data_type_generatable: models::DataTypeGenerator,
 ) -> Result<DataType, Box<dyn Error>> {
     DataType::new(
         data_type_generatable.id.as_str(),

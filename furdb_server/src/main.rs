@@ -1,11 +1,11 @@
+use actix_web::{get, web, App, HttpServer, Responder};
 use std::error::Error;
 
-use actix_web::{get, web, App, HttpServer, Responder};
+mod models;
+mod operations;
 
 mod api_response;
 mod config;
-mod database;
-mod table;
 mod utils;
 
 #[get("/")]
@@ -21,11 +21,11 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(check)
-            .service(database::create_database_handler)
-            .service(database::get_database_info_handler)
-            .service(table::create_table_handler)
-            .service(table::get_table_info_handler)
-            .service(table::get_data_handler)
+            .service(operations::create_database_handler)
+            .service(operations::get_database_info_handler)
+            .service(operations::create_table_handler)
+            .service(operations::get_table_info_handler)
+            .service(operations::get_data_handler)
     })
     .bind(("0.0.0.0", 8080))?
     .run()
