@@ -14,6 +14,8 @@ pub(crate) async fn check() -> Result<impl Responder, Box<dyn Error>> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    dotenv::dotenv().ok();
+
     HttpServer::new(|| {
         App::new()
             .service(check)

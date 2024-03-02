@@ -2,7 +2,7 @@ use furdb_core::{Database, DatabaseInfo, FurColumn, FurDataType, TableInfo};
 use std::error::Error;
 use std::path::PathBuf;
 
-use crate::config::WORKSPACE_PATH;
+use crate::config::get_fur_directory;
 
 use super::request::{ColumnGenerator, DataTypeGenerator, TableGenerator};
 
@@ -14,7 +14,7 @@ pub(crate) fn get_db(
     let working_dir = if working_dir.is_some() {
         working_dir.unwrap()
     } else {
-        PathBuf::from(WORKSPACE_PATH)
+        get_fur_directory()
     };
 
     let mut db_path = working_dir.clone();

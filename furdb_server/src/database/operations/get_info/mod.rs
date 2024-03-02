@@ -5,7 +5,6 @@ use std::error::Error;
 mod utils;
 
 mod response;
-use response::DatabaseResponse;
 
 mod params;
 
@@ -33,7 +32,7 @@ pub(crate) async fn create_database_handler(
     let info = database.get_info()?.clone();
     let db_tables = database.get_all_table_ids()?;
 
-    let res = DatabaseResponse::new(info, db_tables);
+    let res = response::DatabaseResponse::new(info, db_tables);
 
     Ok(web::Json(res))
 }
@@ -47,7 +46,7 @@ pub(crate) async fn get_info_handler(
     let info = database.get_info()?.clone();
     let db_tables = database.get_all_table_ids()?;
 
-    let res = DatabaseResponse::new(info, db_tables);
+    let res = response::DatabaseResponse::new(info, db_tables);
 
     Ok(web::Json(res))
 }
