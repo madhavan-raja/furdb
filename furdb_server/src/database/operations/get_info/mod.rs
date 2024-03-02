@@ -17,7 +17,9 @@ pub(crate) async fn create_database_handler(
     let params =
         web::Query::<params::CreateDatabaseParams>::from_query(req.query_string()).unwrap();
 
-    let database = utils::create_database(&database_id, params.db_name.clone())?;
+    let database_name = params.db_name.clone().unwrap_or(database_id.clone());
+
+    let database = utils::create_database(&database_id, &database_name)?;
     let db_tables = database.get_all_table_ids()?;
 
     let info = database.get_info()?.clone();

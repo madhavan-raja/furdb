@@ -6,7 +6,7 @@ use crate::config::WORKSPACE_PATH;
 
 pub(crate) fn create_database(
     database_id: &str,
-    database_name: String,
+    database_name: &str,
 ) -> Result<Database, Box<dyn Error>> {
     let working_dir = PathBuf::from(WORKSPACE_PATH);
     let mut db_path = working_dir.clone();
