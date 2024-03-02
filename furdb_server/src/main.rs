@@ -23,6 +23,7 @@ async fn main() -> std::io::Result<()> {
             .service(check)
             .service(database::create_database_handler)
             .service(database::get_database_info_handler)
+            .service(table::create_table_handler)
             .service(table::get_table_info_handler)
             .service(table::get_data_handler)
     })

@@ -23,6 +23,7 @@ pub(crate) fn get_db(
     let db_info = DatabaseInfo::new(&db_name.as_ref().unwrap())?;
 
     Database::create_database(db_path.clone(), db_info)?;
+
     Database::get_database(db_path)
 }
 
