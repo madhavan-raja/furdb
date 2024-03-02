@@ -8,7 +8,7 @@ mod params;
 mod response;
 mod utils;
 
-#[post("/{db}")]
+#[post("/{database_id}")]
 pub(crate) async fn create_database_handler(
     path: web::Path<String>,
     req: HttpRequest,
@@ -29,7 +29,7 @@ pub(crate) async fn create_database_handler(
     Ok(web::Json(res))
 }
 
-#[get("/{db}")]
+#[get("/{database_id}")]
 pub(crate) async fn get_info_handler(
     path: web::Path<String>,
 ) -> Result<impl Responder, Box<dyn Error>> {
