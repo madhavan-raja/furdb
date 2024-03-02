@@ -2,11 +2,11 @@ use actix_web::{get, post, web, HttpRequest, Responder};
 use furdb_core::{Database, DatabaseInfo};
 use std::error::Error;
 
-mod utils;
-
-mod response;
+use crate::api_response;
 
 mod params;
+mod response;
+mod utils;
 
 #[post("/{db}")]
 pub(crate) async fn create_database_handler(
@@ -47,6 +47,8 @@ pub(crate) async fn get_info_handler(
     let db_tables = database.get_all_table_ids()?;
 
     let res = response::DatabaseResponse::new(info, db_tables);
+
+    let res = api_response::ApiResponse::new(res);
 
     Ok(web::Json(res))
 }
