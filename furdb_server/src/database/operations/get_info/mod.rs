@@ -1,4 +1,5 @@
 use actix_web::{get, post, web, HttpRequest, Responder};
+use furdb_core::{Database, DatabaseInfo};
 use std::error::Error;
 
 mod utils;
@@ -19,10 +20,19 @@ pub(crate) async fn create_database_handler(
 
     let database_name = params.db_name.clone().unwrap_or(database_id.clone());
 
-    let database = utils::create_database(&database_id, &database_name)?;
-    let db_tables = database.get_all_table_ids()?;
+    let db_path = utils::get_database_path(&database_id);
+
+    let db_info = DatabaseInfo::new(&database_name)?;
+
+    Database::create_database(db_path.clone(), db_info)?;
+
+    // Maybe we can remove everything after this and just send a 201 status code?
+
+    let database = Database::get_database(db_path)?;
 
     let info = database.get_info()?.clone();
+    let db_tables = database.get_all_table_ids()?;
+
     let res = DatabaseResponse::new(info, db_tables);
 
     Ok(web::Json(res))
@@ -32,12 +42,11 @@ pub(crate) async fn create_database_handler(
 pub(crate) async fn get_info_handler(
     path: web::Path<String>,
 ) -> Result<impl Responder, Box<dyn Error>> {
-    let database_id = path.into_inner();
-
-    let database = utils::get_database(&database_id)?;
-    let db_tables = database.get_all_table_ids()?;
+    let database = Database::get_database(utils::get_database_path(&path.into_inner()))?;
 
     let info = database.get_info()?.clone();
+    let db_tables = database.get_all_table_ids()?;
+
     let res = DatabaseResponse::new(info, db_tables);
 
     Ok(web::Json(res))
