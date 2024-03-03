@@ -1,22 +1,24 @@
-use crate::{Database, DatabaseInfo};
-use std::{error::Error, path::PathBuf};
+use crate::{utils, Database};
+use std::error::Error;
 
 impl Database {
     pub fn create_database(
-        dir: PathBuf,
-        database_info: DatabaseInfo,
+        database_id: &str,
+        database_name: Option<&str>,
     ) -> Result<(), Box<dyn Error>> {
-        std::fs::create_dir(&dir)?;
-        let database = Self { dir, database_info };
-        database.save_info()?;
+        let database_path = utils::get_database_path(database_id)?;
+        let all_tables_path = utils::get_all_tables_path(database_id)?;
+        let database_config_path = utils::get_database_config_path(database_id)?;
 
-        Ok(())
-    }
+        std::fs::create_dir(&database_path)?;
+        std::fs::create_dir(&all_tables_path)?;
 
-    pub fn save_info(&self) -> Result<(), Box<dyn Error>> {
-        let db_info_raw = serde_json::to_string(&self.database_info)?;
-        let db_info_file_path = Self::get_info_file_path(&self.dir);
-        std::fs::write(db_info_file_path, db_info_raw)?;
+        let database = Self {
+            database_id: String::from(database_id),
+            database_name: String::from(database_name.unwrap_or(database_id)),
+        };
+
+        std::fs::write(&database_config_path, serde_json::to_string(&database)?)?;
 
         Ok(())
     }

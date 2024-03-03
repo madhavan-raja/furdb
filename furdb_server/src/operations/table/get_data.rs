@@ -78,7 +78,7 @@ pub(crate) fn get_db(
 }
 
 pub(crate) fn generate_table_info(
-    table_info_generatable: models::TableGenerator,
+    table_info_generatable: models::CreateTableParams,
 ) -> Result<TableInfo, Box<dyn Error>> {
     let columns = table_info_generatable.columns.map(|column_generators| {
         column_generators

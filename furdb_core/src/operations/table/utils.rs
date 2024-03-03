@@ -1,4 +1,4 @@
-use crate::{Table, TableInfo};
+use crate::Table;
 use std::{
     error::Error,
     fs::{File, OpenOptions},
@@ -37,14 +37,14 @@ impl Table {
         Ok(())
     }
 
-    pub(crate) fn load_info(dir: &PathBuf) -> Result<TableInfo, Box<dyn Error>> {
-        let table_info_file_path = Self::get_info_file_path(&dir);
-        let table_info_contents_raw = std::fs::read_to_string(&table_info_file_path)?;
-        let table_info_contents = serde_json::from_str(&table_info_contents_raw)?;
-        let table_info = serde_json::from_value(table_info_contents)?;
+    // pub(crate) fn load_info(dir: &PathBuf) -> Result<TableInfo, Box<dyn Error>> {
+    //     let table_info_file_path = Self::get_info_file_path(&dir);
+    //     let table_info_contents_raw = std::fs::read_to_string(&table_info_file_path)?;
+    //     let table_info_contents = serde_json::from_str(&table_info_contents_raw)?;
+    //     let table_info = serde_json::from_value(table_info_contents)?;
 
-        Ok(table_info)
-    }
+    //     Ok(table_info)
+    // }
 
     pub(crate) fn get_data_file_size(dir: &PathBuf) -> Result<u64, Box<dyn Error>> {
         let data_file_metadata = std::fs::metadata(Self::get_data_file_path(&dir))?;
@@ -53,14 +53,16 @@ impl Table {
     }
 
     pub(crate) fn get_row_size(&self) -> Result<usize, Box<dyn Error>> {
-        let table_info = self.get_info()?;
-        let mut size = 0;
+        todo!();
 
-        for column in table_info.get_columns() {
-            size += column.get_size();
-        }
+        // let table_info = self.get_info()?;
+        // let mut size = 0;
 
-        Ok(size as usize)
+        // for column in table_info.get_columns() {
+        //     size += column.get_size();
+        // }
+
+        // Ok(size as usize)
     }
 
     pub(crate) fn get_info_file_path(dir: &PathBuf) -> PathBuf {

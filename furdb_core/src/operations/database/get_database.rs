@@ -1,15 +1,11 @@
-use crate::{Database, DatabaseInfo};
-use std::{error::Error, path::PathBuf};
+use crate::{utils, Database};
+use std::error::Error;
 
 impl Database {
-    pub fn get_database(dir: PathBuf) -> Result<Self, Box<dyn Error>> {
-        let database_info = Self::load_info(&dir)?;
-        let database = Self { dir, database_info };
+    pub fn get_database(database_id: &str) -> Result<Self, Box<dyn Error>> {
+        let database_config_path = utils::get_database_config_path(database_id)?;
+        let database = serde_json::from_reader(std::fs::File::open(&database_config_path)?)?;
 
         Ok(database)
-    }
-
-    pub fn get_database_info(&self) -> Result<DatabaseInfo, Box<dyn Error>> {
-        Ok(self.database_info.clone())
     }
 }

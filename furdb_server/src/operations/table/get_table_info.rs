@@ -11,7 +11,7 @@ use crate::models;
 pub(crate) async fn get_table_info_handler(
     path: web::Path<(String, String)>,
     req: HttpRequest,
-    table_generatable: Option<web::Json<models::TableGenerator>>,
+    table_generatable: Option<web::Json<models::CreateTableParams>>,
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
     let params = web::Query::<models::TableParams>::from_query(req.query_string()).unwrap();
@@ -51,7 +51,7 @@ pub(crate) fn get_db(
 }
 
 pub(crate) fn generate_table_info(
-    table_info_generatable: models::TableGenerator,
+    table_info_generatable: models::CreateTableParams,
 ) -> Result<TableInfo, Box<dyn Error>> {
     let columns = table_info_generatable.columns.map(|column_generators| {
         column_generators

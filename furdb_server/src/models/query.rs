@@ -8,6 +8,6 @@ pub(crate) struct Query {
 
 #[derive(Clone, Debug, serde::Deserialize)]
 pub(crate) struct QueryGeneratable {
-    pub table_generatable: Option<models::TableGenerator>,
+    pub table_generatable: Option<models::CreateTableParams>,
     pub query: Option<Query>,
 }

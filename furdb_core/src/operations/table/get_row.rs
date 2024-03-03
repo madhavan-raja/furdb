@@ -11,75 +11,83 @@ impl Table {
         &mut self,
         index: u64,
     ) -> Result<HashMap<String, BitVec<u8, Msb0>>, Box<dyn Error>> {
-        let mut result = HashMap::<String, BitVec<u8, Msb0>>::new();
+        todo!();
 
-        let row_size = self.get_row_size()? / 8;
+        // let mut result = HashMap::<String, BitVec<u8, Msb0>>::new();
 
-        let row_start = index * row_size as u64;
+        // let row_size = self.get_row_size()? / 8;
 
-        self.data_file.seek(SeekFrom::Start(row_start))?;
+        // let row_start = index * row_size as u64;
 
-        let mut buf = vec![0u8; row_size];
+        // self.data_file.seek(SeekFrom::Start(row_start))?;
 
-        self.data_file.read_exact(&mut buf)?;
+        // let mut buf = vec![0u8; row_size];
 
-        let row_bin: BitVec<u8, Msb0> = BitVec::from_slice(&buf);
+        // self.data_file.read_exact(&mut buf)?;
 
-        let mut column_start = 0;
-        for column in self.table_info.get_columns() {
-            let column_size = column.get_size() as usize;
+        // let row_bin: BitVec<u8, Msb0> = BitVec::from_slice(&buf);
 
-            let data_bin = &row_bin[column_start..(column_start + column_size)];
-            let data_bin = BitVec::from(data_bin);
-            column_start += column_size;
+        // let mut column_start = 0;
+        // for column in self.table_info.get_columns() {
+        //     let column_size = column.get_size() as usize;
 
-            result.insert(column.get_id(), data_bin);
-        }
+        //     let data_bin = &row_bin[column_start..(column_start + column_size)];
+        //     let data_bin = BitVec::from(data_bin);
+        //     column_start += column_size;
 
-        Ok(result)
+        //     result.insert(column.get_id(), data_bin);
+        // }
+
+        // Ok(result)
     }
 
     pub async fn get_row(&mut self, index: u64) -> Result<HashMap<String, String>, Box<dyn Error>> {
-        let row_bin = self.get_row_bin(index)?;
-        let mut result = HashMap::<String, String>::new();
+        todo!();
 
-        for column in self.table_info.get_columns() {
-            let data_type = column.get_data_type();
+        // let row_bin = self.get_row_bin(index)?;
+        // let mut result = HashMap::<String, String>::new();
 
-            let data_bin = row_bin.get(&column.get_id()).unwrap();
-            let data = data_type
-                .decode(data_bin, self.table_info.get_converter_server())
-                .await?;
+        // for column in self.table_info.get_columns() {
+        //     let data_type = column.get_data_type();
 
-            result.insert(column.get_id(), data);
-        }
+        //     let data_bin = row_bin.get(&column.get_id()).unwrap();
+        //     let data = data_type
+        //         .decode(data_bin, self.table_info.get_converter_server())
+        //         .await?;
 
-        Ok(result)
+        //     result.insert(column.get_id(), data);
+        // }
+
+        // Ok(result)
     }
 
     pub async fn get_rows(
         &mut self,
         indices: Vec<u64>,
     ) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
-        let mut results = Vec::<HashMap<String, String>>::new();
+        todo!();
 
-        for index in indices {
-            let result = self.get_row(index).await?;
+        // let mut results = Vec::<HashMap<String, String>>::new();
 
-            results.push(result);
-        }
+        // for index in indices {
+        //     let result = self.get_row(index).await?;
 
-        Ok(results)
+        //     results.push(result);
+        // }
+
+        // Ok(results)
     }
 
     pub async fn get_all(&mut self) -> Result<Vec<HashMap<String, String>>, Box<dyn Error>> {
-        let row_size = self.get_row_size()? / 8;
-        let indices: Vec<u64> =
-            (0..Self::get_data_file_size(&self.dir)? / row_size as u64).collect();
+        todo!();
 
-        let results = self.get_rows(indices).await?;
+        // let row_size = self.get_row_size()? / 8;
+        // let indices: Vec<u64> =
+        //     (0..Self::get_data_file_size(&self.dir)? / row_size as u64).collect();
 
-        Ok(results)
+        // let results = self.get_rows(indices).await?;
+
+        // Ok(results)
     }
 
     pub async fn query(
@@ -87,36 +95,38 @@ impl Table {
         column: &Column,
         value: &str,
     ) -> Result<Option<u64>, Box<dyn Error>> {
-        let sortlist = self.read_sortfile(&column.get_id())?.get_sortlist();
+        todo!();
 
-        let data_type = column.get_data_type();
-        let converter_server = self.table_info.get_converter_server();
+        // let sortlist = self.read_sortfile(&column.get_id())?.get_sortlist();
 
-        let target_value = data_type
-            .encode(value, column.get_size(), converter_server.clone())
-            .await?;
+        // let data_type = column.get_data_type();
+        // let converter_server = self.table_info.get_converter_server();
 
-        let mut left = 0 as i64;
-        let mut right = sortlist.len() as i64 - 1;
+        // let target_value = data_type
+        //     .encode(value, column.get_size(), converter_server.clone())
+        //     .await?;
 
-        let column_id = column.get_id();
+        // let mut left = 0 as i64;
+        // let mut right = sortlist.len() as i64 - 1;
 
-        while left <= right {
-            let mid = (left + right) / 2;
-            let mid_index = sortlist[mid as usize];
-            let mid_row_bin = self.get_row_bin(mid_index as u64)?;
-            let mid_value = mid_row_bin.get(&column_id).unwrap().clone();
+        // let column_id = column.get_id();
 
-            match data_type
-                .compare(&mid_value, &target_value, converter_server.clone())
-                .await?
-            {
-                std::cmp::Ordering::Less => left = mid + 1,
-                std::cmp::Ordering::Greater => right = mid - 1,
-                std::cmp::Ordering::Equal => return Ok(Some(mid_index as u64)),
-            }
-        }
+        // while left <= right {
+        //     let mid = (left + right) / 2;
+        //     let mid_index = sortlist[mid as usize];
+        //     let mid_row_bin = self.get_row_bin(mid_index as u64)?;
+        //     let mid_value = mid_row_bin.get(&column_id).unwrap().clone();
 
-        Ok(None)
+        //     match data_type
+        //         .compare(&mid_value, &target_value, converter_server.clone())
+        //         .await?
+        //     {
+        //         std::cmp::Ordering::Less => left = mid + 1,
+        //         std::cmp::Ordering::Greater => right = mid - 1,
+        //         std::cmp::Ordering::Equal => return Ok(Some(mid_index as u64)),
+        //     }
+        // }
+
+        // Ok(None)
     }
 }
