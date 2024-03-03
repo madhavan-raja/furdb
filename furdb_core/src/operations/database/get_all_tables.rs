@@ -1,8 +1,9 @@
-use crate::{utils, Database, Table};
+use crate::models;
+use crate::utils;
 use std::error::Error;
 
-impl Database {
-    pub fn get_all_tables(&self) -> Result<Vec<Table>, Box<dyn Error>> {
+impl models::database::Database {
+    pub fn get_all_tables(&self) -> Result<Vec<models::table::Table>, Box<dyn Error>> {
         let all_tables_path = utils::get_all_tables_path(&self.database_id)?;
 
         let all_table_id = std::fs::read_dir(all_tables_path)?

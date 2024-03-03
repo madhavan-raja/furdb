@@ -1,5 +1,5 @@
 use actix_web::{post, web, Responder};
-use furdb_core::Database;
+use furdb_core::models as core_models;
 use std::error::Error;
 
 use crate::models;
@@ -11,7 +11,7 @@ pub async fn insert_row_handler(
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
 
-    let database = Database::get_database(&database_id)?;
+    let database = core_models::database::Database::get_database(&database_id)?;
     let mut table = database.get_table(&table_id)?;
 
     table.insert_row(&insert_row_params.data)?;

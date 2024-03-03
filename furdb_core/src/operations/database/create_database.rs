@@ -1,7 +1,8 @@
-use crate::{utils, Database};
+use crate::models;
+use crate::utils;
 use std::error::Error;
 
-impl Database {
+impl models::database::Database {
     pub fn create_database(
         database_id: &str,
         database_name: Option<&str>,

@@ -1,5 +1,5 @@
 use actix_web::{post, web, Responder};
-use furdb_core::Database;
+use furdb_core::models as core_models;
 use std::error::Error;
 
 use crate::models;
@@ -14,7 +14,7 @@ pub async fn create_database_handler(
     let database_name = create_database_params
         .and_then(|create_database_params| create_database_params.database_name.clone());
 
-    Database::create_database(&database_id, database_name.as_deref())?;
+    core_models::database::Database::create_database(&database_id, database_name.as_deref())?;
 
     let response = models::BlankSuccessResponse::new();
     Ok(web::Json(response))

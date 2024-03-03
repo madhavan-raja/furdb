@@ -1,8 +1,9 @@
-use crate::{utils, Table};
+use crate::models;
+use crate::utils;
 use bitvec::prelude::*;
 use std::{error::Error, io::Write};
 
-impl Table {
+impl models::table::Table {
     pub fn insert_row(&mut self, row: &[u128]) -> Result<(), Box<dyn Error>> {
         let mut row_bin = BitVec::<u8, Msb0>::new();
 

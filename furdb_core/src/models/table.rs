@@ -1,11 +1,11 @@
-use crate::Column;
+use crate::models;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Table {
     pub(crate) database_id: String,
     pub(crate) table_id: String,
     pub(crate) table_name: String,
-    pub(crate) table_columns: Vec<Column>,
+    pub(crate) table_columns: Vec<models::column::Column>,
 }
 
 impl Table {
@@ -21,7 +21,7 @@ impl Table {
         self.table_name.clone()
     }
 
-    pub fn get_table_columns(&self) -> Vec<Column> {
+    pub fn get_table_columns(&self) -> Vec<models::column::Column> {
         self.table_columns.clone()
     }
 }
