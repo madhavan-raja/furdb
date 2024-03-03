@@ -1,59 +1,42 @@
-use crate::Table;
+use crate::{utils, Table};
 use bitvec::prelude::*;
-use std::{collections::HashMap, error::Error, io::Write};
+use std::{error::Error, io::Write};
 
 impl Table {
-    pub async fn insert_row(&mut self, rows: &[HashMap<&str, &str>]) -> Result<(), Box<dyn Error>> {
-        todo!();
+    pub fn insert_row(&mut self, row: &[u128]) -> Result<(), Box<dyn Error>> {
+        let mut row_bin = BitVec::<u8, Msb0>::new();
 
-        // let mut rows_bin = BitVec::<u8, Msb0>::new();
+        for index in 0..self.table_columns.len() {
+            let element_size = self.table_columns[index].get_size() as usize;
+            let mut element = row[index];
 
-        // for row in rows {
-        //     let mut row_bin = self.convert_row_to_bin(row).await?;
-        //     rows_bin.append(&mut row_bin);
-        // }
+            let mut current_row_bin = BitVec::<u8, Msb0>::new();
 
-        // let bytes: Vec<u8> = rows_bin.into();
-        // self.write_data(&bytes)?;
+            assert!(element < 2u128.pow(element_size as u32));
 
-        // Ok(())
-    }
+            while element > 0 {
+                current_row_bin.push(element % 2 == 1);
+                element /= 2;
+            }
 
-    pub(crate) fn write_data(&mut self, bytes: &[u8]) -> Result<(), Box<dyn Error>> {
-        todo!();
+            while current_row_bin.len() < element_size {
+                current_row_bin.push(false);
+            }
 
-        // self.data_file.write(&bytes)?;
+            current_row_bin.reverse();
 
-        // self.data_file_size = Self::get_data_file_size(&self.dir)?;
+            row_bin.append(&mut current_row_bin);
+        }
 
-        // Ok(())
-    }
+        let bytes: Vec<u8> = row_bin.into();
 
-    pub(crate) async fn convert_row_to_bin(
-        &self,
-        row: &HashMap<&str, &str>,
-    ) -> Result<BitVec<u8, Msb0>, Box<dyn Error>> {
-        todo!();
+        let table_data_path = utils::get_table_data_path(&self.get_database_id(), &self.table_id)?;
+        let mut table_data_file = std::fs::OpenOptions::new()
+            .append(true)
+            .open(table_data_path)?;
 
-        // let mut row_bin = BitVec::new();
+        table_data_file.write(&bytes)?;
 
-        // for column in self.table_info.get_columns() {
-        //     let column_id = column.get_id();
-        //     let column_id = column_id.as_str();
-
-        //     let data = row.get(column_id).unwrap_or(&&"");
-
-        //     let data_type = column.get_data_type();
-        //     let mut column_bin = data_type
-        //         .encode(
-        //             data,
-        //             column.get_size(),
-        //             self.table_info.get_converter_server(),
-        //         )
-        //         .await?;
-        //     row_bin.append(&mut column_bin);
-        // }
-
-        // Ok(row_bin)
+        Ok(())
     }
 }

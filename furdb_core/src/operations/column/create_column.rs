@@ -1,19 +1,12 @@
 use std::error::Error;
 
-use crate::{Column, DataType};
+use crate::Column;
 
 impl Column {
-    pub fn new(
-        id: &str,
-        description: Option<&str>,
-        size: u128,
-        data_type: DataType,
-    ) -> Result<Self, Box<dyn Error>> {
+    pub fn new(name: &str, size: u128) -> Result<Self, Box<dyn Error>> {
         Ok(Self {
-            id: String::from(id),
-            description: String::from(description.unwrap_or(&id)),
+            name: String::from(name),
             size,
-            data_type: data_type,
         })
     }
 }

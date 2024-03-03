@@ -17,7 +17,7 @@ pub async fn create_database_handler(
 
     Database::create_database(&database_id, database_name.as_deref())?;
 
-    let res = api_response::ApiResponse::new(models::CreateDatabaseResponse::new());
+    let res = api_response::ApiResponse::new(models::BlankSuccessResponse::new());
 
     Ok(web::Json(res))
 }

@@ -1,7 +1,7 @@
 #[derive(serde::Serialize, serde::Deserialize)]
-pub struct CreateTableResponse {}
+pub struct BlankSuccessResponse {}
 
-impl CreateTableResponse {
+impl BlankSuccessResponse {
     pub(crate) fn new() -> Self {
         Self {}
     }

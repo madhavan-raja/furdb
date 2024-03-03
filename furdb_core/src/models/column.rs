@@ -1,9 +1,15 @@
-use crate::DataType;
-
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Column {
-    pub(crate) id: String,
-    pub(crate) description: String,
+    pub(crate) name: String,
     pub(crate) size: u128,
-    pub(crate) data_type: DataType,
+}
+
+impl Column {
+    pub fn get_name(&self) -> String {
+        self.name.clone()
+    }
+
+    pub fn get_size(&self) -> u128 {
+        self.size
+    }
 }

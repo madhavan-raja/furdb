@@ -1,7 +1,5 @@
 use std::{error::Error, path::PathBuf};
 
-use crate::Database;
-
 pub(crate) fn get_fur_path() -> Result<PathBuf, Box<dyn Error>> {
     let fur_path = PathBuf::from(std::env::var("FUR_DIRECTORY")?);
     Ok(fur_path)
@@ -22,26 +20,23 @@ pub(crate) fn get_all_tables_path(database_id: &str) -> Result<PathBuf, Box<dyn 
     Ok(database_path)
 }
 
-pub(crate) fn get_table_path(
-    database: &Database,
-    table_id: &str,
-) -> Result<PathBuf, Box<dyn Error>> {
-    let table_path = get_all_tables_path(&database.get_database_id())?.join(table_id);
+pub(crate) fn get_table_path(database_id: &str, table_id: &str) -> Result<PathBuf, Box<dyn Error>> {
+    let table_path = get_all_tables_path(&database_id)?.join(table_id);
     Ok(table_path)
 }
 
 pub(crate) fn get_table_config_path(
-    database: &Database,
+    database_id: &str,
     table_id: &str,
 ) -> Result<PathBuf, Box<dyn Error>> {
-    let table_path = get_table_path(&database, table_id)?.join("table_config.json");
+    let table_path = get_table_path(&database_id, table_id)?.join("table_config.json");
     Ok(table_path)
 }
 
 pub(crate) fn get_table_data_path(
-    database: &Database,
+    database_id: &str,
     table_id: &str,
 ) -> Result<PathBuf, Box<dyn Error>> {
-    let table_path = get_table_path(&database, table_id)?.join("data");
+    let table_path = get_table_path(&database_id, table_id)?.join("data");
     Ok(table_path)
 }

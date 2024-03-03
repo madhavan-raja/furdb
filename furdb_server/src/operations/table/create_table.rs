@@ -18,7 +18,7 @@ pub async fn create_table_handler(
 
     database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;
 
-    let res = models::CreateTableResponse::new();
+    let res = models::BlankSuccessResponse::new();
 
     Ok(web::Json(res))
 }
