@@ -1,7 +1,7 @@
 use furdb_core::Column;
 
-#[derive(Clone, Debug, serde::Deserialize)]
-pub(crate) struct CreateTableParams {
-    pub table_name: Option<String>,
-    pub table_columns: Vec<Column>,
+#[derive(serde::Serialize, serde::Deserialize)]
+pub struct CreateTableParams {
+    pub(crate) table_name: Option<String>,
+    pub(crate) table_columns: Vec<Column>,
 }

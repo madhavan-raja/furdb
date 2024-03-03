@@ -6,6 +6,8 @@ impl Table {
     pub fn insert_row(&mut self, row: &[u128]) -> Result<(), Box<dyn Error>> {
         let mut row_bin = BitVec::<u8, Msb0>::new();
 
+        assert_eq!(row.len(), self.table_columns.len());
+
         for index in 0..self.table_columns.len() {
             let element_size = self.table_columns[index].get_size() as usize;
             let mut element = row[index];

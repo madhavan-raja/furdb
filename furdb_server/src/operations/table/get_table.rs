@@ -13,12 +13,7 @@ pub async fn get_table_handler(
     let database = Database::get_database(&database_id)?;
     let table = database.get_table(&table_id)?;
 
-    let res = models::GetTableResponse::new(
-        &table.get_database_id(),
-        &table.get_table_id(),
-        &table.get_table_name(),
-        table.get_table_columns(),
-    );
+    let res = models::GetTableResponse::new(&table)?;
 
     Ok(web::Json(res))
 }

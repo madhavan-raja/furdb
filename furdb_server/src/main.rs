@@ -4,8 +4,6 @@ use std::error::Error;
 mod models;
 mod operations;
 
-mod api_response;
-
 #[get("/")]
 pub(crate) async fn check() -> Result<impl Responder, Box<dyn Error>> {
     let res = { "FurDB" };

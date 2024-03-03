@@ -1,7 +1,9 @@
-use furdb_core::Column;
+use std::error::Error;
+
+use furdb_core::{Column, Table};
 
 #[derive(serde::Serialize, serde::Deserialize)]
-pub(crate) struct GetTableResponse {
+pub struct GetTableResponse {
     pub(crate) database_id: String,
     pub(crate) table_id: String,
     pub(crate) table_name: String,
@@ -9,17 +11,12 @@ pub(crate) struct GetTableResponse {
 }
 
 impl GetTableResponse {
-    pub fn new(
-        database_id: &str,
-        table_id: &str,
-        table_name: &str,
-        table_columns: Vec<Column>,
-    ) -> Self {
-        Self {
-            database_id: String::from(database_id),
-            table_id: String::from(table_id),
-            table_name: String::from(table_name),
-            table_columns,
-        }
+    pub(crate) fn new(table: &Table) -> Result<Self, Box<dyn Error>> {
+        Ok(Self {
+            database_id: table.get_database_id(),
+            table_id: table.get_table_id(),
+            table_name: table.get_table_name(),
+            table_columns: table.get_table_columns(),
+        })
     }
 }

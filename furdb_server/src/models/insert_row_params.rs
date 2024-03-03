@@ -1,6 +1,4 @@
-use furdb_core::Column;
-
-#[derive(Clone, Debug, serde::Deserialize)]
-pub(crate) struct InsertRowParams {
-    pub data: Vec<u128>,
+#[derive(serde::Serialize, serde::Deserialize)]
+pub struct InsertRowParams {
+    pub(crate) data: Vec<u128>,
 }
