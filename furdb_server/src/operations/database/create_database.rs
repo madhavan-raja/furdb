@@ -1,4 +1,4 @@
-use actix_web::{post, web, HttpRequest, Responder};
+use actix_web::{post, web, Responder};
 use furdb_core::{Database, DatabaseInfo};
 use std::error::Error;
 
@@ -9,13 +9,13 @@ use crate::utils;
 #[post("/{database_id}")]
 pub async fn create_database_handler(
     path: web::Path<String>,
-    req: HttpRequest,
+    create_database_params: Option<web::Json<models::CreateDatabaseParams>>,
 ) -> Result<impl Responder, Box<dyn Error>> {
     let database_id = path.into_inner();
-    let params =
-        web::Query::<models::CreateDatabaseParams>::from_query(req.query_string()).unwrap();
 
-    let database_name = params.db_name.clone().unwrap_or(database_id.clone());
+    let database_name = create_database_params
+        .and_then(|create_database_params| create_database_params.database_name.clone())
+        .unwrap_or(database_id.clone());
 
     Database::create_database(
         utils::get_database_path(&database_id),
