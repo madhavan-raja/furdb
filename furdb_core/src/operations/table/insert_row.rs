@@ -7,10 +7,12 @@ impl models::table::Table {
     pub fn insert_row(&mut self, row: &[u128]) -> Result<(), Box<dyn Error>> {
         let mut row_bin = BitVec::<u8, Msb0>::new();
 
-        assert_eq!(row.len(), self.table_columns.len());
+        let table_columns = self.get_table_columns();
 
-        for index in 0..self.table_columns.len() {
-            let element_size = self.table_columns[index].get_size() as usize;
+        assert_eq!(row.len(), table_columns.len());
+
+        for index in 0..table_columns.len() {
+            let element_size = table_columns[index].get_size() as usize;
             let mut element = row[index];
 
             let mut current_row_bin = BitVec::<u8, Msb0>::new();
@@ -33,7 +35,9 @@ impl models::table::Table {
 
         let bytes: Vec<u8> = row_bin.into();
 
-        let table_data_path = utils::get_table_data_path(&self.get_database_id(), &self.table_id)?;
+        let table_data_path =
+            utils::get_table_data_path(&self.get_database_id(), &self.get_table_id())?;
+
         let mut table_data_file = std::fs::OpenOptions::new()
             .append(true)
             .open(table_data_path)?;

@@ -14,10 +14,8 @@ impl models::database::Database {
         std::fs::create_dir(&database_path)?;
         std::fs::create_dir(&all_tables_path)?;
 
-        let database = Self {
-            database_id: String::from(database_id),
-            database_name: String::from(database_name.unwrap_or(database_id)),
-        };
+        let database =
+            models::database::Database::new(&database_id, &database_name.unwrap_or(database_id))?;
 
         std::fs::write(&database_config_path, serde_json::to_string(&database)?)?;
 

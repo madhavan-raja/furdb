@@ -1,14 +1,30 @@
+use std::error::Error;
+
 use crate::models;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Table {
-    pub(crate) database_id: String,
-    pub(crate) table_id: String,
-    pub(crate) table_name: String,
-    pub(crate) table_columns: Vec<models::column::Column>,
+    database_id: String,
+    table_id: String,
+    table_name: String,
+    table_columns: Vec<models::column::Column>,
 }
 
 impl Table {
+    pub fn new(
+        database_id: &str,
+        table_id: &str,
+        table_name: &str,
+        table_columns: &[models::column::Column],
+    ) -> Result<Self, Box<dyn Error>> {
+        Ok(Self {
+            database_id: String::from(database_id),
+            table_id: String::from(table_id),
+            table_name: String::from(table_name),
+            table_columns: table_columns.to_vec(),
+        })
+    }
+
     pub fn get_database_id(&self) -> String {
         self.database_id.clone()
     }

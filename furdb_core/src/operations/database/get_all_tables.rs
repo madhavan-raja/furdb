@@ -4,7 +4,9 @@ use std::error::Error;
 
 impl models::database::Database {
     pub fn get_all_tables(&self) -> Result<Vec<models::table::Table>, Box<dyn Error>> {
-        let all_tables_path = utils::get_all_tables_path(&self.database_id)?;
+        let database_id = self.get_database_id();
+
+        let all_tables_path = utils::get_all_tables_path(&database_id)?;
 
         let all_table_id = std::fs::read_dir(all_tables_path)?
             .map(|entry| entry.unwrap().file_name().into_string().unwrap())
