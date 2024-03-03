@@ -1,29 +1,25 @@
-use actix_web::{get, web, App, HttpServer, Responder};
+use actix_web::{App, HttpServer};
 use std::error::Error;
 
 mod models;
 mod operations;
 
-#[get("/")]
-pub(crate) async fn check() -> Result<impl Responder, Box<dyn Error>> {
-    let res = { "FurDB" };
-    Ok(web::Json(res))
-}
-
 #[actix_web::main]
-async fn main() -> std::io::Result<()> {
+async fn main() -> Result<(), Box<dyn Error>> {
     dotenv::dotenv().ok();
 
     HttpServer::new(|| {
         App::new()
-            .service(check)
-            .service(operations::create_database_handler)
-            .service(operations::get_database_info_handler)
-            .service(operations::create_table_handler)
-            .service(operations::get_table_handler)
-            .service(operations::insert_row_handler)
+            .service(operations::info::health::health)
+            .service(operations::database::create_database::create_database_handler)
+            .service(operations::database::get_database_info::get_database_info_handler)
+            .service(operations::table::create_table::create_table_handler)
+            .service(operations::table::get_table::get_table_handler)
+            .service(operations::table::insert_row::insert_row_handler)
     })
     .bind(("0.0.0.0", 8080))?
     .run()
-    .await
+    .await?;
+
+    Ok(())
 }

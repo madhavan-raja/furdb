@@ -3,17 +3,17 @@ use std::error::Error;
 use furdb_core::models as core_models;
 
 #[derive(serde::Serialize, serde::Deserialize)]
-pub struct GetDatabaseResponse {
-    pub(crate) database_id: String,
-    pub(crate) database_name: String,
-    pub(crate) database_tables: Vec<GetDatabaseTableResponse>,
+pub(crate) struct GetDatabaseResponse {
+    database_id: String,
+    database_name: String,
+    database_tables: Vec<GetDatabaseTableResponse>,
 }
 
 #[derive(serde::Serialize, serde::Deserialize)]
-pub struct GetDatabaseTableResponse {
-    pub(crate) table_id: String,
-    pub(crate) table_name: String,
-    pub(crate) table_columns: Vec<core_models::column::Column>,
+struct GetDatabaseTableResponse {
+    table_id: String,
+    table_name: String,
+    table_columns: Vec<core_models::column::Column>,
 }
 
 impl GetDatabaseResponse {
