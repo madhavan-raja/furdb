@@ -2,7 +2,7 @@ version: '3'
 services:
   api:
     environment:
-      FUR_DIRECTORY: / # MODIFY THIS
+      FUR_DIRECTORY: /furdb
     build:
       context: .
       dockerfile: Dockerfile
