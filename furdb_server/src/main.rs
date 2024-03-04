@@ -15,7 +15,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .service(operations::database::get_database_info::get_database_info_handler)
             .service(operations::table::create_table::create_table_handler)
             .service(operations::table::get_table::get_table_handler)
-            .service(operations::table::insert_row::insert_row_handler)
+            .service(operations::table::insert_rows::insert_rows_handler)
             .service(operations::table::get_rows::get_rows_handler)
             .service(operations::table::delete_rows::delete_rows_handler)
     })

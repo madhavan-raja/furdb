@@ -6,4 +6,4 @@ pub(crate) mod get_database_response;
 pub(crate) mod get_rows_params;
 pub(crate) mod get_rows_response;
 pub(crate) mod get_table_response;
-pub(crate) mod insert_row_params;
+pub(crate) mod insert_rows_params;
