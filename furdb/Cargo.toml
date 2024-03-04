@@ -1,9 +1,15 @@
 [package]
 name = "furdb"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Madhavan Raja"]
+license-file = "LICENSE"
+readme = "README.org"
+repository = "https://github.com/furdb/furdb"
+homepage = "https://github.com/furdb"
+description = """
+A space-efficient relational database management system.
+"""
 
 [dependencies]
 openssl = { version = "0.10", features = ["vendored"] }
