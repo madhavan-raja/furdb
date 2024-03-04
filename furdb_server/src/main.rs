@@ -16,6 +16,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .service(operations::table::create_table::create_table_handler)
             .service(operations::table::get_table::get_table_handler)
             .service(operations::table::insert_row::insert_row_handler)
+            .service(operations::table::get_row::get_row_handler)
     })
     .bind(("0.0.0.0", 8080))?
     .run()
