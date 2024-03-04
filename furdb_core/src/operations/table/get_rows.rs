@@ -7,7 +7,39 @@ use std::io::Seek;
 use std::io::SeekFrom;
 
 impl models::table::Table {
-    pub fn get_row(&mut self, index: u64) -> Result<Vec<u128>, Box<dyn Error>> {
+    pub fn get_rows(
+        &mut self,
+        indices: Option<Vec<u64>>,
+    ) -> Result<Vec<Vec<u128>>, Box<dyn Error>> {
+        let result = indices
+            .unwrap_or_else(|| {
+                let table_data_path =
+                    utils::get_table_data_path(&self.get_database_id(), &self.get_table_id())
+                        .unwrap();
+
+                let table_data_file = std::fs::OpenOptions::new()
+                    .read(true)
+                    .open(table_data_path)
+                    .unwrap();
+
+                let row_size =
+                    self.get_table_columns()
+                        .iter()
+                        .fold(0, |acc, column| acc + column.get_size()) as u64
+                        / 8;
+
+                let file_size = table_data_file.metadata().unwrap().len();
+
+                (0..file_size / row_size).collect()
+            })
+            .into_iter()
+            .map(|index| self.get_row(index))
+            .collect::<Result<Vec<Vec<u128>>, Box<dyn Error>>>()?;
+
+        Ok(result)
+    }
+
+    fn get_row(&mut self, index: u64) -> Result<Vec<u128>, Box<dyn Error>> {
         let table_columns = self.get_table_columns();
 
         let row_size = table_columns
