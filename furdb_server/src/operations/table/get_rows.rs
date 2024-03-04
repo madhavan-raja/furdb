@@ -17,7 +17,7 @@ pub(crate) async fn get_rows_handler(
 
     let data = table.get_rows(indices)?;
 
-    let response = models::get_row_response::GetRowResponse::new(&data)?;
+    let response = models::get_rows_response::GetRowsResponse::new(&data)?;
 
     Ok(web::Json(response))
 }

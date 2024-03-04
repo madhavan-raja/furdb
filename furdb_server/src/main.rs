@@ -17,6 +17,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .service(operations::table::get_table::get_table_handler)
             .service(operations::table::insert_row::insert_row_handler)
             .service(operations::table::get_rows::get_rows_handler)
+            .service(operations::table::delete_rows::delete_rows_handler)
     })
     .bind(("0.0.0.0", 8080))?
     .run()
