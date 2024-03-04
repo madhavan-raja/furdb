@@ -1,0 +1,478 @@
+{
+	"info": {
+		"_postman_id": "25250254-71c3-45b6-84fd-2dd56e971079",
+		"name": "FurDB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16885757"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Check Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create Database",
+			"item": [
+				{
+					"name": "Create Database with Default Name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:database_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Database with Custom Name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"database_name\": \"First Database\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:database_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Database Info",
+			"item": [
+				{
+					"name": "Get Database Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/:database_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create Table",
+			"item": [
+				{
+					"name": "Create Table with Default Name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"table_columns\": [\r\n        {\r\n            \"name\": \"First Column\",\r\n            \"size\": 13\r\n        },\r\n        {\r\n            \"name\": \"Second Column\",\r\n            \"size\": 3\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:database_id/:table_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id",
+								":table_id"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								},
+								{
+									"key": "table_id",
+									"value": "test_table"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Table with Custom Name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"table_name\": \"My First Table\",\r\n    \"table_columns\": [\r\n        {\r\n            \"name\": \"First Column\",\r\n            \"size\": 13\r\n        },\r\n        {\r\n            \"name\": \"Second Column\",\r\n            \"size\": 3\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:database_id/:table_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id",
+								":table_id"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								},
+								{
+									"key": "table_id",
+									"value": "test_table"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Table Info",
+			"item": [
+				{
+					"name": "Get Table Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/:database_id/:table_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id",
+								":table_id"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								},
+								{
+									"key": "table_id",
+									"value": "test_table"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Insert Rows",
+			"item": [
+				{
+					"name": "Insert Rows",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": [\r\n        [420, 0],\r\n        [420, 1],\r\n        [420, 2]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:database_id/:table_id/data",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id",
+								":table_id",
+								"data"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								},
+								{
+									"key": "table_id",
+									"value": "test_table"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Rows",
+			"item": [
+				{
+					"name": "Get All Rows",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:database_id/:table_id/data",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id",
+								":table_id",
+								"data"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								},
+								{
+									"key": "table_id",
+									"value": "test_table"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specified Rows",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"indices\": [0]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:database_id/:table_id/data",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id",
+								":table_id",
+								"data"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								},
+								{
+									"key": "table_id",
+									"value": "test_table"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete Rows",
+			"item": [
+				{
+					"name": "Delete All Rows",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:database_id/:table_id/data",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id",
+								":table_id",
+								"data"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								},
+								{
+									"key": "table_id",
+									"value": "test_table"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Specified Rows",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"indices\": [0]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/:database_id/:table_id/data",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								":database_id",
+								":table_id",
+								"data"
+							],
+							"variable": [
+								{
+									"key": "database_id",
+									"value": "test_database"
+								},
+								{
+									"key": "table_id",
+									"value": "test_table"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		}
+	]
+}
