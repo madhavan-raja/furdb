@@ -7,7 +7,7 @@ use crate::models;
 #[get("/{database_id}/{table_id}/data")]
 pub(crate) async fn get_rows_handler(
     path: web::Path<(String, String)>,
-    get_row_params: web::Json<models::get_rows_params::GetRowParams>,
+    get_row_params: web::Json<models::params::get_rows_params::GetRowParams>,
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
     let indices = get_row_params.get_indices();
@@ -17,7 +17,7 @@ pub(crate) async fn get_rows_handler(
 
     let data = table.get_rows(indices)?;
 
-    let response = models::get_rows_response::GetRowsResponse::new(&data)?;
+    let response = models::response::get_rows_response::GetRowsResponse::new(&data)?;
 
     Ok(web::Json(response))
 }

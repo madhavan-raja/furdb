@@ -7,7 +7,7 @@ use crate::models;
 #[post("/{database_id}/{table_id}/data")]
 pub(crate) async fn insert_rows_handler(
     path: web::Path<(String, String)>,
-    insert_rows_params: web::Json<models::insert_rows_params::InsertRowsParams>,
+    insert_rows_params: web::Json<models::params::insert_rows_params::InsertRowsParams>,
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
 
@@ -16,7 +16,7 @@ pub(crate) async fn insert_rows_handler(
 
     table.insert_rows(&insert_rows_params.get_data())?;
 
-    let res = models::blank_success_response::BlankSuccessResponse::new();
+    let res = models::response::blank_success_response::BlankSuccessResponse::new();
 
     Ok(web::Json(res))
 }

@@ -11,7 +11,7 @@ pub(crate) async fn get_database_info_handler(
     let database_id = path.into_inner();
     let database = core_models::database::Database::get_database(&database_id)?;
 
-    let response = models::get_database_response::GetDatabaseResponse::new(&database)?;
+    let response = models::response::get_database_response::GetDatabaseResponse::new(&database)?;
 
     Ok(web::Json(response))
 }

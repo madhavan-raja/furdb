@@ -13,7 +13,7 @@ pub(crate) async fn get_table_handler(
     let database = core_models::database::Database::get_database(&database_id)?;
     let table = database.get_table(&table_id)?;
 
-    let res = models::get_table_response::GetTableResponse::new(&table)?;
+    let res = models::response::get_table_response::GetTableResponse::new(&table)?;
 
     Ok(web::Json(res))
 }

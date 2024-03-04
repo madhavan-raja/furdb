@@ -7,7 +7,7 @@ use crate::models;
 #[post("/{database_id}/{table_id}")]
 pub(crate) async fn create_table_handler(
     path: web::Path<(String, String)>,
-    create_table_params: web::Json<models::create_table_params::CreateTableParams>,
+    create_table_params: web::Json<models::params::create_table_params::CreateTableParams>,
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
 
@@ -18,7 +18,7 @@ pub(crate) async fn create_table_handler(
 
     database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;
 
-    let res = models::blank_success_response::BlankSuccessResponse::new();
+    let res = models::response::blank_success_response::BlankSuccessResponse::new();
 
     Ok(web::Json(res))
 }

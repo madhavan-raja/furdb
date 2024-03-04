@@ -7,7 +7,7 @@ use crate::models;
 #[delete("/{database_id}/{table_id}/data")]
 pub(crate) async fn delete_rows_handler(
     path: web::Path<(String, String)>,
-    delete_rows_params: web::Json<models::delete_rows_params::DeleteRowsParams>,
+    delete_rows_params: web::Json<models::params::delete_rows_params::DeleteRowsParams>,
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
     let indices = delete_rows_params.get_indices();
@@ -17,7 +17,7 @@ pub(crate) async fn delete_rows_handler(
 
     table.delete_rows(indices)?;
 
-    let response = models::blank_success_response::BlankSuccessResponse::new();
+    let response = models::response::blank_success_response::BlankSuccessResponse::new();
 
     Ok(web::Json(response))
 }
