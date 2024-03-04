@@ -8,7 +8,7 @@ use std::io::SeekFrom;
 
 impl models::table::Table {
     pub fn get_rows(
-        &mut self,
+        &self,
         indices: Option<Vec<u64>>,
     ) -> Result<models::get_rows_result::GetRowsResult, Box<dyn Error>> {
         let result = models::get_rows_result::GetRowsResult::new(
@@ -42,7 +42,7 @@ impl models::table::Table {
         Ok(result)
     }
 
-    fn get_row(&mut self, index: u64) -> Result<Vec<u128>, Box<dyn Error>> {
+    pub(crate) fn get_row(&self, index: u64) -> Result<Vec<u128>, Box<dyn Error>> {
         let table_columns = self.get_table_columns();
 
         let row_size = table_columns

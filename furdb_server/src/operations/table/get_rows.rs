@@ -13,7 +13,7 @@ pub(crate) async fn get_rows_handler(
     let indices = get_row_params.get_indices();
 
     let database = core_models::database::Database::get_database(&database_id)?;
-    let mut table = database.get_table(&table_id)?;
+    let table = database.get_table(&table_id)?;
 
     let data = table.get_rows(indices)?;
 

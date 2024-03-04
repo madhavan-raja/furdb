@@ -4,7 +4,7 @@ use bitvec::prelude::*;
 use std::{error::Error, io::Write};
 
 impl models::table::Table {
-    pub fn insert_rows(&mut self, rows: &[Vec<u128>]) -> Result<(), Box<dyn Error>> {
+    pub fn insert_rows(&self, rows: &[Vec<u128>]) -> Result<(), Box<dyn Error>> {
         let mut data = BitVec::<u8, Msb0>::new();
 
         let table_columns = self.get_table_columns();

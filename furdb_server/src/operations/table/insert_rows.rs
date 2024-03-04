@@ -12,7 +12,7 @@ pub(crate) async fn insert_rows_handler(
     let (database_id, table_id) = path.into_inner();
 
     let database = core_models::database::Database::get_database(&database_id)?;
-    let mut table = database.get_table(&table_id)?;
+    let table = database.get_table(&table_id)?;
 
     table.insert_rows(&insert_rows_params.get_data())?;
 
