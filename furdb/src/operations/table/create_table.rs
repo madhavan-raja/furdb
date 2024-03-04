@@ -11,10 +11,11 @@ pub(crate) async fn create_table_handler(
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
 
-    let database = core_models::database::Database::get_database(&database_id)?;
+    let table_name = create_table_params.get_table_name();
+    let table_columns = create_table_params.get_table_columns();
 
-    let table_name = &create_table_params.get_table_name();
-    let table_columns = &create_table_params.get_table_columns();
+    let furdb = core_models::furdb::FurDB::new(core_models::config::Config::new(None)?)?;
+    let database = furdb.get_database(&database_id)?;
 
     database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;
 

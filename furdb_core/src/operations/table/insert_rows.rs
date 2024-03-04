@@ -5,9 +5,12 @@ use std::{error::Error, io::Write};
 
 impl models::table::Table {
     pub fn insert_rows(&self, rows: &[Vec<u128>]) -> Result<(), Box<dyn Error>> {
+        let config = self.get_config();
+        let table_info = self.get_table_info();
+
         let mut data = BitVec::<u8, Msb0>::new();
 
-        let table_columns = self.get_table_columns();
+        let table_columns = table_info.get_table_columns();
 
         for row in rows {
             assert_eq!(row.len(), table_columns.len());
@@ -35,8 +38,11 @@ impl models::table::Table {
             }
         }
 
-        let table_data_path =
-            utils::get_table_data_path(&self.get_database_id(), &self.get_table_id())?;
+        let table_data_path = utils::get_table_data_path(
+            &config.fur_directory,
+            &table_info.get_database_id(),
+            &table_info.get_table_id(),
+        )?;
 
         let mut table_data_file = std::fs::OpenOptions::new()
             .append(true)

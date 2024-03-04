@@ -12,11 +12,13 @@ pub(crate) struct GetTableResponse {
 
 impl GetTableResponse {
     pub(crate) fn new(table: &core_models::table::Table) -> Result<Self, Box<dyn Error>> {
+        let table_info = table.get_table_info();
+
         Ok(Self {
-            database_id: table.get_database_id(),
-            table_id: table.get_table_id(),
-            table_name: table.get_table_name(),
-            table_columns: table.get_table_columns(),
+            database_id: table_info.get_database_id(),
+            table_id: table_info.get_table_id(),
+            table_name: table_info.get_table_name(),
+            table_columns: table_info.get_table_columns(),
         })
     }
 }

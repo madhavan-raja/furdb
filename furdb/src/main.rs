@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         App::new()
             .service(operations::info::health::health)
             .service(operations::database::create_database::create_database_handler)
-            .service(operations::database::get_database_info::get_database_info_handler)
+            .service(operations::database::get_database::get_database_handler)
             .service(operations::table::create_table::create_table_handler)
             .service(operations::table::get_table::get_table_handler)
             .service(operations::table::insert_rows::insert_rows_handler)

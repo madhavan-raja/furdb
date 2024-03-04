@@ -12,7 +12,8 @@ pub(crate) async fn get_rows_handler(
     let (database_id, table_id) = path.into_inner();
     let indices = get_row_params.get_indices();
 
-    let database = core_models::database::Database::get_database(&database_id)?;
+    let furdb = core_models::furdb::FurDB::new(core_models::config::Config::new(None)?)?;
+    let database = furdb.get_database(&database_id)?;
     let table = database.get_table(&table_id)?;
 
     let data = table.get_rows(indices)?;

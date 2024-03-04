@@ -5,10 +5,14 @@ use crate::utils;
 
 impl crate::models::table::Table {
     pub fn delete_rows(&self, indices: Option<Vec<u64>>) -> Result<(), Box<dyn Error>> {
-        let database_id = self.get_database_id();
-        let table_id = self.get_table_id();
+        let config = self.get_config();
+        let table_info = self.get_table_info();
 
-        let data_file_path = utils::get_table_data_path(&database_id, &table_id)?;
+        let data_file_path = utils::get_table_data_path(
+            &config.fur_directory,
+            &table_info.get_database_id(),
+            &table_info.get_table_id(),
+        )?;
 
         match indices {
             Some(indices) => {
@@ -17,11 +21,12 @@ impl crate::models::table::Table {
                     .open(data_file_path)?;
 
                 let data_file_size = table_data_file.metadata().unwrap().len();
-                let table_row_size =
-                    self.get_table_columns()
-                        .iter()
-                        .fold(0, |acc, column| acc + column.get_size()) as u64
-                        / 8;
+                let table_row_size = table_info
+                    .get_table_columns()
+                    .iter()
+                    .fold(0, |acc, column| acc + column.get_size())
+                    as u64
+                    / 8;
 
                 let total_rows = data_file_size / table_row_size;
 

@@ -1,16 +1,41 @@
-use std::error::Error;
-
 use crate::models;
+use std::error::Error;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Table {
+    config: models::config::Config,
+    table_info: TableInfo,
+}
+
+impl Table {
+    pub fn new(
+        config: &models::config::Config,
+        table_info: &TableInfo,
+    ) -> Result<Self, Box<dyn Error>> {
+        Ok(Self {
+            config: config.clone(),
+            table_info: table_info.clone(),
+        })
+    }
+
+    pub fn get_config(&self) -> models::config::Config {
+        self.config.clone()
+    }
+
+    pub fn get_table_info(&self) -> TableInfo {
+        self.table_info.clone()
+    }
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct TableInfo {
     database_id: String,
     table_id: String,
     table_name: String,
     table_columns: Vec<models::column::Column>,
 }
 
-impl Table {
+impl TableInfo {
     pub fn new(
         database_id: &str,
         table_id: &str,

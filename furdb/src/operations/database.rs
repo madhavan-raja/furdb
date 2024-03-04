@@ -1,2 +1,2 @@
 pub(crate) mod create_database;
-pub(crate) mod get_database_info;
+pub(crate) mod get_database;

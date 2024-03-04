@@ -11,19 +11,24 @@ impl models::table::Table {
         &self,
         indices: Option<Vec<u64>>,
     ) -> Result<models::get_rows_result::GetRowsResult, Box<dyn Error>> {
+        let config = self.get_config();
+        let table_info = self.get_table_info();
+
+        let table_data_path = utils::get_table_data_path(
+            &config.fur_directory,
+            &table_info.get_database_id(),
+            &table_info.get_table_id(),
+        )?;
+
         let result = models::get_rows_result::GetRowsResult::new(
             &indices
                 .unwrap_or_else(|| {
-                    let table_data_path =
-                        utils::get_table_data_path(&self.get_database_id(), &self.get_table_id())
-                            .unwrap();
-
                     let table_data_file = std::fs::OpenOptions::new()
                         .read(true)
                         .open(table_data_path)
                         .unwrap();
 
-                    let row_size = self
+                    let row_size = table_info
                         .get_table_columns()
                         .iter()
                         .fold(0, |acc, column| acc + column.get_size())
@@ -43,15 +48,21 @@ impl models::table::Table {
     }
 
     pub(crate) fn get_row(&self, index: u64) -> Result<Vec<u128>, Box<dyn Error>> {
-        let table_columns = self.get_table_columns();
+        let config = self.get_config();
+        let table_info = self.get_table_info();
+
+        let table_columns = table_info.get_table_columns();
 
         let row_size = table_columns
             .iter()
             .fold(0, |acc, column| acc + column.get_size()) as u64
             / 8;
 
-        let table_data_path =
-            utils::get_table_data_path(&self.get_database_id(), &self.get_table_id())?;
+        let table_data_path = utils::get_table_data_path(
+            &config.fur_directory,
+            &table_info.get_database_id(),
+            &table_info.get_table_id(),
+        )?;
 
         let mut table_data_file = std::fs::OpenOptions::new()
             .read(true)
