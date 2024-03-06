@@ -8,6 +8,8 @@ mod operations;
 async fn main() -> Result<(), Box<dyn Error>> {
     dotenv::dotenv().ok();
 
+    let port = std::env::var("FURDB_PORT")?.parse::<u16>()?;
+
     HttpServer::new(|| {
         App::new()
             .service(operations::info::health::health)
@@ -19,7 +21,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .service(operations::table::get_rows::get_rows_handler)
             .service(operations::table::delete_rows::delete_rows_handler)
     })
-    .bind(("0.0.0.0", 8080))?
+    .bind(("0.0.0.0", port))?
     .run()
     .await?;
 
