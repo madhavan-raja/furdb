@@ -27,19 +27,7 @@ cargo install furdb
 furdb
 ```
 
-#### Docker
-
-No docker image has been published for **FurDB** yet, but the program can be run inside a container.
-
-You can clone this repository, build and run the container.
-
-```sh
-git clone https://github.com/furdb/furdb.git
-cd ./furdb
-docker-compose up --build
-```
-
-#### Compiling the Source
+#### Compiling from Source
 
 You can clone this repository, build and run the program.
 
@@ -49,8 +37,39 @@ cd ./furdb
 cargo run --release
 ```
 
+#### Docker
+
+You can pull an image and run it in a container.
+
+```sh
+docker run --name some-furdb -d madhavanraja/furdb:latest
+```
+
+You can clone this repository, build and run the container.
+
+```sh
+git clone https://github.com/furdb/furdb.git
+cd ./furdb
+docker-compose up --build
+```
+
+You can use the image as a service.
+
+```yaml
+version: "3"
+services:
+  db:
+    image: madhavanraja/furdb:latest
+    environment:
+      FUR_DIRECTORY: /furdb
+      FURDB_SERVER: 8080
+    restart: on-failure
+```
+
+The server can be accessed at `http://db:{PORT}`.
+
 ## Usage
 
 The documentation of this project will be moved to [crates.io](https://crates.io/crates/furdb) at some point in the future.
 
-Right now, you can import the [`postman_collection`](furdb.postman_collection.json) into Postman.
+Right now, you can import the [`postman_collection`](furdb.postman_collection.json) into Postman and analyze the endpoints.
