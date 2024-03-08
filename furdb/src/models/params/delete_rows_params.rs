@@ -5,6 +5,6 @@ pub(crate) struct DeleteRowsParams {
 
 impl DeleteRowsParams {
     pub(crate) fn get_indices(&self) -> Option<Vec<u64>> {
-        self.indices.clone()
+        self.indices.to_owned()
     }
 }

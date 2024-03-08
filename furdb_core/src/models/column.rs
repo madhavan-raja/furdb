@@ -15,7 +15,7 @@ impl Column {
     }
 
     pub fn get_name(&self) -> String {
-        self.name.clone()
+        self.name.to_owned()
     }
 
     pub fn get_size(&self) -> u128 {

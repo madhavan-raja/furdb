@@ -18,6 +18,6 @@ impl FurDB {
     }
 
     pub fn get_config(&self) -> models::config::Config {
-        self.config.clone()
+        self.config.to_owned()
     }
 }

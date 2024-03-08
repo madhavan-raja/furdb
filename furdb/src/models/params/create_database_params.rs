@@ -5,6 +5,6 @@ pub(crate) struct CreateDatabaseParams {
 
 impl CreateDatabaseParams {
     pub(crate) fn get_database_name(&self) -> Option<String> {
-        self.database_name.clone()
+        self.database_name.to_owned()
     }
 }

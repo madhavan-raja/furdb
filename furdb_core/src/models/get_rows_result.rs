@@ -27,7 +27,7 @@ impl GetRowsResult {
     }
 
     pub fn get_results(&self) -> Vec<Row> {
-        self.results.clone()
+        self.results.to_owned()
     }
 }
 
@@ -41,6 +41,6 @@ impl Row {
     }
 
     pub fn get_data(&self) -> Vec<u128> {
-        self.data.clone()
+        self.data.to_owned()
     }
 }

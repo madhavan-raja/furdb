@@ -13,17 +13,17 @@ impl Database {
         database_info: &DatabaseInfo,
     ) -> Result<Self, Box<dyn Error>> {
         Ok(Self {
-            config: config.clone(),
-            database_info: database_info.clone(),
+            config: config.to_owned(),
+            database_info: database_info.to_owned(),
         })
     }
 
     pub fn get_config(&self) -> models::config::Config {
-        self.config.clone()
+        self.config.to_owned()
     }
 
     pub fn get_database_info(&self) -> DatabaseInfo {
-        self.database_info.clone()
+        self.database_info.to_owned()
     }
 }
 
@@ -36,16 +36,16 @@ pub struct DatabaseInfo {
 impl DatabaseInfo {
     pub fn new(database_id: &str, database_name: Option<&str>) -> Result<Self, Box<dyn Error>> {
         Ok(Self {
-            database_id: String::from(database_id),
-            database_name: String::from(database_name.unwrap_or(database_id)),
+            database_id: database_id.to_string(),
+            database_name: database_name.unwrap_or(database_id).to_string(),
         })
     }
 
     pub fn get_database_id(&self) -> String {
-        self.database_id.clone()
+        self.database_id.to_owned()
     }
 
     pub fn get_database_name(&self) -> String {
-        self.database_name.clone()
+        self.database_name.to_owned()
     }
 }

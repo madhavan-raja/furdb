@@ -8,7 +8,7 @@ pub(crate) struct CreateTableParams {
 
 impl CreateTableParams {
     pub(crate) fn get_table_name(&self) -> Option<String> {
-        self.table_name.clone()
+        self.table_name.to_owned()
     }
 
     pub(crate) fn get_table_columns(&self) -> Vec<core_models::column::Column> {
