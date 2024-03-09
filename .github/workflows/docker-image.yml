@@ -21,9 +21,9 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - name: Build the Docker Image
       run:
-        docker build . --file Dockerfile --tag $DOCKER_USERNAME/furdb:$(date +%s)
-        docker build . --file Dockerfile --tag $DOCKER_USERNAME/furdb:latest
+        - docker build . --file Dockerfile --tag $DOCKER_USERNAME/furdb:$(date +%s)
+        - docker build . --file Dockerfile --tag $DOCKER_USERNAME/furdb:latest
     - name: Docker Push
       run:
-        docker push $DOCKER_USERNAME/furdb:$(date +%s)
-        docker push $DOCKER_USERNAME/furdb:latest
+        - docker push $DOCKER_USERNAME/furdb:$(date +%s)
+        - docker push $DOCKER_USERNAME/furdb:latest
