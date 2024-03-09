@@ -1,17 +1,12 @@
 name: Docker Image CI
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Docker Login
@@ -20,10 +15,6 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - name: Build the Docker Image
-      run: |
-        docker build . --file Dockerfile --tag $DOCKER_USERNAME/furdb:$(date +%s)
-        docker build . --file Dockerfile --tag $DOCKER_USERNAME/furdb:latest
+      run: docker build . --file Dockerfile --tag madhavanraja/furdb:latest
     - name: Docker Push
-      run: |
-        docker push $DOCKER_USERNAME/furdb:$(date +%s)
-        docker push $DOCKER_USERNAME/furdb:latest
+      run: docker push madhavanraja/furdb:latest
