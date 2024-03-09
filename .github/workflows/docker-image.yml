@@ -19,7 +19,11 @@ jobs:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_USER}}
       run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag $DOCKER_USER/furdb:latest
+    - name: Build the Docker Image
+      run:
+        docker build . --file Dockerfile --tag $DOCKER_USER/furdb:$(date +%s)
+        docker build . --file Dockerfile --tag $DOCKER_USER/furdb:latest
     - name: Docker Push
-      run: docker push $DOCKER_USER/furdb:latest
+      run:
+        docker push $DOCKER_USER/furdb:$(date +%s)
+        docker push $DOCKER_USER/furdb:latest
