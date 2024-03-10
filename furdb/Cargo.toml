@@ -4,7 +4,7 @@ version = "0.1.1"
 edition = "2021"
 authors = ["Madhavan Raja"]
 license-file = "LICENSE"
-readme = "README.org"
+readme = "README.md"
 repository = "https://github.com/furdb/furdb"
 homepage = "https://github.com/furdb"
 description = """
@@ -13,7 +13,7 @@ A space-efficient relational database management system.
 
 [dependencies]
 openssl = { version = "0.10", features = ["vendored"] }
-furdb_core = { path = "../furdb_core" }
+furdb_core = { version = "0.1.1" }
 actix-web = "4"
 serde = { version = "1.0.133", features = ["derive"] }
 serde_json = "1.0"
