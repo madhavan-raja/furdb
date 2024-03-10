@@ -4,7 +4,7 @@ version = "0.1.1"
 edition = "2021"
 authors = ["Madhavan Raja"]
 license-file = "../LICENSE"
-readme = "../README.md"
+readme = "README.md"
 repository = "https://github.com/madhavan-raja/furdb"
 description = """
 A space-efficient relational database management system.
