@@ -22,8 +22,8 @@ RUN cargo build --release --target x86_64-unknown-linux-musl
 
 FROM scratch
 
-COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/furdb /app/furdb
+COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/furdb /bin/furdb
 
-ENTRYPOINT ["/app/furdb"]
+ENTRYPOINT ["/bin/furdb"]
 
 EXPOSE 8080
