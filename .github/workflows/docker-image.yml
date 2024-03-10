@@ -1,20 +1,24 @@
 name: Docker Image CI
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
+    paths:
+      - furdb_core/**
+      - furdb/**
+      - Dockerfile
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Docker Login
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - name: Build the Docker Image
-      run: docker build . --file Dockerfile --tag madhavanraja/furdb:latest
-    - name: Docker Push
-      run: docker push madhavanraja/furdb:latest
+      - uses: actions/checkout@v3
+      - name: Docker Login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: Build the Docker Image
+        run: docker build . --file Dockerfile --tag madhavanraja/furdb:latest
+      - name: Docker Push
+        run: docker push madhavanraja/furdb:latest
