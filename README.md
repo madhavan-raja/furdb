@@ -17,7 +17,7 @@ A small and space-efficient Database Management System that allows you to alloca
 
 ## Installing
 
-#### Cargo
+### Cargo
 
 **FurDB** can be directly used with `cargo`.
 
@@ -26,7 +26,7 @@ cargo install furdb
 furdb
 ```
 
-#### Compiling from Source
+### Compiling from Source
 
 You can clone this repository, build and run the program.
 
@@ -36,7 +36,7 @@ cd ./furdb
 cargo run --release
 ```
 
-#### Docker
+### Docker
 
 You can pull an image and run it in a container.
 
