@@ -1,10 +1,9 @@
 <div align="center">
   <h1>FurDB</h1>
-
-  <img src="https://img.shields.io/badge/api-main-green.svg" />
-  <img src="https://img.shields.io/badge/rustc-1.58+-orange.svg" />
-
-  <br>
+  
+  [![Docker Image CI](https://github.com/madhavan-raja/furdb/actions/workflows/docker-image.yml/badge.svg)]()
+  [![Minimum rustc 1.70](https://img.shields.io/badge/rustc-1.70+-blue.svg)](https://rust-lang.github.io/rfcs/2495-min-rust-version.html)
+  [![oq3_semantics crate](https://img.shields.io/crates/v/furdb.svg)](https://crates.io/crates/furdb)
 </div>
 
 A small and space-efficient Database Management System that allows you to allocate the size of individual data types in bits (not bytes).
