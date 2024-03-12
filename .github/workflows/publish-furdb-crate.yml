@@ -1,13 +1,6 @@
 name: Publish `furdb` to crates.io CI
 on:
-  push:
-    branches: ["main"]
-    paths:
-      - furdb/**
-  pull_request:
-    branches: ["main"]
-    paths:
-      - furdb/**
+  workflow_dispatch:
 jobs:
   publish:
     runs-on: ubuntu-latest
