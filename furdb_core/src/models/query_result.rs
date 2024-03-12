@@ -1,5 +1,5 @@
 #[derive(serde::Serialize, serde::Deserialize)]
-pub struct GetRowsResult {
+pub struct QueryResult {
     result_count: usize,
     results: Vec<Row>,
 }
@@ -10,7 +10,7 @@ pub struct Row {
     data: Vec<u128>,
 }
 
-impl GetRowsResult {
+impl QueryResult {
     pub(crate) fn new(data: &[Vec<u128>]) -> Result<Self, Box<dyn std::error::Error>> {
         Ok(Self {
             result_count: data.len(),

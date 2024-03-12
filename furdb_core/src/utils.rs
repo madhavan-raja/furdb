@@ -52,3 +52,12 @@ pub(crate) fn get_table_data_path(
     let table_path = get_table_path(&fur_directory, &database_id, table_id)?.join("data");
     Ok(table_path)
 }
+
+pub(crate) fn get_sortfile_path(
+    fur_directory: &PathBuf,
+    database_id: &str,
+    table_id: &str,
+) -> Result<PathBuf, Box<dyn Error>> {
+    let sortfile_path = get_table_path(&fur_directory, &database_id, table_id)?.join("sortfile");
+    Ok(sortfile_path)
+}

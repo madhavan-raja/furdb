@@ -14,7 +14,7 @@ pub struct Row {
 
 impl GetRowsResponse {
     pub(crate) fn new(
-        rows_result: &core_models::get_rows_result::GetRowsResult,
+        rows_result: &core_models::query_result::QueryResult,
     ) -> Result<Self, Box<dyn std::error::Error>> {
         Ok(Self {
             result_count: rows_result.get_result_count(),
@@ -28,7 +28,7 @@ impl GetRowsResponse {
 }
 
 impl Row {
-    pub(crate) fn new(row: &core_models::get_rows_result::Row) -> Self {
+    pub(crate) fn new(row: &core_models::query_result::Row) -> Self {
         Self {
             index: row.get_index(),
             data: row.get_data(),

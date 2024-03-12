@@ -36,10 +36,16 @@ impl models::database::Database {
             &database_info.get_database_id(),
             &table_id,
         )?;
+        let table_sortfile_path = utils::get_sortfile_path(
+            &config.fur_directory,
+            &database_info.get_database_id(),
+            &table_id,
+        )?;
 
         std::fs::create_dir(&table_path)?;
         std::fs::write(&table_config_path, serde_json::to_string(&table_info)?)?;
         std::fs::write(table_data_path, "")?;
+        std::fs::write(table_sortfile_path, "")?;
 
         Ok(table)
     }

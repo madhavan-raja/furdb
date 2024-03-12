@@ -50,6 +50,8 @@ impl models::table::Table {
 
         table_data_file.write(&Vec::<u8>::from(data))?;
 
+        self.generate_sortfile()?;
+
         Ok(())
     }
 }

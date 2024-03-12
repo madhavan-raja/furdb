@@ -10,7 +10,7 @@ impl models::table::Table {
     pub fn get_rows(
         &self,
         indices: Option<Vec<u64>>,
-    ) -> Result<models::get_rows_result::GetRowsResult, Box<dyn Error>> {
+    ) -> Result<models::query_result::QueryResult, Box<dyn Error>> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -20,7 +20,7 @@ impl models::table::Table {
             &table_info.get_table_id(),
         )?;
 
-        let result = models::get_rows_result::GetRowsResult::new(
+        let result = models::query_result::QueryResult::new(
             &indices
                 .unwrap_or_else(|| {
                     let table_data_file = std::fs::OpenOptions::new()

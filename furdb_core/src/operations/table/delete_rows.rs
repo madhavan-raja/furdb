@@ -48,6 +48,8 @@ impl crate::models::table::Table {
             }
         }
 
+        self.generate_sortfile()?;
+
         Ok(())
     }
 }
