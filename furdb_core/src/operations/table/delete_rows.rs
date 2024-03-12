@@ -14,37 +14,33 @@ impl crate::models::table::Table {
             &table_info.get_table_id(),
         )?;
 
+        let table_data_file = std::fs::OpenOptions::new()
+            .read(true)
+            .open(&data_file_path)?;
+
+        let data_file_size = table_data_file.metadata()?.len();
+        let table_row_size = table_info
+            .get_table_columns()
+            .iter()
+            .fold(0, |acc, column| acc + column.get_size()) as u64
+            / 8;
+
+        let total_rows = data_file_size / table_row_size;
+
         match indices {
             Some(indices) => {
-                let table_data_file = std::fs::OpenOptions::new()
-                    .read(true)
-                    .open(data_file_path)?;
-
-                let data_file_size = table_data_file.metadata().unwrap().len();
-                let table_row_size = table_info
-                    .get_table_columns()
-                    .iter()
-                    .fold(0, |acc, column| acc + column.get_size())
-                    as u64
-                    / 8;
-
-                let total_rows = data_file_size / table_row_size;
-
                 let indices = HashSet::<u64>::from_iter(indices);
 
-                let mut remaining_rows = Vec::<Vec<u128>>::new();
-
-                for index in 0..total_rows {
-                    if !indices.contains(&index) {
-                        remaining_rows.push(self.get_row(index)?);
-                    }
-                }
+                let remaining_rows = (0..total_rows)
+                    .filter(|index| !indices.contains(index))
+                    .map(|index| self.get_row(index))
+                    .collect::<Result<Vec<Vec<u128>>, Box<dyn Error>>>()?;
 
                 self.delete_rows(None)?;
                 self.insert_rows(&remaining_rows)?;
             }
             None => {
-                std::fs::write(data_file_path, "")?;
+                std::fs::write(&data_file_path, "")?;
             }
         }
 
