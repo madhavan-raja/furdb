@@ -20,7 +20,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .service(operations::table::get_table::get_table_handler)
             .service(operations::table::delete_table::delete_table_handler)
             .service(operations::table_row::insert_rows::insert_rows_handler)
-            .service(operations::table_row::get_rows::get_rows_handler)
             .service(operations::table_row::query::query_handler)
             .service(operations::table_row::delete_rows::delete_rows_handler)
     })
