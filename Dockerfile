@@ -1,6 +1,5 @@
 FROM messense/rust-musl-cross:x86_64-musl as chef
 
-ENV SQLX_OFFLINE=true
 RUN cargo install cargo-chef
 WORKDIR /app
 
