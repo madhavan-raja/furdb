@@ -33,8 +33,8 @@ impl crate::models::table::Table {
 
                 let remaining_rows = (0..total_rows)
                     .filter(|index| !indices.contains(index))
-                    .map(|index| self.get_row(index))
-                    .collect::<Result<Vec<Vec<u128>>, Box<dyn Error>>>()?;
+                    .map(|index| self.get_row(index).unwrap().get_data())
+                    .collect::<Vec<Vec<u128>>>();
 
                 self.delete_rows(None)?;
                 self.insert_rows(&remaining_rows)?;

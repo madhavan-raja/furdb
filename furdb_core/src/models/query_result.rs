@@ -11,14 +11,10 @@ pub struct Row {
 }
 
 impl QueryResult {
-    pub(crate) fn new(data: &[Vec<u128>]) -> Result<Self, Box<dyn std::error::Error>> {
+    pub(crate) fn new(data: &[Row]) -> Result<Self, Box<dyn std::error::Error>> {
         Ok(Self {
             result_count: data.len(),
-            results: data
-                .iter()
-                .enumerate()
-                .map(|(index, row)| Row::new(index, row.to_vec()))
-                .collect(),
+            results: data.to_vec(),
         })
     }
 

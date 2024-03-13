@@ -68,7 +68,7 @@ impl models::table::Table {
                 .into_iter()
                 .fold(0, |acc, bit| (acc << 1) + (bit as u64));
 
-            let current_value = self.get_row(index)?[column_index as usize];
+            let current_value = self.get_row(index)?.get_data()[column_index as usize];
 
             if current_value >= value {
                 right = mid - 1;
@@ -95,7 +95,7 @@ impl models::table::Table {
                 .into_iter()
                 .fold(0, |acc, bit| (acc << 1) + (bit as u64));
 
-            let current_value = self.get_row(index)?[column_index as usize];
+            let current_value = self.get_row(index)?.get_data()[column_index as usize];
 
             if current_value <= value {
                 left = mid + 1;
@@ -138,34 +138,31 @@ impl models::table::Table {
             &table_info.get_table_id(),
         )?;
 
+        let table_data_file = std::fs::OpenOptions::new()
+            .read(true)
+            .open(table_data_path)
+            .unwrap();
+
+        let row_size = table_info
+            .get_table_columns()
+            .iter()
+            .fold(0, |acc, column| acc + column.get_size()) as u64
+            / 8;
+
+        let file_size = table_data_file.metadata().unwrap().len();
+
         let result = models::query_result::QueryResult::new(
             &indices
-                .unwrap_or_else(|| {
-                    let table_data_file = std::fs::OpenOptions::new()
-                        .read(true)
-                        .open(table_data_path)
-                        .unwrap();
-
-                    let row_size = table_info
-                        .get_table_columns()
-                        .iter()
-                        .fold(0, |acc, column| acc + column.get_size())
-                        as u64
-                        / 8;
-
-                    let file_size = table_data_file.metadata().unwrap().len();
-
-                    (0..file_size / row_size).collect()
-                })
+                .unwrap_or((0..file_size / row_size).collect())
                 .into_iter()
-                .map(|index| self.get_row(index))
-                .collect::<Result<Vec<Vec<u128>>, Box<dyn Error>>>()?,
+                .map(|index| self.get_row(index).unwrap())
+                .collect::<Vec<models::query_result::Row>>(),
         )?;
 
         Ok(result)
     }
 
-    pub(crate) fn get_row(&self, index: u64) -> Result<Vec<u128>, Box<dyn Error>> {
+    pub(crate) fn get_row(&self, index: u64) -> Result<models::query_result::Row, Box<dyn Error>> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -212,6 +209,6 @@ impl models::table::Table {
             })
             .0;
 
-        Ok(result)
+        Ok(models::query_result::Row::new(index as usize, result))
     }
 }
