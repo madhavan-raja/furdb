@@ -1,7 +1,6 @@
 use crate::models;
 use crate::utils;
 use bitvec::prelude::*;
-use std::cmp::{max, min};
 use std::error::Error;
 use std::io::Read;
 use std::io::Seek;
@@ -53,10 +52,7 @@ impl models::table::Table {
             .read(true)
             .open(table_sortfile_path)?;
 
-        let mut start = (row_count - 1) as i128;
-        let mut end = 0i128;
-
-        // Start
+        // Lower Bound
 
         let mut left = (column_index * row_count) as i128;
         let mut right = ((column_index + 1) * (row_count - 1)) as i128;
@@ -64,9 +60,9 @@ impl models::table::Table {
         while left <= right {
             let mid = left + (right - left) / 2;
 
-            let mut index_bin = vec![0u8; identifier_size as usize];
-            table_sortfile.read_exact_at(&mut index_bin, mid as u64 * identifier_size)?;
-            let index_bin = BitVec::<u8, Msb0>::from_slice(&index_bin);
+            let mut index_buf = vec![0u8; identifier_size as usize];
+            table_sortfile.read_exact_at(&mut index_buf, mid as u64 * identifier_size)?;
+            let index_bin = BitVec::<u8, Msb0>::from_slice(&index_buf);
 
             let index = index_bin
                 .into_iter()
@@ -75,16 +71,15 @@ impl models::table::Table {
             let current_value = self.get_row(index)?[column_index as usize];
 
             if current_value >= value {
-                if current_value == value {
-                    start = min(start, mid);
-                }
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
         }
 
-        // End
+        let start = left;
+
+        // Upper Bound
 
         let mut left = (column_index * row_count) as i128;
         let mut right = ((column_index + 1) * (row_count - 1)) as i128;
@@ -92,9 +87,9 @@ impl models::table::Table {
         while left <= right {
             let mid = left + (right - left) / 2;
 
-            let mut index_bin = vec![0u8; identifier_size as usize];
-            table_sortfile.read_exact_at(&mut index_bin, mid as u64 * identifier_size)?;
-            let index_bin = BitVec::<u8, Msb0>::from_slice(&index_bin);
+            let mut index_buf = vec![0u8; identifier_size as usize];
+            table_sortfile.read_exact_at(&mut index_buf, mid as u64 * identifier_size)?;
+            let index_bin = BitVec::<u8, Msb0>::from_slice(&index_buf);
 
             let index = index_bin
                 .into_iter()
@@ -103,16 +98,15 @@ impl models::table::Table {
             let current_value = self.get_row(index)?[column_index as usize];
 
             if current_value <= value {
-                if current_value == value {
-                    end = max(end, mid);
-                }
                 left = mid + 1;
             } else {
                 right = mid - 1;
             }
         }
 
-        let indices = (start..(end + 1))
+        let end = left;
+
+        let indices = (start..end)
             .map(|offset| {
                 let mut index_bin = vec![0u8; identifier_size as usize];
                 table_sortfile
