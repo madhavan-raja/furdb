@@ -7,7 +7,7 @@ use crate::models;
 #[get("/{database_id}/{table_id}/query")]
 pub(crate) async fn query_handler(
     path: web::Path<(String, String)>,
-    query_params: web::Json<models::params::query_params::GetRowParams>,
+    query_params: web::Json<models::params::query_params::QueryParams>,
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
     let index = query_params.get_column_index();
