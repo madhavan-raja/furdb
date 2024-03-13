@@ -5,11 +5,9 @@ on:
     branches:
       - main
     paths:
-      - 'furdb_core/*'
-      - 'furdb/*'
+      - 'furdb_core/**'
+      - 'furdb/**'
       - Dockerfile
-  pull_request:
-    branches: ["main"]
 jobs:
   build:
     runs-on: ubuntu-latest
