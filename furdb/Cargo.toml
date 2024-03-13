@@ -13,7 +13,7 @@ A space-efficient relational database management system.
 [dependencies]
 openssl = { version = "0.10", features = ["vendored"] }
 # furdb_core = "0.1.1"
-furdb_core = { path = "../furdb_core" }
+furdb_core = { path = "../furdb_core" }                # Use for development
 actix-web = "4"
 serde = { version = "1.0.133", features = ["derive"] }
 serde_json = "1.0"
