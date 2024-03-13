@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'furdb_core/**'
-      - 'furdb/**'
-      - Dockerfile
 jobs:
   build:
     runs-on: ubuntu-latest
