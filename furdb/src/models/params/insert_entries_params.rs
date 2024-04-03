@@ -1,9 +1,9 @@
 #[derive(serde::Serialize, serde::Deserialize)]
-pub(crate) struct InsertRowsParams {
+pub(crate) struct InsertEntriesParams {
     data: Vec<Vec<u128>>,
 }
 
-impl InsertRowsParams {
+impl InsertEntriesParams {
     pub(crate) fn get_data(&self) -> Vec<Vec<u128>> {
         self.data.to_vec()
     }

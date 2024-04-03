@@ -4,7 +4,7 @@ use bitvec::prelude::*;
 use std::{error::Error, io::Write};
 
 impl models::table::Table {
-    pub fn insert_rows(&self, rows: &[Vec<u128>]) -> Result<(), Box<dyn Error>> {
+    pub fn insert_entries(&self, entries: &[Vec<u128>]) -> Result<(), Box<dyn Error>> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -12,29 +12,29 @@ impl models::table::Table {
 
         let table_columns = table_info.get_table_columns();
 
-        for row in rows {
-            assert_eq!(row.len(), table_columns.len());
+        for entry in entries {
+            assert_eq!(entry.len(), table_columns.len());
 
             for index in 0..table_columns.len() {
                 let element_size = table_columns[index].get_size() as usize;
-                let mut element = row[index];
+                let mut element = entry[index];
 
-                let mut current_row_bin = BitVec::<u8, Msb0>::new();
+                let mut current_entry_bin = BitVec::<u8, Msb0>::new();
 
                 assert!(element < 2u128.pow(element_size as u32));
 
                 while element > 0 {
-                    current_row_bin.push(element % 2 == 1);
+                    current_entry_bin.push(element % 2 == 1);
                     element /= 2;
                 }
 
-                while current_row_bin.len() < element_size {
-                    current_row_bin.push(false);
+                while current_entry_bin.len() < element_size {
+                    current_entry_bin.push(false);
                 }
 
-                current_row_bin.reverse();
+                current_entry_bin.reverse();
 
-                data.append(&mut current_row_bin);
+                data.append(&mut current_entry_bin);
             }
         }
 

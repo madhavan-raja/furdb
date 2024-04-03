@@ -5,9 +5,9 @@ use std::error::Error;
 use crate::models;
 
 #[post("/{database_id}/{table_id}/data")]
-pub(crate) async fn insert_rows_handler(
+pub(crate) async fn insert_entries_handler(
     path: web::Path<(String, String)>,
-    insert_rows_params: web::Json<models::params::insert_rows_params::InsertRowsParams>,
+    insert_entries_params: web::Json<models::params::insert_entries_params::InsertEntriesParams>,
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
 
@@ -15,7 +15,7 @@ pub(crate) async fn insert_rows_handler(
     let database = furdb.get_database(&database_id)?;
     let table = database.get_table(&table_id)?;
 
-    table.insert_rows(&insert_rows_params.get_data())?;
+    table.insert_entries(&insert_entries_params.get_data())?;
 
     let res = models::response::blank_success_response::BlankSuccessResponse::new();
 

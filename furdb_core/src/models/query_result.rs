@@ -1,17 +1,17 @@
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct QueryResult {
     result_count: usize,
-    results: Vec<Row>,
+    results: Vec<Entry>,
 }
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
-pub struct Row {
+pub struct Entry {
     index: usize,
     data: Vec<u128>,
 }
 
 impl QueryResult {
-    pub(crate) fn new(data: &[Row]) -> Result<Self, Box<dyn std::error::Error>> {
+    pub(crate) fn new(data: &[Entry]) -> Result<Self, Box<dyn std::error::Error>> {
         Ok(Self {
             result_count: data.len(),
             results: data.to_vec(),
@@ -22,12 +22,12 @@ impl QueryResult {
         self.result_count
     }
 
-    pub fn get_results(&self) -> Vec<Row> {
+    pub fn get_results(&self) -> Vec<Entry> {
         self.results.to_owned()
     }
 }
 
-impl Row {
+impl Entry {
     pub(crate) fn new(index: usize, data: Vec<u128>) -> Self {
         Self { index, data }
     }

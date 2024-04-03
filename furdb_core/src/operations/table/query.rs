@@ -17,7 +17,7 @@ impl models::table::Table {
         let table_info = self.get_table_info();
 
         let table_columns = table_info.get_table_columns();
-        let row_size = table_columns
+        let entry_size = table_columns
             .iter()
             .fold(0, |acc, column| acc + column.get_size()) as u64
             / 8;
@@ -34,10 +34,10 @@ impl models::table::Table {
 
         let table_data_file_size = table_data_file.metadata()?.len();
 
-        let row_count = table_data_file_size / row_size;
+        let entry_count = table_data_file_size / entry_size;
 
-        let identifier_size = if row_count > 0 {
-            1 + ((row_count - 1) / 256)
+        let identifier_size = if entry_count > 0 {
+            1 + ((entry_count - 1) / 256)
         } else {
             0
         };
@@ -54,8 +54,8 @@ impl models::table::Table {
 
         // Lower Bound
 
-        let mut left = (column_index * row_count) as i128;
-        let mut right = ((column_index + 1) * (row_count - 1)) as i128;
+        let mut left = (column_index * entry_count) as i128;
+        let mut right = ((column_index + 1) * (entry_count - 1)) as i128;
 
         while left <= right {
             let mid = left + (right - left) / 2;
@@ -68,7 +68,7 @@ impl models::table::Table {
                 .into_iter()
                 .fold(0, |acc, bit| (acc << 1) + (bit as u64));
 
-            let current_value = self.get_row(index)?.get_data()[column_index as usize];
+            let current_value = self.get_entry(index)?.get_data()[column_index as usize];
 
             if current_value >= value {
                 right = mid - 1;
@@ -81,8 +81,8 @@ impl models::table::Table {
 
         // Upper Bound
 
-        let mut left = (column_index * row_count) as i128;
-        let mut right = ((column_index + 1) * (row_count - 1)) as i128;
+        let mut left = (column_index * entry_count) as i128;
+        let mut right = ((column_index + 1) * (entry_count - 1)) as i128;
 
         while left <= right {
             let mid = left + (right - left) / 2;
@@ -95,7 +95,7 @@ impl models::table::Table {
                 .into_iter()
                 .fold(0, |acc, bit| (acc << 1) + (bit as u64));
 
-            let current_value = self.get_row(index)?.get_data()[column_index as usize];
+            let current_value = self.get_entry(index)?.get_data()[column_index as usize];
 
             if current_value <= value {
                 left = mid + 1;
@@ -122,10 +122,10 @@ impl models::table::Table {
             })
             .collect();
 
-        self.get_rows(Some(indices))
+        self.get_entries(Some(indices))
     }
 
-    pub fn get_rows(
+    pub fn get_entries(
         &self,
         indices: Option<Vec<u64>>,
     ) -> Result<models::query_result::QueryResult, Box<dyn Error>> {
@@ -143,7 +143,7 @@ impl models::table::Table {
             .open(table_data_path)
             .unwrap();
 
-        let row_size = table_info
+        let entry_size = table_info
             .get_table_columns()
             .iter()
             .fold(0, |acc, column| acc + column.get_size()) as u64
@@ -153,22 +153,22 @@ impl models::table::Table {
 
         let result = models::query_result::QueryResult::new(
             &indices
-                .unwrap_or((0..file_size / row_size).collect())
+                .unwrap_or((0..file_size / entry_size).collect())
                 .into_iter()
-                .map(|index| self.get_row(index).unwrap())
-                .collect::<Vec<models::query_result::Row>>(),
+                .map(|index| self.get_entry(index).unwrap())
+                .collect::<Vec<models::query_result::Entry>>(),
         )?;
 
         Ok(result)
     }
 
-    pub(crate) fn get_row(&self, index: u64) -> Result<models::query_result::Row, Box<dyn Error>> {
+    pub(crate) fn get_entry(&self, index: u64) -> Result<models::query_result::Entry, Box<dyn Error>> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
         let table_columns = table_info.get_table_columns();
 
-        let row_size = table_columns
+        let entry_size = table_columns
             .iter()
             .fold(0, |acc, column| acc + column.get_size()) as u64
             / 8;
@@ -183,20 +183,20 @@ impl models::table::Table {
             .read(true)
             .open(table_data_path)?;
 
-        table_data_file.seek(SeekFrom::Start(index * row_size))?;
+        table_data_file.seek(SeekFrom::Start(index * entry_size))?;
 
-        let mut buf = vec![0u8; row_size as usize];
+        let mut buf = vec![0u8; entry_size as usize];
 
         table_data_file.read_exact(&mut buf)?;
 
-        let row_bin: BitVec<u8, Msb0> = BitVec::from_slice(&buf);
+        let entry_bin: BitVec<u8, Msb0> = BitVec::from_slice(&buf);
 
         let result = table_columns
             .iter()
             .fold((Vec::new(), 0), |(mut acc, column_start), column| {
                 let column_size = column.get_size() as usize;
 
-                let data_bin = &row_bin[column_start..(column_start + column_size)];
+                let data_bin = &entry_bin[column_start..(column_start + column_size)];
                 let data_bin = BitVec::from(data_bin);
                 let column_start = column_start + column_size;
 
@@ -209,6 +209,6 @@ impl models::table::Table {
             })
             .0;
 
-        Ok(models::query_result::Row::new(index as usize, result))
+        Ok(models::query_result::Entry::new(index as usize, result))
     }
 }

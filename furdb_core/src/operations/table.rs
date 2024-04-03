@@ -1,4 +1,4 @@
-mod delete_rows;
+mod delete_entries;
 mod generate_sortfile;
-mod insert_rows;
+mod insert_entries;
 mod query;
