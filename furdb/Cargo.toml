@@ -18,3 +18,4 @@ serde_json = "1.0"
 dotenv = "0.15.0"
 chrono = "0.4.34"
 clap = { version = "4.5.4", features = ["derive", "env"] }
+axum = "0.7.5"

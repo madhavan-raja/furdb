@@ -5,12 +5,12 @@ services:
     image: madhavanraja/furdb
     environment:
       WORKDIR: /furdb
-      PORT: 8080
+      PORT: 80
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8080:80"
     develop:
       watch:
         - action: rebuild

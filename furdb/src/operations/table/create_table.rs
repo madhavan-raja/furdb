@@ -6,6 +6,7 @@ use crate::models;
 
 #[post("/{database_id}/{table_id}")]
 pub(crate) async fn create_table_handler(
+    data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     create_table_params: web::Json<models::params::create_table_params::CreateTableParams>,
 ) -> Result<impl Responder, Box<dyn Error>> {
@@ -14,7 +15,7 @@ pub(crate) async fn create_table_handler(
     let table_name = create_table_params.get_table_name();
     let table_columns = create_table_params.get_table_columns();
 
-    let furdb = core_models::furdb::FurDB::new(core_models::config::Config::new(None)?)?;
+    let furdb = data.as_ref();
     let database = furdb.get_database(&database_id)?;
 
     database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;

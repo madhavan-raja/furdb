@@ -6,6 +6,7 @@ use crate::models;
 
 #[get("/{database_id}/{table_id}/query")]
 pub(crate) async fn query_handler(
+    data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     query_params: web::Json<models::params::query_params::QueryParams>,
 ) -> Result<impl Responder, Box<dyn Error>> {
@@ -13,7 +14,7 @@ pub(crate) async fn query_handler(
     let index = query_params.get_column_index();
     let value = query_params.get_value();
 
-    let furdb = core_models::furdb::FurDB::new(core_models::config::Config::new(None)?)?;
+    let furdb = data.as_ref();
     let database = furdb.get_database(&database_id)?;
     let table = database.get_table(&table_id)?;
 
@@ -26,13 +27,14 @@ pub(crate) async fn query_handler(
 
 #[get("/{database_id}/{table_id}/data")]
 pub(crate) async fn get_entries_handler(
+    data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     get_entry_params: web::Json<models::params::get_entries_params::GetEntryParams>,
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
     let indices = get_entry_params.get_indices();
 
-    let furdb = core_models::furdb::FurDB::new(core_models::config::Config::new(None)?)?;
+    let furdb = data.as_ref();
     let database = furdb.get_database(&database_id)?;
     let table = database.get_table(&table_id)?;
 

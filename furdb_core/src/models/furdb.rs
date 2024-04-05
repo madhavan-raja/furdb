@@ -2,6 +2,7 @@ use std::error::Error;
 
 use crate::models;
 
+#[derive(Debug, Clone)]
 pub struct FurDB {
     config: models::config::Config,
 }

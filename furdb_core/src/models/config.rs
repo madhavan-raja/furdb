@@ -6,12 +6,9 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(fur_directory: Option<&str>) -> Result<Self, Box<dyn Error>> {
+    pub fn new(fur_directory: &str) -> Result<Self, Box<dyn Error>> {
         Ok(Self {
-            fur_directory: match fur_directory {
-                Some(fur_directory) => PathBuf::from(fur_directory),
-                None => PathBuf::from(env::var("WORKDIR")?),
-            },
+            fur_directory:  PathBuf::from(fur_directory)
         })
     }
 }

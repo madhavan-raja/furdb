@@ -6,12 +6,13 @@ use crate::models;
 
 #[post("/{database_id}/{table_id}/data")]
 pub(crate) async fn insert_entries_handler(
+    data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     insert_entries_params: web::Json<models::params::insert_entries_params::InsertEntriesParams>,
 ) -> Result<impl Responder, Box<dyn Error>> {
     let (database_id, table_id) = path.into_inner();
 
-    let furdb = core_models::furdb::FurDB::new(core_models::config::Config::new(None)?)?;
+    let furdb = data.as_ref();
     let database = furdb.get_database(&database_id)?;
     let table = database.get_table(&table_id)?;
 
