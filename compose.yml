@@ -3,14 +3,13 @@ services:
   api:
     container_name: api
     image: madhavanraja/furdb
-    environment:
-      WORKDIR: /furdb
-      PORT: 80
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - WORKDIR=/furdb
     ports:
-      - "8080:80"
+      - "5678:80"
     develop:
       watch:
         - action: rebuild

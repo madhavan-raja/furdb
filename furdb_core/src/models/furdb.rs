@@ -8,14 +8,14 @@ pub struct FurDB {
 }
 
 impl FurDB {
-    pub fn new(config: models::config::Config) -> Result<Self, Box<dyn Error>> {
+    pub fn new(config: &models::config::Config) -> Result<Self, Box<dyn Error>> {
         let fur_directory = &config.fur_directory;
 
         if !fur_directory.exists() {
             std::fs::create_dir(&fur_directory)?;
         }
 
-        Ok(Self { config })
+        Ok(Self { config: config.to_owned() })
     }
 
     pub fn get_config(&self) -> models::config::Config {

@@ -23,6 +23,6 @@ FROM scratch
 
 COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/furdb /bin/furdb
 
-ENTRYPOINT ["/bin/furdb"]
+ENTRYPOINT ["/bin/furdb", "-v"]
 
-EXPOSE 8080
+EXPOSE 80

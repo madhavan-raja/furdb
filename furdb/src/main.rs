@@ -9,6 +9,7 @@ mod operations;
 #[actix_web::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     dotenv::dotenv().ok();
+
     let server_config = models::server_config::ServerConfig::parse();
 
     env_logger::Builder::new()
@@ -16,7 +17,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .init();
     
     let config = core_models::config::Config::new(&server_config.workdir)?;
-    let furdb = core_models::furdb::FurDB::new(config)?;
+    let furdb = core_models::furdb::FurDB::new(&config)?;
 
     HttpServer::new(move || {
         let furdb = furdb.clone();
