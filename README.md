@@ -6,7 +6,7 @@
   [![oq3_semantics crate](https://img.shields.io/crates/v/furdb.svg)](https://crates.io/crates/furdb)
 </div>
 
-A small and space-efficient Database Management System that allows you to allocate the size of individual data types in bits (not bytes).
+A minimal Database Management System that prioritizes storage space usage and fast lookup/query times. **FurDB** lets you specify the specific number of bits occupied by your data.
 
 ```
 10011100 01010000
@@ -19,11 +19,10 @@ A small and space-efficient Database Management System that allows you to alloca
 
 ### Cargo
 
-**FurDB** can be directly used with `cargo`.
+**FurDB** can be directly installed using `cargo`.
 
 ```sh
 cargo install furdb
-furdb
 ```
 
 ### Compiling from Source
@@ -31,23 +30,25 @@ furdb
 You can clone this repository, build and run the program.
 
 ```sh
-git clone https://github.com/furdb/furdb.git
+git clone https://github.com/madhavan-raja/furdb.git
 cd ./furdb
-cargo run --release
+cargo build --release
 ```
+
+## Starting the Server
 
 ### Docker
 
 You can pull an image and run it in a container.
 
 ```sh
-docker run --name some-furdb -d madhavanraja/furdb:latest
+docker run --name furdb -d madhavanraja/furdb:latest
 ```
 
 You can clone this repository, build and run the container.
 
 ```sh
-git clone https://github.com/furdb/furdb.git
+git clone https://github.com/madhavan-raja/furdb.git
 cd ./furdb
 docker-compose up --build
 ```
@@ -67,8 +68,108 @@ services:
 
 The server can be accessed at `http://db:{PORT}`.
 
+### Command Line
+
+If the executable is present in `PATH`, you can directly run the application.
+
+```sh
+furdb --port 8080 --workdir "/furdb" -v
+```
+
 ## Usage
 
-The documentation of this project will be moved to [crates.io](https://crates.io/crates/furdb) at some point in the future.
+**FurDB** provides REST API endpoints for creating, reading, and deleting databases, tables, and entries.
 
-Right now, you can import the [`postman_collection`](furdb.postman_collection.json) into Postman and analyze the endpoints.
+### Checking Server Health
+
+`GET` `/health`
+
+### Create Database
+
+`POST` `/:database_id`
+
+```json
+{
+  "database_name": "Database Name"
+}
+```
+
+### Get Database Info
+
+`GET` `/:database_id`
+
+### Delete Database
+
+`DELETE` `/:database_id`
+
+### Create Table
+
+`POST` `/:database_id/:table_id`
+
+```json
+{
+  "table_name": "Table Name",
+  "table_columns": [
+    {
+      "name": "Column 1 Name",
+      "size": 5
+    },
+    {
+      "name": "Column 2 Name",
+      "size": 3
+    }
+  ]
+}
+```
+
+### Get Table Info
+
+`GET` `/:database_id/:table_id`
+
+### Delete Table
+
+`DELETE` `/:database_id/:table_id`
+
+### Insert Entries
+
+`POST` `/:database_id/:table_id/data`
+
+```json
+{
+  "data": [
+    [15, 0],
+    [20, 1]
+  ]
+}
+```
+
+### Get Entries
+
+`GET` `/:database_id/:table_id/data`
+
+```json
+{
+  "indices": [0, 10]
+}
+```
+
+### Query Entries
+
+`GET` `/:database_id/:table_id/query`
+
+```json
+{
+  "column_index": 0,
+  "value": 12
+}
+```
+
+### Delete Entries
+
+`DELETE` `/:database_id/:table_id/data`
+
+```json
+{
+  "indices": [0, 10]
+}
+```
