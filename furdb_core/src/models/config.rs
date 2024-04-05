@@ -1,4 +1,4 @@
-use std::{env, error::Error, path::PathBuf};
+use std::{error::Error, path::PathBuf};
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Config {

@@ -5,7 +5,7 @@ use clap::Parser;
 #[command(version, about, long_about = None)]
 pub(crate) struct ServerConfig {
     /// Port
-    #[arg(short, long, env, default_value_t = 8080)]
+    #[arg(short, long, env, default_value_t = 80)]
     pub port: u16,
 
     /// Working Directory
