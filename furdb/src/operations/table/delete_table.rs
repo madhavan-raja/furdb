@@ -16,7 +16,7 @@ pub(crate) async fn delete_table_handler(
 
     database.delete_table(&table_id)?;
 
-    let res = models::response::blank_success_response::BlankSuccessResponse::new();
+    let response = models::response::blank_success_response::BlankSuccessResponse::new();
 
-    Ok(web::Json(res))
+    Ok(web::Json(response))
 }

@@ -18,7 +18,7 @@ pub(crate) async fn insert_entries_handler(
 
     table.insert_entries(&insert_entries_params.get_data())?;
 
-    let res = models::response::blank_success_response::BlankSuccessResponse::new();
+    let response = models::response::blank_success_response::BlankSuccessResponse::new();
 
-    Ok(web::Json(res))
+    Ok(web::Json(response))
 }

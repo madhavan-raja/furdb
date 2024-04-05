@@ -20,7 +20,7 @@ pub(crate) async fn create_table_handler(
 
     database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;
 
-    let res = models::response::blank_success_response::BlankSuccessResponse::new();
+    let response = models::response::blank_success_response::BlankSuccessResponse::new();
 
-    Ok(web::Json(res))
+    Ok(web::Json(response))
 }
