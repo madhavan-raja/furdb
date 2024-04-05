@@ -1,4 +1,5 @@
 use clap::Parser;
+use clap_verbosity_flag::{Verbosity, InfoLevel};
 
 /// FurDB
 #[derive(Parser, Debug, Clone)]
@@ -11,4 +12,7 @@ pub(crate) struct ServerConfig {
     /// Working Directory
     #[arg(short, long, env)]
     pub workdir: String,
+
+    #[command(flatten)]
+    pub verbose: Verbosity<InfoLevel>,
 }

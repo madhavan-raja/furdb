@@ -1,4 +1,4 @@
-use actix_web::{web, App, HttpServer};
+use actix_web::{web, App, HttpServer, middleware};
 use clap::Parser;
 use furdb_core::models as core_models;
 use std::error::Error;
@@ -11,14 +11,19 @@ async fn main() -> Result<(), Box<dyn Error>> {
     dotenv::dotenv().ok();
     let server_config = models::server_config::ServerConfig::parse();
 
+    env_logger::Builder::new()
+        .filter_level(server_config.verbose.log_level_filter())
+        .init();
+    
     let config = core_models::config::Config::new(&server_config.workdir)?;
     let furdb = core_models::furdb::FurDB::new(config)?;
-    
+
     HttpServer::new(move || {
         let furdb = furdb.clone();
 
         App::new()
             .app_data(web::Data::new(furdb))
+            .wrap(middleware::Logger::default())
             .service(operations::info::health::health)
             .service(operations::database::create_database::create_database_handler)
             .service(operations::database::get_database::get_database_handler)
