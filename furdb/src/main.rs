@@ -4,11 +4,25 @@ use std::error::Error;
 mod models;
 mod operations;
 
+use clap::Parser;
+
+/// FurDB
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    /// Port
+    #[arg(short, long, env, default_value_t = 8080)]
+    port: u16,
+
+    /// Working Directory
+    #[arg(short, long, env)]
+    workdir: String,
+}
+
 #[actix_web::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     dotenv::dotenv().ok();
-
-    let port = std::env::var("FURDB_PORT")?.parse::<u16>()?;
+    let args = Args::parse();
 
     HttpServer::new(|| {
         App::new()
@@ -24,7 +38,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .service(operations::entry::query::get_entries_handler) // Remove later
             .service(operations::entry::delete_entries::delete_entries_handler)
     })
-    .bind(("0.0.0.0", port))?
+    .bind(("0.0.0.0", args.port))?
     .run()
     .await?;
 
