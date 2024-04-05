@@ -35,7 +35,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .service(operations::table::delete_table::delete_table_handler)
             .service(operations::entry::insert_entries::insert_entries_handler)
             .service(operations::entry::query::query_handler)
-            .service(operations::entry::query::get_entries_handler) // Remove later
+            .service(operations::entry::query::get_entries_handler)
             .service(operations::entry::delete_entries::delete_entries_handler)
     })
     .bind(("0.0.0.0", args.port))?

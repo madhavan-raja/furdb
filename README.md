@@ -60,8 +60,8 @@ services:
   db:
     image: madhavanraja/furdb:latest
     environment:
-      FUR_DIRECTORY: /furdb
-      FURDB_SERVER: 8080
+      WORKDIR: /furdb
+      PORT: 8080
     restart: on-failure
 ```
 

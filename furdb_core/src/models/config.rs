@@ -10,7 +10,7 @@ impl Config {
         Ok(Self {
             fur_directory: match fur_directory {
                 Some(fur_directory) => PathBuf::from(fur_directory),
-                None => PathBuf::from(env::var("FUR_DIRECTORY")?),
+                None => PathBuf::from(env::var("WORKDIR")?),
             },
         })
     }
