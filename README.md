@@ -1,10 +1,11 @@
-<img src="assets/logo.png" alt="FurDB Logo" title="FurDB" align="left" height="64" />
-
-# FurDB
+<div align="center">
+  <h1>FurDB</h1>
 
 [![Docker Image CI](https://github.com/madhavan-raja/furdb/actions/workflows/docker-image.yml/badge.svg)](https://github.com/madhavan-raja/furdb/actions)
 [![Minimum rustc 1.70](https://img.shields.io/badge/rustc-1.70+-blue.svg)](https://rust-lang.github.io/rfcs/2495-min-rust-version.html)
 [![oq3_semantics crate](https://img.shields.io/crates/v/furdb.svg)](https://crates.io/crates/furdb)
+
+</div>
 
 A minimal Database Management System that prioritizes storage space usage and fast lookup/query times. **FurDB** lets you specify the specific number of bits occupied by your data.
 
