@@ -1,4 +1,4 @@
-<img src="assets/logo.png" alt="FurDB Logo" title="FurDB" align="right" height="40" />
+<img src="assets/logo.png" alt="FurDB Logo" title="FurDB" align="left" height="64" />
 
 # FurDB
 
