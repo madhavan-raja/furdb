@@ -1,4 +1,4 @@
-use actix_web::{web, App, HttpServer, middleware};
+use actix_web::{middleware, web, App, HttpServer};
 use clap::Parser;
 use furdb_core::models as core_models;
 use std::error::Error;
@@ -15,7 +15,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     env_logger::Builder::new()
         .filter_level(server_config.verbose.log_level_filter())
         .init();
-    
+
     let config = core_models::config::Config::new(&server_config.workdir);
     let furdb = core_models::furdb::FurDB::new(&config)?;
 
