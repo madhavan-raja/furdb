@@ -1,5 +1,4 @@
 use crate::models;
-use std::error::Error;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Database {
@@ -11,11 +10,11 @@ impl Database {
     pub fn new(
         config: &models::config::Config,
         database_info: &DatabaseInfo,
-    ) -> Result<Self, Box<dyn Error>> {
-        Ok(Self {
+    ) -> Self {
+        Self {
             config: config.to_owned(),
             database_info: database_info.to_owned(),
-        })
+        }
     }
 
     pub fn get_config(&self) -> models::config::Config {
@@ -34,11 +33,11 @@ pub struct DatabaseInfo {
 }
 
 impl DatabaseInfo {
-    pub fn new(database_id: &str, database_name: Option<&str>) -> Result<Self, Box<dyn Error>> {
-        Ok(Self {
+    pub fn new(database_id: &str, database_name: Option<&str>) -> Self {
+        Self {
             database_id: database_id.to_string(),
             database_name: database_name.unwrap_or(database_id).to_string(),
-        })
+        }
     }
 
     pub fn get_database_id(&self) -> String {

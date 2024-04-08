@@ -16,7 +16,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .filter_level(server_config.verbose.log_level_filter())
         .init();
     
-    let config = core_models::config::Config::new(&server_config.workdir)?;
+    let config = core_models::config::Config::new(&server_config.workdir);
     let furdb = core_models::furdb::FurDB::new(&config)?;
 
     HttpServer::new(move || {

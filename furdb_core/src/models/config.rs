@@ -1,4 +1,4 @@
-use std::{error::Error, path::PathBuf};
+use std::path::PathBuf;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Config {
@@ -6,9 +6,9 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(fur_directory: &str) -> Result<Self, Box<dyn Error>> {
-        Ok(Self {
+    pub fn new(fur_directory: &str) -> Self {
+        Self {
             fur_directory:  PathBuf::from(fur_directory)
-        })
+        }
     }
 }

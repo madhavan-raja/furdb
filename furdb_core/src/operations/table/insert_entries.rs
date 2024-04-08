@@ -42,7 +42,7 @@ impl models::table::Table {
             &config.fur_directory,
             &table_info.get_database_id(),
             &table_info.get_table_id(),
-        )?;
+        );
 
         let mut table_data_file = std::fs::OpenOptions::new()
             .append(true)

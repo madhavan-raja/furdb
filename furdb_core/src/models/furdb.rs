@@ -1,4 +1,5 @@
-use std::error::Error;
+use std::io::ErrorKind;
+use crate::errors::furdb_errors::furdb_initialization_error::FurDBInitializationError;
 
 use crate::models;
 
@@ -8,11 +9,15 @@ pub struct FurDB {
 }
 
 impl FurDB {
-    pub fn new(config: &models::config::Config) -> Result<Self, Box<dyn Error>> {
+    pub fn new(config: &models::config::Config) -> Result<Self, FurDBInitializationError> {
         let fur_directory = &config.fur_directory;
 
         if !fur_directory.exists() {
-            std::fs::create_dir(&fur_directory)?;
+            std::fs::create_dir(&fur_directory).map_err(|e| match e.kind() {
+                ErrorKind::PermissionDenied => FurDBInitializationError::PermissionDenied,
+                ErrorKind::NotFound => FurDBInitializationError::InvalidPath,
+                _ => FurDBInitializationError::OtherError(e.to_string()),
+            })?;
         }
 
         Ok(Self { config: config.to_owned() })

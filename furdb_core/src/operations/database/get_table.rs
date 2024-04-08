@@ -11,10 +11,10 @@ impl models::database::Database {
             &config.fur_directory,
             &database_info.get_database_id(),
             table_id,
-        )?;
+        );
 
         let table_info = serde_json::from_reader(std::fs::File::open(&table_config_path)?)?;
-        let table = models::table::Table::new(&config, &table_info)?;
+        let table = models::table::Table::new(&config, &table_info);
 
         Ok(table)
     }

@@ -26,7 +26,7 @@ impl models::table::Table {
             &config.fur_directory,
             &table_info.get_database_id(),
             &table_info.get_table_id(),
-        )?;
+        );
 
         let table_data_file = std::fs::OpenOptions::new()
             .read(true)
@@ -46,7 +46,7 @@ impl models::table::Table {
             &config.fur_directory,
             &table_info.get_database_id(),
             &table_info.get_table_id(),
-        )?;
+        );
 
         let table_sortfile = std::fs::OpenOptions::new()
             .read(true)
@@ -136,7 +136,7 @@ impl models::table::Table {
             &config.fur_directory,
             &table_info.get_database_id(),
             &table_info.get_table_id(),
-        )?;
+        );
 
         let table_data_file = std::fs::OpenOptions::new()
             .read(true)
@@ -157,7 +157,7 @@ impl models::table::Table {
                 .into_iter()
                 .map(|index| self.get_entry(index).unwrap())
                 .collect::<Vec<models::query_result::Entry>>(),
-        )?;
+        );
 
         Ok(result)
     }
@@ -177,7 +177,7 @@ impl models::table::Table {
             &config.fur_directory,
             &table_info.get_database_id(),
             &table_info.get_table_id(),
-        )?;
+        );
 
         let mut table_data_file = std::fs::OpenOptions::new()
             .read(true)

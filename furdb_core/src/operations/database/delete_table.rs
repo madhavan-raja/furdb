@@ -11,7 +11,7 @@ impl models::database::Database {
             &config.fur_directory,
             &database_info.get_database_id(),
             table_id,
-        )?;
+        );
 
         std::fs::remove_dir_all(&table_path)?;
 

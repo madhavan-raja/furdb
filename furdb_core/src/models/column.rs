@@ -1,5 +1,3 @@
-use std::error::Error;
-
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct Column {
     name: String,
@@ -7,11 +5,11 @@ pub struct Column {
 }
 
 impl Column {
-    pub fn new(name: &str, size: u128) -> Result<Self, Box<dyn Error>> {
-        Ok(Self {
+    pub fn new(name: &str, size: u128) -> Self {
+        Self {
             name: String::from(name),
             size,
-        })
+        }
     }
 
     pub fn get_name(&self) -> String {

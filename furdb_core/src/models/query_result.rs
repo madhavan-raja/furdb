@@ -11,11 +11,11 @@ pub struct Entry {
 }
 
 impl QueryResult {
-    pub(crate) fn new(data: &[Entry]) -> Result<Self, Box<dyn std::error::Error>> {
-        Ok(Self {
+    pub(crate) fn new(data: &[Entry]) -> Self {
+        Self {
             result_count: data.len(),
             results: data.to_vec(),
-        })
+        }
     }
 
     pub fn get_result_count(&self) -> usize {

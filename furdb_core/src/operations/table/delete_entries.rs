@@ -12,7 +12,7 @@ impl crate::models::table::Table {
             &config.fur_directory,
             &table_info.get_database_id(),
             &table_info.get_table_id(),
-        )?;
+        );
 
         let table_data_file = std::fs::OpenOptions::new()
             .read(true)
