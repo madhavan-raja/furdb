@@ -1,6 +1,8 @@
+use std::io::ErrorKind;
+use crate::errors::table_errors::table_creation_error::TableCreationError;
+
 use crate::models;
 use crate::utils;
-use std::error::Error;
 
 impl models::database::Database {
     pub fn create_table(
@@ -8,7 +10,7 @@ impl models::database::Database {
         table_id: &str,
         table_name: Option<&str>,
         table_columns: Vec<models::column::Column>,
-    ) -> Result<models::table::Table, Box<dyn Error>> {
+    ) -> Result<models::table::Table, TableCreationError> {
         let config = self.get_config();
         let database_info = self.get_database_info();
 
@@ -42,10 +44,21 @@ impl models::database::Database {
             &table_id,
         );
 
-        std::fs::create_dir(&table_path)?;
-        std::fs::write(&table_config_path, serde_json::to_string(&table_info)?)?;
-        std::fs::write(table_data_path, "")?;
-        std::fs::write(table_sortfile_path, "")?;
+        if table_columns.iter().fold(0, |acc, x| acc + x.get_size()) % 8 != 0 {
+            return Err(TableCreationError::ColumnsUnfit);
+        }
+
+        std::fs::create_dir(&table_path).map_err(|e| match e.kind() {
+            ErrorKind::AlreadyExists => TableCreationError::AlreadyExists,
+            _ => TableCreationError::OtherError(e.to_string()),
+        })?;
+
+        let table_info_serialized = serde_json::to_string(&table_info)
+            .map_err(|e| TableCreationError::OtherError(e.to_string()))?;
+
+        std::fs::write(&table_config_path, table_info_serialized).map_err(|e| TableCreationError::OtherError(e.to_string()))?;
+        std::fs::write(table_data_path, "").map_err(|e| TableCreationError::OtherError(e.to_string()))?;
+        std::fs::write(table_sortfile_path, "").map_err(|e| TableCreationError::OtherError(e.to_string()))?;
 
         Ok(table)
     }

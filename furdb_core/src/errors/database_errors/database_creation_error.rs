@@ -4,7 +4,7 @@ use thiserror::Error;
 pub enum DatabaseCreationError {
     #[error("Error creating Database: Database already exists")]
     AlreadyExists,
-    #[error("Error creating Database: Invalid ID")]
+    #[error("Error creating Database: Invalid Database ID")]
     InvalidId,
     #[error("Error creating Database")]
     OtherError(String),

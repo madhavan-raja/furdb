@@ -1,14 +1,17 @@
-use bitvec::prelude::*;
-use std::{error::Error, io::Write};
+use crate::errors::query_errors::insertion_query_error::InsertionQueryError;
 
-use crate::{models, utils};
+use bitvec::prelude::*;
+use std::io::Write;
+
+use crate::models;
+use crate::utils;
 
 impl models::table::Table {
-    pub(crate) fn generate_sortfile(&self) -> Result<(), Box<dyn Error>> {
+    pub(crate) fn generate_sortfile(&self) -> Result<(), InsertionQueryError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
-        let all_entries = self.get_entries(None)?.get_results();
+        let all_entries = self.get_entries(None).map_err(|e| InsertionQueryError::OtherError(e.to_string()))?.get_results();
         let identifier_size = if all_entries.len() > 0 {
             (1 + ((all_entries.len() - 1) / 256)) * 8
         } else {
@@ -55,10 +58,10 @@ impl models::table::Table {
 
         let mut table_sortfile = std::fs::OpenOptions::new()
             .write(true)
-            .open(&table_sortfile_path)?;
+            .open(&table_sortfile_path).map_err(|e| InsertionQueryError::OtherError(e.to_string()))?;
 
-        std::fs::write(table_sortfile_path, "")?;
-        table_sortfile.write(&Vec::<u8>::from(data))?;
+        std::fs::write(table_sortfile_path, "").map_err(|e| InsertionQueryError::OtherError(e.to_string()))?;
+        table_sortfile.write(&Vec::<u8>::from(data)).map_err(|e| InsertionQueryError::OtherError(e.to_string()))?;
 
         Ok(())
     }

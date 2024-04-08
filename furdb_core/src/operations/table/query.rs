@@ -1,7 +1,9 @@
+use crate::errors::query_errors::read_query_error::ReadQueryError;
+
 use crate::models;
 use crate::utils;
 use bitvec::prelude::*;
-use std::error::Error;
+use std::io::ErrorKind;
 use std::io::Read;
 use std::io::Seek;
 use std::io::SeekFrom;
@@ -12,11 +14,16 @@ impl models::table::Table {
         &self,
         column_index: u64,
         value: u128,
-    ) -> Result<models::query_result::QueryResult, Box<dyn Error>> {
+    ) -> Result<models::query_result::QueryResult, ReadQueryError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
         let table_columns = table_info.get_table_columns();
+
+        if column_index >= table_columns.len() as u64 {
+            return Err(ReadQueryError::InvalidColumn);
+        }
+
         let entry_size = table_columns
             .iter()
             .fold(0, |acc, column| acc + column.get_size()) as u64
@@ -30,9 +37,9 @@ impl models::table::Table {
 
         let table_data_file = std::fs::OpenOptions::new()
             .read(true)
-            .open(table_data_path)?;
+            .open(table_data_path).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
 
-        let table_data_file_size = table_data_file.metadata()?.len();
+        let table_data_file_size = table_data_file.metadata().map_err(|e| ReadQueryError::OtherError(e.to_string()))?.len();
 
         let entry_count = table_data_file_size / entry_size;
 
@@ -50,18 +57,18 @@ impl models::table::Table {
 
         let table_sortfile = std::fs::OpenOptions::new()
             .read(true)
-            .open(table_sortfile_path)?;
+            .open(table_sortfile_path).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
 
         // Lower Bound
 
         let mut left = (column_index * entry_count) as i128;
-        let mut right = ((column_index + 1) * (entry_count - 1)) as i128;
+        let mut right = (((column_index + 1) as i128) * (entry_count as i128 - 1)) as i128;
 
         while left <= right {
             let mid = left + (right - left) / 2;
 
             let mut index_buf = vec![0u8; identifier_size as usize];
-            table_sortfile.read_exact_at(&mut index_buf, mid as u64 * identifier_size)?;
+            table_sortfile.read_exact_at(&mut index_buf, mid as u64 * identifier_size).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
             let index_bin = BitVec::<u8, Msb0>::from_slice(&index_buf);
 
             let index = index_bin
@@ -82,13 +89,13 @@ impl models::table::Table {
         // Upper Bound
 
         let mut left = (column_index * entry_count) as i128;
-        let mut right = ((column_index + 1) * (entry_count - 1)) as i128;
+        let mut right = (((column_index + 1) as i128) * (entry_count as i128 - 1)) as i128;
 
         while left <= right {
             let mid = left + (right - left) / 2;
 
             let mut index_buf = vec![0u8; identifier_size as usize];
-            table_sortfile.read_exact_at(&mut index_buf, mid as u64 * identifier_size)?;
+            table_sortfile.read_exact_at(&mut index_buf, mid as u64 * identifier_size).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
             let index_bin = BitVec::<u8, Msb0>::from_slice(&index_buf);
 
             let index = index_bin
@@ -128,7 +135,7 @@ impl models::table::Table {
     pub fn get_entries(
         &self,
         indices: Option<Vec<u64>>,
-    ) -> Result<models::query_result::QueryResult, Box<dyn Error>> {
+    ) -> Result<models::query_result::QueryResult, ReadQueryError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -162,7 +169,7 @@ impl models::table::Table {
         Ok(result)
     }
 
-    pub(crate) fn get_entry(&self, index: u64) -> Result<models::query_result::Entry, Box<dyn Error>> {
+    pub(crate) fn get_entry(&self, index: u64) -> Result<models::query_result::Entry, ReadQueryError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -181,13 +188,24 @@ impl models::table::Table {
 
         let mut table_data_file = std::fs::OpenOptions::new()
             .read(true)
-            .open(table_data_path)?;
+            .open(table_data_path).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
 
-        table_data_file.seek(SeekFrom::Start(index * entry_size))?;
+        let table_data_file_size = table_data_file.metadata().map_err(|e| ReadQueryError::OtherError(e.to_string()))?.len();
+
+        let entry_count = table_data_file_size / entry_size;
+
+        if index >= entry_count {
+            return Err(ReadQueryError::InvalidIndex);
+        }
+
+        table_data_file.seek(SeekFrom::Start(index * entry_size)).map_err(|e| match e.kind() {
+            ErrorKind::InvalidInput => ReadQueryError::InvalidIndex,
+            _ => ReadQueryError::OtherError(e.to_string())
+        })?;
 
         let mut buf = vec![0u8; entry_size as usize];
 
-        table_data_file.read_exact(&mut buf)?;
+        table_data_file.read_exact(&mut buf).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
 
         let entry_bin: BitVec<u8, Msb0> = BitVec::from_slice(&buf);
 

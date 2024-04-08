@@ -1,9 +1,11 @@
+use std::io::ErrorKind;
+use crate::errors::table_errors::table_deletion_error::TableDeletionError;
+
 use crate::models;
 use crate::utils;
-use std::error::Error;
 
 impl models::database::Database {
-    pub fn delete_table(&self, table_id: &str) -> Result<(), Box<dyn Error>> {
+    pub fn delete_table(&self, table_id: &str) -> Result<(), TableDeletionError> {
         let config = self.get_config();
         let database_info = self.get_database_info();
 
@@ -13,7 +15,12 @@ impl models::database::Database {
             table_id,
         );
 
-        std::fs::remove_dir_all(&table_path)?;
+        std::fs::remove_dir_all(&table_path).map_err(|e| {
+            match e.kind() {
+                ErrorKind::NotFound => TableDeletionError::NotFound,
+                _ => TableDeletionError::OtherError(e.to_string()),
+            }
+        })?;
 
         Ok(())
     }

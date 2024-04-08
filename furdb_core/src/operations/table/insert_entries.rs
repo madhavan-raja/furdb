@@ -1,10 +1,12 @@
+use crate::errors::query_errors::insertion_query_error::InsertionQueryError;
+
 use crate::models;
 use crate::utils;
 use bitvec::prelude::*;
-use std::{error::Error, io::Write};
+use std::io::Write;
 
 impl models::table::Table {
-    pub fn insert_entries(&self, entries: &[Vec<u128>]) -> Result<(), Box<dyn Error>> {
+    pub fn insert_entries(&self, entries: &[Vec<u128>]) -> Result<(), InsertionQueryError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -13,7 +15,9 @@ impl models::table::Table {
         let table_columns = table_info.get_table_columns();
 
         for entry in entries {
-            assert_eq!(entry.len(), table_columns.len());
+            if entry.len() != table_columns.len() {
+                return Err(InsertionQueryError::ColumnMismatch);
+            }
 
             for index in 0..table_columns.len() {
                 let element_size = table_columns[index].get_size() as usize;
@@ -21,7 +25,9 @@ impl models::table::Table {
 
                 let mut current_entry_bin = BitVec::<u8, Msb0>::new();
 
-                assert!(element < 2u128.pow(element_size as u32));
+                if element >= 2u128.pow(element_size as u32) {
+                    return Err(InsertionQueryError::ColumnOverflow);
+                }
 
                 while element > 0 {
                     current_entry_bin.push(element % 2 == 1);
@@ -46,11 +52,11 @@ impl models::table::Table {
 
         let mut table_data_file = std::fs::OpenOptions::new()
             .append(true)
-            .open(table_data_path)?;
+            .open(table_data_path).map_err(|e| InsertionQueryError::OtherError(e.to_string()))?;
 
-        table_data_file.write(&Vec::<u8>::from(data))?;
+        table_data_file.write(&Vec::<u8>::from(data)).map_err(|e| InsertionQueryError::OtherError(e.to_string()))?;
 
-        self.generate_sortfile()?;
+        self.generate_sortfile().map_err(|e| InsertionQueryError::OtherError(e.to_string()))?;
 
         Ok(())
     }

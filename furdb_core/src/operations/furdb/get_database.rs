@@ -23,6 +23,7 @@ impl models::furdb::FurDB {
 
         let database_info = serde_json::from_reader(database_config_file)
             .map_err(|e| DatabaseReadError::OtherError(e.to_string()))?;
+
         let database = models::database::Database::new(&config, &database_info);
 
         Ok(database)
