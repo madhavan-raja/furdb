@@ -17,7 +17,7 @@ impl DeleteTableResponse {
 impl Into<SuccessResponse> for DeleteTableResponse {
     fn into(self) -> SuccessResponse {
         SuccessResponse {
-            status_code: StatusCode::OK.as_u16(),
+            status_code: StatusCode::OK,
             response: SuccessResponseType::TableDeleted,
         }
     }

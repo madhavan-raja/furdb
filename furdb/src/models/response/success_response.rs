@@ -25,10 +25,31 @@ pub enum SuccessResponseType {
     QueryDeleted,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug)]
 pub struct SuccessResponse {
-    pub status_code: u16,
+    pub status_code: StatusCode,
     pub response: SuccessResponseType,
+}
+
+#[derive(Debug, Serialize)]
+pub struct SuccessResponseSerializable {
+    pub status_code: u16,
+    pub status: String,
+    pub response: SuccessResponseType,
+}
+
+impl Into<SuccessResponseSerializable> for SuccessResponse {
+    fn into(self) -> SuccessResponseSerializable {
+        SuccessResponseSerializable {
+            status_code: self.status_code.as_u16(),
+            status: self
+                .status_code
+                .canonical_reason()
+                .unwrap_or_default()
+                .to_string(),
+            response: self.response,
+        }
+    }
 }
 
 impl Display for SuccessResponse {
@@ -41,7 +62,7 @@ impl Responder for SuccessResponse {
     type Body = actix_web::body::BoxBody;
 
     fn respond_to(self, _req: &actix_web::HttpRequest) -> actix_web::HttpResponse<Self::Body> {
-        let status_code = StatusCode::from_u16(self.status_code).unwrap_or_default();
-        HttpResponse::build(status_code).json(self)
+        let status_code = self.status_code;
+        HttpResponse::build(status_code).json(Into::<SuccessResponseSerializable>::into(self))
     }
 }

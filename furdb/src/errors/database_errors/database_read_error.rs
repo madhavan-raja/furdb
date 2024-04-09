@@ -7,11 +7,11 @@ impl From<DatabaseReadError> for ErrorResponse {
     fn from(error: DatabaseReadError) -> Self {
         match error {
             DatabaseReadError::NotFound => ErrorResponse {
-                status_code: StatusCode::NOT_FOUND.as_u16(),
+                status_code: StatusCode::NOT_FOUND,
                 error: error.to_string(),
             },
             DatabaseReadError::OtherError(e) => ErrorResponse {
-                status_code: StatusCode::INTERNAL_SERVER_ERROR.as_u16(),
+                status_code: StatusCode::INTERNAL_SERVER_ERROR,
                 error: format!("Error reading Database: {e}"),
             },
         }

@@ -3,10 +3,31 @@ use serde::Serialize;
 use std::fmt::{Display, Formatter};
 use thiserror::Error;
 
-#[derive(Debug, Error, Serialize)]
+#[derive(Debug, Error, Clone)]
 pub struct ErrorResponse {
-    pub status_code: u16,
+    pub status_code: StatusCode,
     pub error: String,
+}
+
+#[derive(Debug, Serialize)]
+pub struct ErrorResponseSerializable {
+    pub status_code: u16,
+    pub status: String,
+    pub error: String,
+}
+
+impl Into<ErrorResponseSerializable> for ErrorResponse {
+    fn into(self) -> ErrorResponseSerializable {
+        ErrorResponseSerializable {
+            status_code: self.status_code.as_u16(),
+            status: self
+                .status_code
+                .canonical_reason()
+                .unwrap_or("")
+                .to_string(),
+            error: self.error,
+        }
+    }
 }
 
 impl Display for ErrorResponse {
@@ -17,7 +38,7 @@ impl Display for ErrorResponse {
 
 impl ResponseError for ErrorResponse {
     fn error_response(&self) -> HttpResponse {
-        let status_code = StatusCode::from_u16(self.status_code).unwrap_or_default();
-        HttpResponse::build(status_code).json(self)
+        HttpResponse::build(self.status_code)
+            .json(Into::<ErrorResponseSerializable>::into(self.to_owned()))
     }
 }

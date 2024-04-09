@@ -52,7 +52,7 @@ impl GetDatabaseTableResponse {
 impl Into<SuccessResponse> for GetDatabaseResponse {
     fn into(self) -> SuccessResponse {
         SuccessResponse {
-            status_code: StatusCode::OK.as_u16(),
+            status_code: StatusCode::OK,
             response: SuccessResponseType::DatabaseInfo(self),
         }
     }

@@ -7,11 +7,11 @@ impl From<TableReadError> for ErrorResponse {
     fn from(error: TableReadError) -> Self {
         match error {
             TableReadError::NotFound => ErrorResponse {
-                status_code: StatusCode::NOT_FOUND.as_u16(),
+                status_code: StatusCode::NOT_FOUND,
                 error: error.to_string(),
             },
             TableReadError::OtherError(e) => ErrorResponse {
-                status_code: StatusCode::INTERNAL_SERVER_ERROR.as_u16(),
+                status_code: StatusCode::INTERNAL_SERVER_ERROR,
                 error: format!("Error reading Table: {e}"),
             },
         }

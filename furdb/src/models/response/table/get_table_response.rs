@@ -30,7 +30,7 @@ impl GetTableResponse {
 impl Into<SuccessResponse> for GetTableResponse {
     fn into(self) -> SuccessResponse {
         SuccessResponse {
-            status_code: StatusCode::OK.as_u16(),
+            status_code: StatusCode::OK,
             response: SuccessResponseType::TableInfo(self),
         }
     }

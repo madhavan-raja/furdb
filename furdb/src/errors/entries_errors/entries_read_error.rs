@@ -7,15 +7,15 @@ impl From<EntryReadError> for ErrorResponse {
     fn from(error: EntryReadError) -> Self {
         match error {
             EntryReadError::InvalidIndex => ErrorResponse {
-                status_code: StatusCode::BAD_REQUEST.as_u16(),
+                status_code: StatusCode::BAD_REQUEST,
                 error: error.to_string(),
             },
             EntryReadError::InvalidColumn => ErrorResponse {
-                status_code: StatusCode::BAD_REQUEST.as_u16(),
+                status_code: StatusCode::BAD_REQUEST,
                 error: error.to_string(),
             },
             EntryReadError::OtherError(e) => ErrorResponse {
-                status_code: StatusCode::INTERNAL_SERVER_ERROR.as_u16(),
+                status_code: StatusCode::INTERNAL_SERVER_ERROR,
                 error: format!("Cannot read data: {e}"),
             },
         }

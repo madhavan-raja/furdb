@@ -17,7 +17,7 @@ impl InsertEntriesResponse {
 impl Into<SuccessResponse> for InsertEntriesResponse {
     fn into(self) -> SuccessResponse {
         SuccessResponse {
-            status_code: StatusCode::CREATED.as_u16(),
+            status_code: StatusCode::CREATED,
             response: SuccessResponseType::QueryCreated,
         }
     }

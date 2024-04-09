@@ -7,7 +7,7 @@ impl From<EntryDeletionError> for ErrorResponse {
     fn from(error: EntryDeletionError) -> Self {
         match error {
             EntryDeletionError::OtherError(e) => ErrorResponse {
-                status_code: StatusCode::INTERNAL_SERVER_ERROR.as_u16(),
+                status_code: StatusCode::INTERNAL_SERVER_ERROR,
                 error: format!("Deletion Query Error: {e}"),
             },
         }
