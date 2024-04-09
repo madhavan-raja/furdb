@@ -1,10 +1,33 @@
-#[derive(serde::Serialize, serde::Deserialize)]
-pub struct GetEntryParams {
-    indices: Option<Vec<u64>>,
+#[derive(serde::Serialize, serde::Deserialize, Clone)]
+pub struct GetEntriesByValuesParams {
+    column_index: u64,
+    value: u128,
 }
 
-impl GetEntryParams {
-    pub fn get_indices(&self) -> Option<Vec<u64>> {
-        self.indices.to_owned()
+impl GetEntriesByValuesParams {
+    pub fn get_column_index(&self) -> u64 {
+        self.column_index.to_owned()
+    }
+
+    pub fn get_value(&self) -> u128 {
+        self.value.to_owned()
+    }
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Clone)]
+pub enum GetEntriesType {
+    All,
+    ByIndices(Vec<u64>),
+    ByValue(GetEntriesByValuesParams),
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Clone)]
+pub struct GetEntriesParams {
+    entries: GetEntriesType,
+}
+
+impl GetEntriesParams {
+    pub fn get_entries(&self) -> GetEntriesType {
+        self.entries.to_owned()
     }
 }

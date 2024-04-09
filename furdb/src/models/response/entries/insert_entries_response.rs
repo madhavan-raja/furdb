@@ -6,15 +6,15 @@ use models::response::success_response::SuccessResponse;
 use models::response::success_response::SuccessResponseType;
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
-pub struct CreateEntriesResponse {}
+pub struct InsertEntriesResponse {}
 
-impl CreateEntriesResponse {
+impl InsertEntriesResponse {
     pub fn new() -> Self {
         Self {}
     }
 }
 
-impl Into<SuccessResponse> for CreateEntriesResponse {
+impl Into<SuccessResponse> for InsertEntriesResponse {
     fn into(self) -> SuccessResponse {
         SuccessResponse {
             status_code: StatusCode::CREATED.as_u16(),

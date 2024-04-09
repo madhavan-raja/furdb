@@ -1,6 +1,5 @@
-use actix_web::{post, web, Responder};
+use actix_web::{post, web};
 use furdb_core::models as core_models;
-use std::error::Error;
 
 use crate::models;
 
@@ -9,7 +8,10 @@ pub async fn insert_entries_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     insert_entries_params: web::Json<models::params::insert_entries_params::InsertEntriesParams>,
-) -> Result<impl Responder, Box<dyn Error>> {
+) -> Result<
+    models::response::success_response::SuccessResponse,
+    models::response::error_response::ErrorResponse,
+> {
     let (database_id, table_id) = path.into_inner();
 
     let furdb = data.as_ref();
@@ -18,7 +20,7 @@ pub async fn insert_entries_handler(
 
     table.insert_entries(&insert_entries_params.get_data())?;
 
-    let response = models::response::entries::create_entries_response::CreateEntriesResponse::new();
+    let response = models::response::entries::insert_entries_response::InsertEntriesResponse::new();
 
-    Ok(web::Json(response))
+    Ok(response.into())
 }
