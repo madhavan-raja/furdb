@@ -1,9 +1,11 @@
 use thiserror::Error;
 
+const BASE_ERROR_MESSAGE: &str = "Error reading Database";
+
 #[derive(Error, Debug)]
 pub enum DatabaseReadError {
-    #[error("Error reading Database: Database not found")]
+    #[error("{BASE_ERROR_MESSAGE}: Database not found")]
     NotFound,
-    #[error("Error reading Database")]
+    #[error("{BASE_ERROR_MESSAGE}")]
     OtherError(String),
 }

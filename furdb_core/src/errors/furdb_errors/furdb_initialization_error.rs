@@ -1,11 +1,13 @@
 use thiserror::Error;
 
+const BASE_ERROR_MESSAGE: &str = "Error initializing FurDB";
+
 #[derive(Error, Debug)]
 pub enum FurDBInitializationError {
-    #[error("Error initializing FurDB: Permission denied")]
+    #[error("{BASE_ERROR_MESSAGE}: Permission denied")]
     PermissionDenied,
-    #[error("Error initializing FurDB: Invalid path")]
+    #[error("{BASE_ERROR_MESSAGE}: Invalid path")]
     InvalidPath,
-    #[error("Error initializing FurDB")]
+    #[error("{BASE_ERROR_MESSAGE}")]
     OtherError(String),
 }

@@ -5,7 +5,7 @@ use std::error::Error;
 use crate::models;
 
 #[post("/{database_id}/{table_id}/data")]
-pub(crate) async fn insert_entries_handler(
+pub async fn insert_entries_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     insert_entries_params: web::Json<models::params::insert_entries_params::InsertEntriesParams>,

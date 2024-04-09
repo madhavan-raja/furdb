@@ -1,4 +1,4 @@
-use crate::errors::query_errors::insertion_query_error::InsertionQueryError;
+use crate::errors::entry_errors::entry_insertion_error::EntryInsertionError;
 
 use crate::models;
 use crate::utils;
@@ -6,7 +6,7 @@ use bitvec::prelude::*;
 use std::io::Write;
 
 impl models::table::Table {
-    pub fn insert_entries(&self, entries: &[Vec<u128>]) -> Result<(), InsertionQueryError> {
+    pub fn insert_entries(&self, entries: &[Vec<u128>]) -> Result<(), EntryInsertionError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -16,7 +16,7 @@ impl models::table::Table {
 
         for entry in entries {
             if entry.len() != table_columns.len() {
-                return Err(InsertionQueryError::ColumnMismatch);
+                return Err(EntryInsertionError::ColumnMismatch);
             }
 
             for index in 0..table_columns.len() {
@@ -26,7 +26,7 @@ impl models::table::Table {
                 let mut current_entry_bin = BitVec::<u8, Msb0>::new();
 
                 if element >= 2u128.pow(element_size as u32) {
-                    return Err(InsertionQueryError::ColumnOverflow);
+                    return Err(EntryInsertionError::ColumnOverflow);
                 }
 
                 while element > 0 {
@@ -52,11 +52,15 @@ impl models::table::Table {
 
         let mut table_data_file = std::fs::OpenOptions::new()
             .append(true)
-            .open(table_data_path).map_err(|e| InsertionQueryError::OtherError(e.to_string()))?;
+            .open(table_data_path)
+            .map_err(|e| EntryInsertionError::OtherError(e.to_string()))?;
 
-        table_data_file.write(&Vec::<u8>::from(data)).map_err(|e| InsertionQueryError::OtherError(e.to_string()))?;
+        table_data_file
+            .write(&Vec::<u8>::from(data))
+            .map_err(|e| EntryInsertionError::OtherError(e.to_string()))?;
 
-        self.generate_sortfile().map_err(|e| InsertionQueryError::OtherError(e.to_string()))?;
+        self.generate_sortfile()
+            .map_err(|e| EntryInsertionError::OtherError(e.to_string()))?;
 
         Ok(())
     }

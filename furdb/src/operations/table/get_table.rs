@@ -4,7 +4,7 @@ use furdb_core::models as core_models;
 use crate::models;
 
 #[get("/{database_id}/{table_id}")]
-pub(crate) async fn get_table_handler(
+pub async fn get_table_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
 ) -> Result<

@@ -4,7 +4,7 @@ use furdb_core::models as core_models;
 use crate::models;
 
 #[get("/{database_id}/{table_id}/query")]
-pub(crate) async fn query_handler(
+pub async fn query_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     query_params: web::Json<models::params::query_params::QueryParams>,
@@ -28,7 +28,7 @@ pub(crate) async fn query_handler(
 }
 
 #[get("/{database_id}/{table_id}/data")]
-pub(crate) async fn get_entries_handler(
+pub async fn get_entries_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     get_entry_params: web::Json<models::params::get_entries_params::GetEntryParams>,

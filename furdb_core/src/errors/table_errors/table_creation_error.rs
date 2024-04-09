@@ -1,13 +1,15 @@
 use thiserror::Error;
 
+const BASE_ERROR_MESSAGE: &str = "Error creating Table";
+
 #[derive(Error, Debug)]
 pub enum TableCreationError {
-    #[error("Error creating Table: Table already exists")]
+    #[error("{BASE_ERROR_MESSAGE}: Table already exists")]
     AlreadyExists,
-    #[error("Error creating Table: Invalid Table ID")]
+    #[error("{BASE_ERROR_MESSAGE}: Invalid Table ID")]
     InvalidId,
-    #[error("Error creating Table: Size of row must be a multiple of 8")]
+    #[error("{BASE_ERROR_MESSAGE}: Size of row must be a multiple of 8")]
     ColumnsUnfit,
-    #[error("Error creating Table")]
+    #[error("{BASE_ERROR_MESSAGE}")]
     OtherError(String),
 }

@@ -6,10 +6,10 @@ use models::response::success_response::SuccessResponse;
 use models::response::success_response::SuccessResponseType;
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
-pub(crate) struct DeleteTableResponse {}
+pub struct DeleteTableResponse {}
 
 impl DeleteTableResponse {
-    pub(crate) fn new() -> Self {
+    pub fn new() -> Self {
         Self {}
     }
 }

@@ -1,9 +1,11 @@
 use thiserror::Error;
 
+const BASE_ERROR_MESSAGE: &str = "Error deleting Database";
+
 #[derive(Error, Debug)]
 pub enum DatabaseDeletionError {
-    #[error("Error deleting Database: Database not found")]
+    #[error("{BASE_ERROR_MESSAGE}: Database not found")]
     NotFound,
-    #[error("Error deleting Database")]
+    #[error("{BASE_ERROR_MESSAGE}")]
     OtherError(String),
 }

@@ -4,7 +4,7 @@ use furdb_core::models as core_models;
 use crate::models;
 
 #[post("/{database_id}")]
-pub(crate) async fn create_database_handler(
+pub async fn create_database_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<String>,
     create_database_params: web::Json<models::params::create_database_params::CreateDatabaseParams>,

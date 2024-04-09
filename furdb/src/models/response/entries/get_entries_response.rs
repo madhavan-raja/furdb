@@ -4,7 +4,7 @@ use furdb_core::models as core_models;
 use crate::models::response::success_response::{SuccessResponse, SuccessResponseType};
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
-pub(crate) struct GetEntriesResponse {
+pub struct GetEntriesResponse {
     result_count: usize,
     results: Vec<Entry>,
 }
@@ -16,7 +16,7 @@ pub struct Entry {
 }
 
 impl GetEntriesResponse {
-    pub(crate) fn new(entries_result: &core_models::query_result::QueryResult) -> Self {
+    pub fn new(entries_result: &core_models::query_result::QueryResult) -> Self {
         Self {
             result_count: entries_result.get_result_count(),
             results: entries_result
@@ -29,7 +29,7 @@ impl GetEntriesResponse {
 }
 
 impl Entry {
-    pub(crate) fn new(entry: &core_models::query_result::Entry) -> Self {
+    pub fn new(entry: &core_models::query_result::Entry) -> Self {
         Self {
             index: entry.get_index(),
             data: entry.get_data(),

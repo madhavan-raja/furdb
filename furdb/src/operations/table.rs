@@ -1,3 +1,3 @@
-pub(crate) mod create_table;
-pub(crate) mod delete_table;
-pub(crate) mod get_table;
+pub mod create_table;
+pub mod delete_table;
+pub mod get_table;

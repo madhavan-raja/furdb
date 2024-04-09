@@ -7,7 +7,7 @@ use models::response::success_response::SuccessResponse;
 use models::response::success_response::SuccessResponseType;
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
-pub(crate) struct GetTableResponse {
+pub struct GetTableResponse {
     database_id: String,
     table_id: String,
     table_name: String,
@@ -15,7 +15,7 @@ pub(crate) struct GetTableResponse {
 }
 
 impl GetTableResponse {
-    pub(crate) fn new(table: &core_models::table::Table) -> Self {
+    pub fn new(table: &core_models::table::Table) -> Self {
         let table_info = table.get_table_info();
 
         Self {

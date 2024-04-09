@@ -1,5 +1,5 @@
-mod create_table;
-mod delete_all_tables;
-mod delete_table;
-mod get_all_tables;
-mod get_table;
+pub mod create_table;
+pub mod delete_all_tables;
+pub mod delete_table;
+pub mod get_all_tables;
+pub mod get_table;

@@ -11,7 +11,7 @@ pub struct Entry {
 }
 
 impl QueryResult {
-    pub(crate) fn new(data: &[Entry]) -> Self {
+    pub fn new(data: &[Entry]) -> Self {
         Self {
             result_count: data.len(),
             results: data.to_vec(),
@@ -28,7 +28,7 @@ impl QueryResult {
 }
 
 impl Entry {
-    pub(crate) fn new(index: usize, data: Vec<u128>) -> Self {
+    pub fn new(index: usize, data: Vec<u128>) -> Self {
         Self { index, data }
     }
 

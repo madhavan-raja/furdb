@@ -4,7 +4,7 @@ use furdb_core::models as core_models;
 use crate::models;
 
 #[delete("/{database_id}/{table_id}/data")]
-pub(crate) async fn delete_entries_handler(
+pub async fn delete_entries_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     delete_entries_params: web::Json<models::params::delete_entries_params::DeleteEntriesParams>,

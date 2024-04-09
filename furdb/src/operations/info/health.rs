@@ -4,7 +4,7 @@ use furdb_core::models as core_models;
 use crate::models::{self, response::error_response::ErrorResponse};
 
 #[get("/health")]
-pub(crate) async fn health(
+pub async fn health(
     data: web::Data<core_models::furdb::FurDB>,
 ) -> Result<impl Responder, ErrorResponse> {
     let furdb = data.as_ref();

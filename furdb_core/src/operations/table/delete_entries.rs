@@ -1,10 +1,10 @@
-use crate::errors::query_errors::deletion_query_error::DeletionQueryError;
+use crate::errors::entry_errors::entry_deletion_error::EntryDeletionError;
 
-use std::collections::HashSet;
 use crate::utils;
+use std::collections::HashSet;
 
 impl crate::models::table::Table {
-    pub fn delete_entries(&self, indices: Option<Vec<u64>>) -> Result<(), DeletionQueryError> {
+    pub fn delete_entries(&self, indices: Option<Vec<u64>>) -> Result<(), EntryDeletionError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -16,9 +16,13 @@ impl crate::models::table::Table {
 
         let table_data_file = std::fs::OpenOptions::new()
             .read(true)
-            .open(&data_file_path).map_err(|e| DeletionQueryError::OtherError(e.to_string()))?;
+            .open(&data_file_path)
+            .map_err(|e| EntryDeletionError::OtherError(e.to_string()))?;
 
-        let data_file_size = table_data_file.metadata().map_err(|e| DeletionQueryError::OtherError(e.to_string()))?.len();
+        let data_file_size = table_data_file
+            .metadata()
+            .map_err(|e| EntryDeletionError::OtherError(e.to_string()))?
+            .len();
         let entry_size = table_info
             .get_table_columns()
             .iter()
@@ -37,14 +41,17 @@ impl crate::models::table::Table {
                     .collect::<Vec<Vec<u128>>>();
 
                 self.delete_entries(None)?;
-                self.insert_entries(&remaining_entries).map_err(|e| DeletionQueryError::OtherError(e.to_string()))?;
+                self.insert_entries(&remaining_entries)
+                    .map_err(|e| EntryDeletionError::OtherError(e.to_string()))?;
             }
             None => {
-                std::fs::write(&data_file_path, "").map_err(|e| DeletionQueryError::OtherError(e.to_string()))?;
+                std::fs::write(&data_file_path, "")
+                    .map_err(|e| EntryDeletionError::OtherError(e.to_string()))?;
             }
         }
 
-        self.generate_sortfile().map_err(|e| DeletionQueryError::OtherError(e.to_string()))?;
+        self.generate_sortfile()
+            .map_err(|e| EntryDeletionError::OtherError(e.to_string()))?;
 
         Ok(())
     }

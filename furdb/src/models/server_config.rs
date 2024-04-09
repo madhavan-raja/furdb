@@ -1,10 +1,10 @@
 use clap::Parser;
-use clap_verbosity_flag::{Verbosity, InfoLevel};
+use clap_verbosity_flag::{InfoLevel, Verbosity};
 
 /// FurDB
 #[derive(Parser, Debug, Clone)]
 #[command(version, about, long_about = None)]
-pub(crate) struct ServerConfig {
+pub struct ServerConfig {
     /// Port
     #[arg(short, long, env, default_value_t = 80)]
     pub port: u16,

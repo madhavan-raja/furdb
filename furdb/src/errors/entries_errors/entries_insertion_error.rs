@@ -1,20 +1,20 @@
 use actix_web::http::StatusCode;
-use furdb_core::errors::query_errors::insertion_query_error::InsertionQueryError;
+use furdb_core::errors::entry_errors::entry_insertion_error::EntryInsertionError;
 
 use crate::models::response::error_response::ErrorResponse;
 
-impl From<InsertionQueryError> for ErrorResponse {
-    fn from(error: InsertionQueryError) -> Self {
+impl From<EntryInsertionError> for ErrorResponse {
+    fn from(error: EntryInsertionError) -> Self {
         match error {
-            InsertionQueryError::ColumnMismatch => ErrorResponse {
+            EntryInsertionError::ColumnMismatch => ErrorResponse {
                 status_code: StatusCode::BAD_REQUEST.as_u16(),
                 error: error.to_string(),
             },
-            InsertionQueryError::ColumnOverflow => ErrorResponse {
+            EntryInsertionError::ColumnOverflow => ErrorResponse {
                 status_code: StatusCode::BAD_REQUEST.as_u16(),
                 error: error.to_string(),
             },
-            InsertionQueryError::OtherError(e) => ErrorResponse {
+            EntryInsertionError::OtherError(e) => ErrorResponse {
                 status_code: StatusCode::INTERNAL_SERVER_ERROR.as_u16(),
                 error: format!("Insertion Query Error: {e}"),
             },

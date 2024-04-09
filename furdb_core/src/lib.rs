@@ -1,4 +1,4 @@
 pub mod errors;
 pub mod models;
-mod operations;
-mod utils;
+pub mod operations;
+pub mod utils;

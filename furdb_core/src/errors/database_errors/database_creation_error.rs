@@ -1,11 +1,13 @@
 use thiserror::Error;
 
+const BASE_ERROR_MESSAGE: &str = "Error creating Database";
+
 #[derive(Error, Debug)]
 pub enum DatabaseCreationError {
-    #[error("Error creating Database: Database already exists")]
+    #[error("{BASE_ERROR_MESSAGE}: Database already exists")]
     AlreadyExists,
-    #[error("Error creating Database: Invalid Database ID")]
+    #[error("{BASE_ERROR_MESSAGE}: Invalid Database ID")]
     InvalidId,
-    #[error("Error creating Database")]
+    #[error("{BASE_ERROR_MESSAGE}")]
     OtherError(String),
 }

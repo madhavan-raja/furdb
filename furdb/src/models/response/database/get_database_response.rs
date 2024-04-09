@@ -8,7 +8,7 @@ use models::response::success_response::SuccessResponse;
 use models::response::success_response::SuccessResponseType;
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
-pub(crate) struct GetDatabaseResponse {
+pub struct GetDatabaseResponse {
     database_id: String,
     database_name: String,
     database_tables: Vec<GetDatabaseTableResponse>,
@@ -22,7 +22,7 @@ struct GetDatabaseTableResponse {
 }
 
 impl GetDatabaseResponse {
-    pub(crate) fn new(database: &core_models::database::Database) -> Result<Self, TableReadError> {
+    pub fn new(database: &core_models::database::Database) -> Result<Self, TableReadError> {
         let database_info = database.get_database_info();
 
         Ok(Self {
@@ -38,7 +38,7 @@ impl GetDatabaseResponse {
 }
 
 impl GetDatabaseTableResponse {
-    pub(crate) fn new(table: &core_models::table::Table) -> Self {
+    pub fn new(table: &core_models::table::Table) -> Self {
         let table_info = table.get_table_info();
 
         Self {
