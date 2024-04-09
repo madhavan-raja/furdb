@@ -1,29 +1,30 @@
+use actix_web::http::StatusCode;
 use furdb_core::models as core_models;
 
-#[derive(serde::Serialize, serde::Deserialize)]
+use crate::models::response::success_response::{SuccessResponse, SuccessResponseType};
+
+#[derive(serde::Serialize, serde::Deserialize, Debug)]
 pub(crate) struct GetEntriesResponse {
     result_count: usize,
     results: Vec<Entry>,
 }
 
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, Debug)]
 pub struct Entry {
     index: usize,
     data: Vec<u128>,
 }
 
 impl GetEntriesResponse {
-    pub(crate) fn new(
-        entries_result: &core_models::query_result::QueryResult,
-    ) -> Result<Self, Box<dyn std::error::Error>> {
-        Ok(Self {
+    pub(crate) fn new(entries_result: &core_models::query_result::QueryResult) -> Self {
+        Self {
             result_count: entries_result.get_result_count(),
             results: entries_result
                 .get_results()
                 .iter()
                 .map(|entry| Entry::new(entry))
                 .collect(),
-        })
+        }
     }
 }
 
@@ -32,6 +33,15 @@ impl Entry {
         Self {
             index: entry.get_index(),
             data: entry.get_data(),
+        }
+    }
+}
+
+impl Into<SuccessResponse> for GetEntriesResponse {
+    fn into(self) -> SuccessResponse {
+        SuccessResponse {
+            status_code: StatusCode::OK.as_u16(),
+            response: SuccessResponseType::QueryResult(self),
         }
     }
 }

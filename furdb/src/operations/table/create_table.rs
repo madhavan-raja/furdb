@@ -1,6 +1,5 @@
-use actix_web::{post, web, Responder};
+use actix_web::{post, web};
 use furdb_core::models as core_models;
-use std::error::Error;
 
 use crate::models;
 
@@ -9,7 +8,10 @@ pub(crate) async fn create_table_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     create_table_params: web::Json<models::params::create_table_params::CreateTableParams>,
-) -> Result<impl Responder, Box<dyn Error>> {
+) -> Result<
+    models::response::success_response::SuccessResponse,
+    models::response::error_response::ErrorResponse,
+> {
     let (database_id, table_id) = path.into_inner();
 
     let table_name = create_table_params.get_table_name();
@@ -20,7 +22,7 @@ pub(crate) async fn create_table_handler(
 
     database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;
 
-    let response = models::response::blank_success_response::BlankSuccessResponse::new();
+    let response = models::response::table::create_table_response::CreateTableResponse::new();
 
-    Ok(web::Json(response))
+    Ok(response.into())
 }

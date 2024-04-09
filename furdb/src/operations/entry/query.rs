@@ -1,6 +1,5 @@
-use actix_web::{get, web, Responder};
+use actix_web::{get, web};
 use furdb_core::models as core_models;
-use std::error::Error;
 
 use crate::models;
 
@@ -9,7 +8,10 @@ pub(crate) async fn query_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     query_params: web::Json<models::params::query_params::QueryParams>,
-) -> Result<impl Responder, Box<dyn Error>> {
+) -> Result<
+    models::response::success_response::SuccessResponse,
+    models::response::error_response::ErrorResponse,
+> {
     let (database_id, table_id) = path.into_inner();
     let index = query_params.get_column_index();
     let value = query_params.get_value();
@@ -20,9 +22,9 @@ pub(crate) async fn query_handler(
 
     let data = table.query(index, value)?;
 
-    let response = models::response::get_entries_response::GetEntriesResponse::new(&data)?;
+    let response = models::response::entries::get_entries_response::GetEntriesResponse::new(&data);
 
-    Ok(web::Json(response))
+    Ok(response.into())
 }
 
 #[get("/{database_id}/{table_id}/data")]
@@ -30,7 +32,10 @@ pub(crate) async fn get_entries_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     get_entry_params: web::Json<models::params::get_entries_params::GetEntryParams>,
-) -> Result<impl Responder, Box<dyn Error>> {
+) -> Result<
+    models::response::success_response::SuccessResponse,
+    models::response::error_response::ErrorResponse,
+> {
     let (database_id, table_id) = path.into_inner();
     let indices = get_entry_params.get_indices();
 
@@ -40,7 +45,7 @@ pub(crate) async fn get_entries_handler(
 
     let data = table.get_entries(indices)?;
 
-    let response = models::response::get_entries_response::GetEntriesResponse::new(&data)?;
+    let response = models::response::entries::get_entries_response::GetEntriesResponse::new(&data);
 
-    Ok(web::Json(response))
+    Ok(response.into())
 }

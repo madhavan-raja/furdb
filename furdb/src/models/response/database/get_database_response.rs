@@ -1,15 +1,20 @@
-use std::error::Error;
-
+use actix_web::http::StatusCode;
+use furdb_core::errors::table_errors::table_read_error::TableReadError;
 use furdb_core::models as core_models;
 
-#[derive(serde::Serialize, serde::Deserialize)]
+use crate::models;
+
+use models::response::success_response::SuccessResponse;
+use models::response::success_response::SuccessResponseType;
+
+#[derive(serde::Serialize, serde::Deserialize, Debug)]
 pub(crate) struct GetDatabaseResponse {
     database_id: String,
     database_name: String,
     database_tables: Vec<GetDatabaseTableResponse>,
 }
 
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, Debug)]
 struct GetDatabaseTableResponse {
     table_id: String,
     table_name: String,
@@ -17,7 +22,7 @@ struct GetDatabaseTableResponse {
 }
 
 impl GetDatabaseResponse {
-    pub(crate) fn new(database: &core_models::database::Database) -> Result<Self, Box<dyn Error>> {
+    pub(crate) fn new(database: &core_models::database::Database) -> Result<Self, TableReadError> {
         let database_info = database.get_database_info();
 
         Ok(Self {
@@ -26,20 +31,29 @@ impl GetDatabaseResponse {
             database_tables: database
                 .get_all_tables()?
                 .into_iter()
-                .map(|table| GetDatabaseTableResponse::new(&table).unwrap())
+                .map(|table| GetDatabaseTableResponse::new(&table))
                 .collect(),
         })
     }
 }
 
 impl GetDatabaseTableResponse {
-    pub(crate) fn new(table: &core_models::table::Table) -> Result<Self, Box<dyn Error>> {
+    pub(crate) fn new(table: &core_models::table::Table) -> Self {
         let table_info = table.get_table_info();
 
-        Ok(Self {
+        Self {
             table_id: table_info.get_table_id(),
             table_name: table_info.get_table_name(),
             table_columns: table_info.get_table_columns(),
-        })
+        }
+    }
+}
+
+impl Into<SuccessResponse> for GetDatabaseResponse {
+    fn into(self) -> SuccessResponse {
+        SuccessResponse {
+            status_code: StatusCode::OK.as_u16(),
+            response: SuccessResponseType::DatabaseInfo(self),
+        }
     }
 }

@@ -1,5 +1,3 @@
-pub mod database_errors;
-
 use actix_web::{http::StatusCode, HttpResponse, ResponseError};
 use serde::Serialize;
 use std::fmt::{Display, Formatter};
@@ -7,7 +5,7 @@ use std::fmt::{Display, Formatter};
 #[derive(Debug, Serialize)]
 pub struct ErrorResponse {
     pub status_code: u16,
-    pub message: String,
+    pub error: String,
 }
 
 impl Display for ErrorResponse {

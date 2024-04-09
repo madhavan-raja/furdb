@@ -1,5 +1,6 @@
-pub(crate) mod blank_success_response;
-pub(crate) mod get_database_response;
-pub(crate) mod get_entries_response;
-pub(crate) mod get_table_response;
-pub(crate) mod server_health_response;
+pub(crate) mod database;
+pub(crate) mod entries;
+pub(crate) mod error_response;
+pub(crate) mod info;
+pub(crate) mod success_response;
+pub(crate) mod table;

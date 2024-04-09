@@ -1,6 +1,5 @@
-use actix_web::{delete, web, Responder};
+use actix_web::{delete, web};
 use furdb_core::models as core_models;
-use std::error::Error;
 
 use crate::models;
 
@@ -8,13 +7,17 @@ use crate::models;
 pub(crate) async fn delete_database_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<String>,
-) -> Result<impl Responder, Box<dyn Error>> {
+) -> Result<
+    models::response::success_response::SuccessResponse,
+    models::response::error_response::ErrorResponse,
+> {
     let database_id = path.into_inner();
 
     let furdb = data.as_ref();
     furdb.delete_database(&database_id)?;
 
-    let response = models::response::blank_success_response::BlankSuccessResponse::new();
+    let response =
+        models::response::database::delete_database_response::DeleteDatabaseResponse::new();
 
-    Ok(web::Json(response))
+    Ok(response.into())
 }

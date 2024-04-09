@@ -3,6 +3,7 @@ use clap::Parser;
 use furdb_core::models as core_models;
 use std::error::Error;
 
+mod errors;
 mod models;
 mod operations;
 

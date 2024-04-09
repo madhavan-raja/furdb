@@ -37,9 +37,13 @@ impl models::table::Table {
 
         let table_data_file = std::fs::OpenOptions::new()
             .read(true)
-            .open(table_data_path).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
+            .open(table_data_path)
+            .map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
 
-        let table_data_file_size = table_data_file.metadata().map_err(|e| ReadQueryError::OtherError(e.to_string()))?.len();
+        let table_data_file_size = table_data_file
+            .metadata()
+            .map_err(|e| ReadQueryError::OtherError(e.to_string()))?
+            .len();
 
         let entry_count = table_data_file_size / entry_size;
 
@@ -57,7 +61,8 @@ impl models::table::Table {
 
         let table_sortfile = std::fs::OpenOptions::new()
             .read(true)
-            .open(table_sortfile_path).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
+            .open(table_sortfile_path)
+            .map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
 
         // Lower Bound
 
@@ -68,7 +73,9 @@ impl models::table::Table {
             let mid = left + (right - left) / 2;
 
             let mut index_buf = vec![0u8; identifier_size as usize];
-            table_sortfile.read_exact_at(&mut index_buf, mid as u64 * identifier_size).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
+            table_sortfile
+                .read_exact_at(&mut index_buf, mid as u64 * identifier_size)
+                .map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
             let index_bin = BitVec::<u8, Msb0>::from_slice(&index_buf);
 
             let index = index_bin
@@ -95,7 +102,9 @@ impl models::table::Table {
             let mid = left + (right - left) / 2;
 
             let mut index_buf = vec![0u8; identifier_size as usize];
-            table_sortfile.read_exact_at(&mut index_buf, mid as u64 * identifier_size).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
+            table_sortfile
+                .read_exact_at(&mut index_buf, mid as u64 * identifier_size)
+                .map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
             let index_bin = BitVec::<u8, Msb0>::from_slice(&index_buf);
 
             let index = index_bin
@@ -156,7 +165,22 @@ impl models::table::Table {
             .fold(0, |acc, column| acc + column.get_size()) as u64
             / 8;
 
-        let file_size = table_data_file.metadata().unwrap().len();
+        let file_size = table_data_file
+            .metadata()
+            .map_err(|e| ReadQueryError::OtherError(e.to_string()))?
+            .len();
+
+        // TODO: Refactor this in the future
+
+        if indices.is_some() {
+            let indices = indices.clone().unwrap();
+
+            for index in &indices {
+                if *index >= file_size / entry_size {
+                    return Err(ReadQueryError::InvalidIndex);
+                }
+            }
+        }
 
         let result = models::query_result::QueryResult::new(
             &indices
@@ -169,7 +193,10 @@ impl models::table::Table {
         Ok(result)
     }
 
-    pub(crate) fn get_entry(&self, index: u64) -> Result<models::query_result::Entry, ReadQueryError> {
+    pub(crate) fn get_entry(
+        &self,
+        index: u64,
+    ) -> Result<models::query_result::Entry, ReadQueryError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -188,9 +215,13 @@ impl models::table::Table {
 
         let mut table_data_file = std::fs::OpenOptions::new()
             .read(true)
-            .open(table_data_path).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
+            .open(table_data_path)
+            .map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
 
-        let table_data_file_size = table_data_file.metadata().map_err(|e| ReadQueryError::OtherError(e.to_string()))?.len();
+        let table_data_file_size = table_data_file
+            .metadata()
+            .map_err(|e| ReadQueryError::OtherError(e.to_string()))?
+            .len();
 
         let entry_count = table_data_file_size / entry_size;
 
@@ -198,14 +229,18 @@ impl models::table::Table {
             return Err(ReadQueryError::InvalidIndex);
         }
 
-        table_data_file.seek(SeekFrom::Start(index * entry_size)).map_err(|e| match e.kind() {
-            ErrorKind::InvalidInput => ReadQueryError::InvalidIndex,
-            _ => ReadQueryError::OtherError(e.to_string())
-        })?;
+        table_data_file
+            .seek(SeekFrom::Start(index * entry_size))
+            .map_err(|e| match e.kind() {
+                ErrorKind::InvalidInput => ReadQueryError::InvalidIndex,
+                _ => ReadQueryError::OtherError(e.to_string()),
+            })?;
 
         let mut buf = vec![0u8; entry_size as usize];
 
-        table_data_file.read_exact(&mut buf).map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
+        table_data_file
+            .read_exact(&mut buf)
+            .map_err(|e| ReadQueryError::OtherError(e.to_string()))?;
 
         let entry_bin: BitVec<u8, Msb0> = BitVec::from_slice(&buf);
 
