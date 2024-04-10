@@ -1,9 +1,11 @@
-use furdb_core::models as core_models;
+use serde::{Deserialize, Serialize};
 
-#[derive(serde::Serialize, serde::Deserialize)]
+use furdb_core::models::column::Column;
+
+#[derive(Serialize, Deserialize)]
 pub struct CreateTableParams {
     table_name: Option<String>,
-    table_columns: Vec<core_models::column::Column>,
+    table_columns: Vec<Column>,
 }
 
 impl CreateTableParams {
@@ -11,7 +13,7 @@ impl CreateTableParams {
         self.table_name.to_owned()
     }
 
-    pub fn get_table_columns(&self) -> Vec<core_models::column::Column> {
+    pub fn get_table_columns(&self) -> Vec<Column> {
         self.table_columns.to_vec()
     }
 }

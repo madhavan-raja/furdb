@@ -1,7 +1,8 @@
 use actix_web::http::StatusCode;
 use serde::Serialize;
 
-use super::{error_response::ErrorResponse, success_response::SuccessResponse};
+use crate::models::response::error_response::ErrorResponse;
+use crate::models::response::success_response::SuccessResponse;
 
 #[derive(Debug, Serialize, Clone)]
 #[serde(untagged)]
@@ -21,7 +22,7 @@ pub struct ApiResponseSerializable {
 impl ApiResponseSerializable {
     pub fn generate_success(response: &SuccessResponse) -> (Self, StatusCode) {
         let status_code = match response {
-            SuccessResponse::ServerHealth(_) => StatusCode::OK,
+            SuccessResponse::ServerInfo(_) => StatusCode::OK,
             SuccessResponse::DatabaseCreated => StatusCode::CREATED,
             SuccessResponse::DatabaseInfo(_) => StatusCode::OK,
             SuccessResponse::DatabaseDeleted => StatusCode::OK,

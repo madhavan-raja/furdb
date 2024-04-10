@@ -1,1 +1,1 @@
-pub mod server_health_response;
+pub mod server_info_response;

@@ -1,15 +1,18 @@
-use furdb_core::models as core_models;
+use serde::{Deserialize, Serialize};
 
-#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
+use furdb_core::models::column::Column;
+use furdb_core::models::table::Table;
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetTableResponse {
     database_id: String,
     table_id: String,
     table_name: String,
-    table_columns: Vec<core_models::column::Column>,
+    table_columns: Vec<Column>,
 }
 
 impl GetTableResponse {
-    pub fn new(table: &core_models::table::Table) -> Self {
+    pub fn new(table: &Table) -> Self {
         let table_info = table.get_table_info();
 
         Self {

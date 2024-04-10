@@ -1,4 +1,6 @@
-#[derive(serde::Serialize, serde::Deserialize)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize)]
 pub struct DeleteEntriesParams {
     indices: Option<Vec<u64>>,
 }

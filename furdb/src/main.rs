@@ -30,7 +30,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         App::new()
             .app_data(web::Data::new(furdb))
             .wrap(middleware::Logger::default())
-            .service(operations::info::health::health)
+            .service(operations::info::info::info)
             .service(operations::database::create_database::create_database_handler)
             .service(operations::database::get_database::get_database_handler)
             .service(operations::database::delete_database::delete_database_handler)

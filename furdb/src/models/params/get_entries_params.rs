@@ -1,4 +1,6 @@
-#[derive(serde::Serialize, serde::Deserialize, Clone)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, Clone)]
 pub struct GetEntriesByValuesParams {
     column_index: u64,
     value: u128,
@@ -14,14 +16,14 @@ impl GetEntriesByValuesParams {
     }
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub enum GetEntriesType {
     All,
     ByIndices(Vec<u64>),
     ByValue(GetEntriesByValuesParams),
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct GetEntriesParams {
     entries: GetEntriesType,
 }

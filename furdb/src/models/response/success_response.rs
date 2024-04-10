@@ -3,19 +3,17 @@ use serde::Serialize;
 
 use crate::models;
 
-use models::response::{
-    database::get_database_response::GetDatabaseResponse,
-    entries::get_entries_response::GetEntriesResponse,
-    info::server_health_response::ServerHealthResponse,
-    table::get_table_response::GetTableResponse,
-};
+use models::response::database::get_database_response::GetDatabaseResponse;
+use models::response::entries::get_entries_response::GetEntriesResponse;
+use models::response::info::server_info_response::ServerInfoResponse;
+use models::response::table::get_table_response::GetTableResponse;
 
 use super::api_response::ApiResponseSerializable;
 
 #[derive(Debug, Serialize, Clone)]
 #[serde(untagged)]
 pub enum SuccessResponse {
-    ServerHealth(ServerHealthResponse),
+    ServerInfo(ServerInfoResponse),
     DatabaseCreated,
     DatabaseInfo(GetDatabaseResponse),
     DatabaseDeleted,

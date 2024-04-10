@@ -1,19 +1,22 @@
-use furdb_core::models as core_models;
+use serde::{Deserialize, Serialize};
 
-#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
+use furdb_core::models::query_result::Entry as CoreEntry;
+use furdb_core::models::query_result::QueryResult;
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetEntriesResponse {
     result_count: usize,
     results: Vec<Entry>,
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Entry {
     index: usize,
     data: Vec<u128>,
 }
 
 impl GetEntriesResponse {
-    pub fn new(entries_result: &core_models::query_result::QueryResult) -> Self {
+    pub fn new(entries_result: &QueryResult) -> Self {
         Self {
             result_count: entries_result.get_result_count(),
             results: entries_result
@@ -26,7 +29,7 @@ impl GetEntriesResponse {
 }
 
 impl Entry {
-    pub fn new(entry: &core_models::query_result::Entry) -> Self {
+    pub fn new(entry: &CoreEntry) -> Self {
         Self {
             index: entry.get_index(),
             data: entry.get_data(),

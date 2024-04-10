@@ -2,7 +2,7 @@ use actix_web::{HttpResponse, ResponseError};
 use serde::Serialize;
 
 use super::api_response::ApiResponseSerializable;
-use std::fmt;
+use std::fmt::{Display, Formatter, Result};
 
 #[derive(Debug, Serialize, Clone)]
 #[serde(untagged)]
@@ -12,8 +12,8 @@ pub enum ErrorResponse {
     Conflict(String),
     InternalServerError,
 }
-impl fmt::Display for ErrorResponse {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+impl Display for ErrorResponse {
+    fn fmt(&self, f: &mut Formatter) -> Result {
         match self {
             ErrorResponse::NotFound(msg) => write!(f, "Not Found: {}", msg),
             ErrorResponse::BadRequest(msg) => write!(f, "Bad Request: {}", msg),

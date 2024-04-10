@@ -1,22 +1,27 @@
-use furdb_core::errors::table_errors::table_read_error::TableReadError;
-use furdb_core::models as core_models;
+use serde::{Deserialize, Serialize};
 
-#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
+use furdb_core::models::column::Column;
+use furdb_core::models::database::Database;
+use furdb_core::models::table::Table;
+
+use furdb_core::errors::table_errors::table_read_error::TableReadError;
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetDatabaseResponse {
     database_id: String,
     database_name: String,
     database_tables: Vec<GetDatabaseTableResponse>,
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 struct GetDatabaseTableResponse {
     table_id: String,
     table_name: String,
-    table_columns: Vec<core_models::column::Column>,
+    table_columns: Vec<Column>,
 }
 
 impl GetDatabaseResponse {
-    pub fn new(database: &core_models::database::Database) -> Result<Self, TableReadError> {
+    pub fn new(database: &Database) -> Result<Self, TableReadError> {
         let database_info = database.get_database_info();
 
         Ok(Self {
@@ -32,7 +37,7 @@ impl GetDatabaseResponse {
 }
 
 impl GetDatabaseTableResponse {
-    pub fn new(table: &core_models::table::Table) -> Self {
+    pub fn new(table: &Table) -> Self {
         let table_info = table.get_table_info();
 
         Self {

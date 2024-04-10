@@ -13,6 +13,7 @@ pub struct ServerConfig {
     #[arg(short, long, env)]
     pub workdir: String,
 
+    /// Verbosity
     #[command(flatten)]
     pub verbose: Verbosity<InfoLevel>,
 }
