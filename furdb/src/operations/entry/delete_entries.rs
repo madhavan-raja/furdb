@@ -1,15 +1,17 @@
 use actix_web::{delete, web};
 use furdb_core::models as core_models;
 
-use crate::models::{self, response::api_response::ApiResponse};
+use crate::models::{
+    self,
+    response::{error_response::ErrorResponse, success_response::SuccessResponse},
+};
 
 #[delete("/{database_id}/{table_id}/data")]
 pub async fn delete_entries_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     delete_entries_params: web::Json<models::params::delete_entries_params::DeleteEntriesParams>,
-) -> Result<models::response::api_response::ApiResponse, models::response::api_response::ApiResponse>
-{
+) -> Result<SuccessResponse, ErrorResponse> {
     let (database_id, table_id) = path.into_inner();
     let indices = delete_entries_params.get_indices();
 
@@ -19,7 +21,5 @@ pub async fn delete_entries_handler(
 
     table.delete_entries(indices)?;
 
-    Ok(ApiResponse::Success(
-        models::response::success_response::SuccessResponse::EntriesDeleted,
-    ))
+    Ok(models::response::success_response::SuccessResponse::EntriesDeleted)
 }

@@ -1,6 +1,5 @@
-use actix_web::{http::StatusCode, HttpResponse, Responder, ResponseError};
+use actix_web::http::StatusCode;
 use serde::Serialize;
-use std::fmt::{Display, Formatter};
 
 use super::{error_response::ErrorResponse, success_response::SuccessResponse};
 
@@ -20,65 +19,51 @@ pub struct ApiResponseSerializable {
 }
 
 impl ApiResponseSerializable {
-    pub fn generate(api_response: &ApiResponse) -> (Self, StatusCode) {
-        let status_code = match api_response {
-            ApiResponse::Success(response) => match response {
-                SuccessResponse::ServerHealth(_) => StatusCode::OK,
-                SuccessResponse::DatabaseCreated => StatusCode::CREATED,
-                SuccessResponse::DatabaseInfo(_) => StatusCode::OK,
-                SuccessResponse::DatabaseDeleted => StatusCode::OK,
-                SuccessResponse::TableCreated => StatusCode::CREATED,
-                SuccessResponse::TableInfo(_) => StatusCode::OK,
-                SuccessResponse::TableDeleted => StatusCode::OK,
-                SuccessResponse::EntriesCreated => StatusCode::CREATED,
-                SuccessResponse::EntriesResult(_) => StatusCode::OK,
-                SuccessResponse::EntriesDeleted => StatusCode::OK,
-            },
-            ApiResponse::Error(response) => match response {
-                ErrorResponse::NotFound(_) => StatusCode::NOT_FOUND,
-                ErrorResponse::BadRequest(_) => StatusCode::BAD_REQUEST,
-                ErrorResponse::Conflict(_) => StatusCode::CONFLICT,
-                ErrorResponse::InternalServerError => StatusCode::INTERNAL_SERVER_ERROR,
-            },
+    pub fn generate_success(response: &SuccessResponse) -> (Self, StatusCode) {
+        let status_code = match response {
+            SuccessResponse::ServerHealth(_) => StatusCode::OK,
+            SuccessResponse::DatabaseCreated => StatusCode::CREATED,
+            SuccessResponse::DatabaseInfo(_) => StatusCode::OK,
+            SuccessResponse::DatabaseDeleted => StatusCode::OK,
+            SuccessResponse::TableCreated => StatusCode::CREATED,
+            SuccessResponse::TableInfo(_) => StatusCode::OK,
+            SuccessResponse::TableDeleted => StatusCode::OK,
+            SuccessResponse::EntriesCreated => StatusCode::CREATED,
+            SuccessResponse::EntriesResult(_) => StatusCode::OK,
+            SuccessResponse::EntriesDeleted => StatusCode::OK,
         };
 
         let status = status_code.canonical_reason().unwrap_or("").to_string();
-
-        let result = match api_response {
-            ApiResponse::Success(_) => "success".to_string(),
-            ApiResponse::Error(_) => "error".to_string(),
-        };
 
         (
             Self {
                 status_code: status_code.as_u16(),
                 status,
-                result,
-                response: api_response.to_owned(),
+                result: "success".to_string(),
+                response: ApiResponse::Success(response.to_owned()),
             },
             status_code,
         )
     }
-}
 
-impl Display for ApiResponse {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self)
-    }
-}
+    pub fn generate_error(response: &ErrorResponse) -> (Self, StatusCode) {
+        let status_code = match response {
+            ErrorResponse::NotFound(_) => StatusCode::NOT_FOUND,
+            ErrorResponse::BadRequest(_) => StatusCode::BAD_REQUEST,
+            ErrorResponse::Conflict(_) => StatusCode::CONFLICT,
+            ErrorResponse::InternalServerError => StatusCode::INTERNAL_SERVER_ERROR,
+        };
 
-impl Responder for ApiResponse {
-    type Body = actix_web::body::BoxBody;
+        let status = status_code.canonical_reason().unwrap_or("").to_string();
 
-    fn respond_to(self, _req: &actix_web::HttpRequest) -> actix_web::HttpResponse<Self::Body> {
-        let (response, status_code) = ApiResponseSerializable::generate(&self);
-        HttpResponse::build(status_code).json(response)
-    }
-}
-
-impl ResponseError for ApiResponse {
-    fn error_response(&self) -> HttpResponse {
-        let (response, status_code) = ApiResponseSerializable::generate(self);
-        HttpResponse::build(status_code).json(response)
+        (
+            Self {
+                status_code: status_code.as_u16(),
+                status,
+                result: "error".to_string(),
+                response: ApiResponse::Error(response.to_owned()),
+            },
+            status_code,
+        )
     }
 }
