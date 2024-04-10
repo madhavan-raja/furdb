@@ -1,11 +1,5 @@
-use actix_web::http::StatusCode;
 use furdb_core::errors::table_errors::table_read_error::TableReadError;
 use furdb_core::models as core_models;
-
-use crate::models;
-
-use models::response::success_response::SuccessResponse;
-use models::response::success_response::SuccessResponseType;
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
 pub struct GetDatabaseResponse {
@@ -45,15 +39,6 @@ impl GetDatabaseTableResponse {
             table_id: table_info.get_table_id(),
             table_name: table_info.get_table_name(),
             table_columns: table_info.get_table_columns(),
-        }
-    }
-}
-
-impl Into<SuccessResponse> for GetDatabaseResponse {
-    fn into(self) -> SuccessResponse {
-        SuccessResponse {
-            status_code: StatusCode::OK,
-            response: SuccessResponseType::DatabaseInfo(self),
         }
     }
 }

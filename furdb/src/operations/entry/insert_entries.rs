@@ -20,7 +20,5 @@ pub async fn insert_entries_handler(
 
     table.insert_entries(&insert_entries_params.get_data())?;
 
-    let response = models::response::entries::insert_entries_response::InsertEntriesResponse::new();
-
-    Ok(response.into())
+    Ok(models::response::success_response::SuccessResponse::EntriesCreated)
 }

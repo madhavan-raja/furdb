@@ -46,34 +46,6 @@ impl From<DatabaseReadError> for ErrorResponse {
     }
 }
 
-impl From<EntryDeletionError> for ErrorResponse {
-    fn from(error: EntryDeletionError) -> Self {
-        match error {
-            EntryDeletionError::OtherError(_e) => ErrorResponse::InternalServerError,
-        }
-    }
-}
-
-impl From<EntryInsertionError> for ErrorResponse {
-    fn from(error: EntryInsertionError) -> Self {
-        match error {
-            EntryInsertionError::ColumnMismatch => ErrorResponse::BadRequest(error.to_string()),
-            EntryInsertionError::ColumnOverflow => ErrorResponse::BadRequest(error.to_string()),
-            EntryInsertionError::OtherError(_e) => ErrorResponse::InternalServerError,
-        }
-    }
-}
-
-impl From<EntryReadError> for ErrorResponse {
-    fn from(error: EntryReadError) -> Self {
-        match error {
-            EntryReadError::InvalidIndex => ErrorResponse::BadRequest(error.to_string()),
-            EntryReadError::InvalidColumn => ErrorResponse::BadRequest(error.to_string()),
-            EntryReadError::OtherError(_e) => ErrorResponse::InternalServerError,
-        }
-    }
-}
-
 impl From<TableCreationError> for ErrorResponse {
     fn from(error: TableCreationError) -> Self {
         match error {
@@ -99,6 +71,34 @@ impl From<TableReadError> for ErrorResponse {
         match error {
             TableReadError::NotFound => ErrorResponse::NotFound(error.to_string()),
             TableReadError::OtherError(_e) => ErrorResponse::InternalServerError,
+        }
+    }
+}
+
+impl From<EntryInsertionError> for ErrorResponse {
+    fn from(error: EntryInsertionError) -> Self {
+        match error {
+            EntryInsertionError::ColumnMismatch => ErrorResponse::BadRequest(error.to_string()),
+            EntryInsertionError::ColumnOverflow => ErrorResponse::BadRequest(error.to_string()),
+            EntryInsertionError::OtherError(_e) => ErrorResponse::InternalServerError,
+        }
+    }
+}
+
+impl From<EntryDeletionError> for ErrorResponse {
+    fn from(error: EntryDeletionError) -> Self {
+        match error {
+            EntryDeletionError::OtherError(_e) => ErrorResponse::InternalServerError,
+        }
+    }
+}
+
+impl From<EntryReadError> for ErrorResponse {
+    fn from(error: EntryReadError) -> Self {
+        match error {
+            EntryReadError::InvalidIndex => ErrorResponse::BadRequest(error.to_string()),
+            EntryReadError::InvalidColumn => ErrorResponse::BadRequest(error.to_string()),
+            EntryReadError::OtherError(_e) => ErrorResponse::InternalServerError,
         }
     }
 }

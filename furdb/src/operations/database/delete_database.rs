@@ -16,8 +16,5 @@ pub async fn delete_database_handler(
     let furdb = data.as_ref();
     furdb.delete_database(&database_id)?;
 
-    let response =
-        models::response::database::delete_database_response::DeleteDatabaseResponse::new();
-
-    Ok(response.into())
+    Ok(models::response::success_response::SuccessResponse::DatabaseDeleted)
 }

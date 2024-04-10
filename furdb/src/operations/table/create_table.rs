@@ -22,7 +22,5 @@ pub async fn create_table_handler(
 
     database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;
 
-    let response = models::response::table::create_table_response::CreateTableResponse::new();
-
-    Ok(response.into())
+    Ok(models::response::success_response::SuccessResponse::TableCreated)
 }

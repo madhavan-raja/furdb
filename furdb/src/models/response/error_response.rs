@@ -2,7 +2,8 @@ use actix_web::{http::StatusCode, HttpResponse, ResponseError};
 use serde::Serialize;
 use std::fmt::{Display, Formatter};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
+#[serde(untagged)]
 pub enum ErrorResponse {
     NotFound(String),
     BadRequest(String),
@@ -14,7 +15,7 @@ pub enum ErrorResponse {
 pub struct ErrorResponseSerializable {
     pub status_code: u16,
     pub status: String,
-    pub error: String,
+    pub error: ErrorResponse,
 }
 
 impl Display for ErrorResponse {
@@ -34,17 +35,10 @@ impl ResponseError for ErrorResponse {
 
         let status = status_code.canonical_reason().unwrap_or("").to_string();
 
-        let error = match self {
-            ErrorResponse::NotFound(e) => e.to_string(),
-            ErrorResponse::BadRequest(e) => e.to_string(),
-            ErrorResponse::Conflict(e) => e.to_string(),
-            ErrorResponse::InternalServerError => "Internal Server Error".to_string(),
-        };
-
         HttpResponse::build(status_code).json(ErrorResponseSerializable {
             status_code: status_code.as_u16(),
             status,
-            error: error.to_string(),
+            error: self.to_owned(),
         })
     }
 }

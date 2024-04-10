@@ -21,7 +21,5 @@ pub async fn delete_entries_handler(
 
     table.delete_entries(indices)?;
 
-    let response = models::response::entries::delete_entries_response::DeleteEntriesResponse::new();
-
-    Ok(response.into())
+    Ok(models::response::success_response::SuccessResponse::EntriesDeleted)
 }

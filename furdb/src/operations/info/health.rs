@@ -1,7 +1,10 @@
 use actix_web::{get, web, Responder};
 use furdb_core::models as core_models;
 
-use crate::models::{self, response::error_response::ErrorResponse};
+use crate::models::{
+    self,
+    response::{error_response::ErrorResponse, success_response::SuccessResponse},
+};
 
 #[get("/health")]
 pub async fn health(
@@ -13,5 +16,5 @@ pub async fn health(
     let response =
         models::response::info::server_health_response::ServerHealthResponse::new(&config);
 
-    Ok(web::Json(response))
+    Ok(SuccessResponse::ServerHealth(response))
 }

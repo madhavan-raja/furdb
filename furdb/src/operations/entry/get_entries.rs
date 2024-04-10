@@ -31,5 +31,5 @@ pub async fn get_entries_handler(
 
     let response = models::response::entries::get_entries_response::GetEntriesResponse::new(&data);
 
-    Ok(response.into())
+    Ok(models::response::success_response::SuccessResponse::EntriesResult(response))
 }

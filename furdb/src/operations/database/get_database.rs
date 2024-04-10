@@ -19,5 +19,5 @@ pub async fn get_database_handler(
     let response =
         models::response::database::get_database_response::GetDatabaseResponse::new(&database)?;
 
-    Ok(response.into())
+    Ok(models::response::success_response::SuccessResponse::DatabaseInfo(response))
 }

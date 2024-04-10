@@ -1,7 +1,4 @@
-use actix_web::http::StatusCode;
 use furdb_core::models as core_models;
-
-use crate::models::response::success_response::{SuccessResponse, SuccessResponseType};
 
 #[derive(serde::Serialize, serde::Deserialize, Debug)]
 pub struct GetEntriesResponse {
@@ -33,15 +30,6 @@ impl Entry {
         Self {
             index: entry.get_index(),
             data: entry.get_data(),
-        }
-    }
-}
-
-impl Into<SuccessResponse> for GetEntriesResponse {
-    fn into(self) -> SuccessResponse {
-        SuccessResponse {
-            status_code: StatusCode::OK,
-            response: SuccessResponseType::QueryResult(self),
         }
     }
 }

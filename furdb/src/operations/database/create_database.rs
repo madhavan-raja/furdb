@@ -18,8 +18,5 @@ pub async fn create_database_handler(
     let furdb = data.as_ref();
     furdb.create_database(&database_id, database_name.as_deref())?;
 
-    let response =
-        models::response::database::create_database_response::CreateDatabaseResponse::new();
-
-    Ok(response.into())
+    Ok(models::response::success_response::SuccessResponse::DatabaseCreated)
 }

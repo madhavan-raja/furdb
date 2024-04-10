@@ -18,7 +18,5 @@ pub async fn delete_table_handler(
 
     database.delete_table(&table_id)?;
 
-    let response = models::response::table::delete_table_response::DeleteTableResponse::new();
-
-    Ok(response.into())
+    Ok(models::response::success_response::SuccessResponse::TableDeleted)
 }

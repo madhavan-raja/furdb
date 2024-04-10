@@ -19,5 +19,5 @@ pub async fn get_table_handler(
 
     let response = models::response::table::get_table_response::GetTableResponse::new(&table);
 
-    Ok(response.into())
+    Ok(models::response::success_response::SuccessResponse::TableInfo(response))
 }
