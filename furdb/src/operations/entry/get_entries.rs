@@ -1,17 +1,17 @@
 use actix_web::{get, web};
 use furdb_core::models as core_models;
 
-use crate::models::{self, params::get_entries_params::GetEntriesType};
+use crate::models::{
+    self, params::get_entries_params::GetEntriesType, response::api_response::ApiResponse,
+};
 
 #[get("/{database_id}/{table_id}/data")]
 pub async fn get_entries_handler(
     data: web::Data<core_models::furdb::FurDB>,
     path: web::Path<(String, String)>,
     get_entries_params: web::Json<models::params::get_entries_params::GetEntriesParams>,
-) -> Result<
-    models::response::success_response::SuccessResponse,
-    models::response::error_response::ErrorResponse,
-> {
+) -> Result<models::response::api_response::ApiResponse, models::response::api_response::ApiResponse>
+{
     let (database_id, table_id) = path.into_inner();
 
     let furdb = data.as_ref();
@@ -31,5 +31,7 @@ pub async fn get_entries_handler(
 
     let response = models::response::entries::get_entries_response::GetEntriesResponse::new(&data);
 
-    Ok(models::response::success_response::SuccessResponse::EntriesResult(response))
+    Ok(ApiResponse::Success(
+        models::response::success_response::SuccessResponse::EntriesResult(response),
+    ))
 }

@@ -1,12 +1,12 @@
 use furdb_core::models as core_models;
 
-#[derive(serde::Serialize, serde::Deserialize, Debug)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct GetEntriesResponse {
     result_count: usize,
     results: Vec<Entry>,
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Debug)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct Entry {
     index: usize,
     data: Vec<u128>,

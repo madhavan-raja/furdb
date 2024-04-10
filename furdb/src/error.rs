@@ -1,3 +1,4 @@
+use crate::models::response::api_response::ApiResponse;
 use crate::models::response::error_response::ErrorResponse;
 
 use furdb_core::errors;
@@ -18,87 +19,131 @@ use entry_errors::entry_deletion_error::EntryDeletionError;
 use entry_errors::entry_insertion_error::EntryInsertionError;
 use entry_errors::entry_read_error::EntryReadError;
 
-impl From<DatabaseCreationError> for ErrorResponse {
+impl From<DatabaseCreationError> for ApiResponse {
     fn from(error: DatabaseCreationError) -> Self {
         match error {
-            DatabaseCreationError::AlreadyExists => ErrorResponse::Conflict(error.to_string()),
-            DatabaseCreationError::InvalidId => ErrorResponse::BadRequest(error.to_string()),
-            DatabaseCreationError::OtherError(_e) => ErrorResponse::InternalServerError,
+            DatabaseCreationError::AlreadyExists => {
+                ApiResponse::Error(ErrorResponse::Conflict(error.to_string()))
+            }
+            DatabaseCreationError::InvalidId => {
+                ApiResponse::Error(ErrorResponse::BadRequest(error.to_string()))
+            }
+            DatabaseCreationError::OtherError(_e) => {
+                ApiResponse::Error(ErrorResponse::InternalServerError)
+            }
         }
     }
 }
 
-impl From<DatabaseDeletionError> for ErrorResponse {
+impl From<DatabaseDeletionError> for ApiResponse {
     fn from(error: DatabaseDeletionError) -> Self {
         match error {
-            DatabaseDeletionError::NotFound => ErrorResponse::NotFound(error.to_string()),
-            DatabaseDeletionError::OtherError(_e) => ErrorResponse::InternalServerError,
+            DatabaseDeletionError::NotFound => {
+                ApiResponse::Error(ErrorResponse::NotFound(error.to_string()))
+            }
+            DatabaseDeletionError::OtherError(_e) => {
+                ApiResponse::Error(ErrorResponse::InternalServerError)
+            }
         }
     }
 }
 
-impl From<DatabaseReadError> for ErrorResponse {
+impl From<DatabaseReadError> for ApiResponse {
     fn from(error: DatabaseReadError) -> Self {
         match error {
-            DatabaseReadError::NotFound => ErrorResponse::NotFound(error.to_string()),
-            DatabaseReadError::OtherError(_e) => ErrorResponse::InternalServerError,
+            DatabaseReadError::NotFound => {
+                ApiResponse::Error(ErrorResponse::NotFound(error.to_string()))
+            }
+            DatabaseReadError::OtherError(_e) => {
+                ApiResponse::Error(ErrorResponse::InternalServerError)
+            }
         }
     }
 }
 
-impl From<TableCreationError> for ErrorResponse {
+impl From<TableCreationError> for ApiResponse {
     fn from(error: TableCreationError) -> Self {
         match error {
-            TableCreationError::AlreadyExists => ErrorResponse::Conflict(error.to_string()),
-            TableCreationError::InvalidId => ErrorResponse::BadRequest(error.to_string()),
-            TableCreationError::ColumnsUnfit => ErrorResponse::BadRequest(error.to_string()),
-            TableCreationError::OtherError(_e) => ErrorResponse::InternalServerError,
+            TableCreationError::AlreadyExists => {
+                ApiResponse::Error(ErrorResponse::Conflict(error.to_string()))
+            }
+            TableCreationError::InvalidId => {
+                ApiResponse::Error(ErrorResponse::BadRequest(error.to_string()))
+            }
+            TableCreationError::ColumnsUnfit => {
+                ApiResponse::Error(ErrorResponse::BadRequest(error.to_string()))
+            }
+            TableCreationError::OtherError(_e) => {
+                ApiResponse::Error(ErrorResponse::InternalServerError)
+            }
         }
     }
 }
 
-impl From<TableDeletionError> for ErrorResponse {
+impl From<TableDeletionError> for ApiResponse {
     fn from(error: TableDeletionError) -> Self {
         match error {
-            TableDeletionError::NotFound => ErrorResponse::NotFound(error.to_string()),
-            TableDeletionError::OtherError(_e) => ErrorResponse::InternalServerError,
+            TableDeletionError::NotFound => {
+                ApiResponse::Error(ErrorResponse::NotFound(error.to_string()))
+            }
+            TableDeletionError::OtherError(_e) => {
+                ApiResponse::Error(ErrorResponse::InternalServerError)
+            }
         }
     }
 }
 
-impl From<TableReadError> for ErrorResponse {
+impl From<TableReadError> for ApiResponse {
     fn from(error: TableReadError) -> Self {
         match error {
-            TableReadError::NotFound => ErrorResponse::NotFound(error.to_string()),
-            TableReadError::OtherError(_e) => ErrorResponse::InternalServerError,
+            TableReadError::NotFound => {
+                ApiResponse::Error(ErrorResponse::NotFound(error.to_string()))
+            }
+            TableReadError::OtherError(_e) => {
+                ApiResponse::Error(ErrorResponse::InternalServerError)
+            }
         }
     }
 }
 
-impl From<EntryInsertionError> for ErrorResponse {
+impl From<EntryInsertionError> for ApiResponse {
     fn from(error: EntryInsertionError) -> Self {
         match error {
-            EntryInsertionError::ColumnMismatch => ErrorResponse::BadRequest(error.to_string()),
-            EntryInsertionError::ColumnOverflow => ErrorResponse::BadRequest(error.to_string()),
-            EntryInsertionError::OtherError(_e) => ErrorResponse::InternalServerError,
+            EntryInsertionError::ColumnMismatch => {
+                ApiResponse::Error(ErrorResponse::BadRequest(error.to_string()))
+            }
+            EntryInsertionError::ColumnOverflow => {
+                ApiResponse::Error(ErrorResponse::BadRequest(error.to_string()))
+            }
+            EntryInsertionError::OtherError(_e) => {
+                ApiResponse::Error(ErrorResponse::InternalServerError)
+            }
         }
     }
 }
 
-impl From<EntryDeletionError> for ErrorResponse {
+impl From<EntryDeletionError> for ApiResponse {
     fn from(error: EntryDeletionError) -> Self {
         match error {
-            EntryDeletionError::OtherError(_e) => ErrorResponse::InternalServerError,
+            EntryDeletionError::OtherError(_e) => {
+                ApiResponse::Error(ErrorResponse::InternalServerError)
+            }
         }
     }
 }
 
-impl From<EntryReadError> for ErrorResponse {
+impl From<EntryReadError> for ApiResponse {
     fn from(error: EntryReadError) -> Self {
         match error {
-            EntryReadError::InvalidIndex => ErrorResponse::BadRequest(error.to_string()),
-            EntryReadError::InvalidColumn => ErrorResponse::BadRequest(error.to_string()),
-            EntryReadError::OtherError(_e) => ErrorResponse::InternalServerError,
+            EntryReadError::InvalidIndex => {
+                ApiResponse::Error(ErrorResponse::BadRequest(error.to_string()))
+            }
+            EntryReadError::InvalidColumn => {
+                ApiResponse::Error(ErrorResponse::BadRequest(error.to_string()))
+            }
+            EntryReadError::OtherError(_e) => {
+                ApiResponse::Error(ErrorResponse::InternalServerError)
+            }
         }
     }
 }

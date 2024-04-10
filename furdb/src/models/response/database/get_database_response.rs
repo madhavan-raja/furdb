@@ -1,14 +1,14 @@
 use furdb_core::errors::table_errors::table_read_error::TableReadError;
 use furdb_core::models as core_models;
 
-#[derive(serde::Serialize, serde::Deserialize, Debug)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct GetDatabaseResponse {
     database_id: String,
     database_name: String,
     database_tables: Vec<GetDatabaseTableResponse>,
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Debug)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 struct GetDatabaseTableResponse {
     table_id: String,
     table_name: String,

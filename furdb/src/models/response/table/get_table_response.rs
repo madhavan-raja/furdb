@@ -1,6 +1,6 @@
 use furdb_core::models as core_models;
 
-#[derive(serde::Serialize, serde::Deserialize, Debug)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct GetTableResponse {
     database_id: String,
     table_id: String,

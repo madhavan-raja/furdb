@@ -1,6 +1,6 @@
 use furdb_core::models as core_models;
 
-#[derive(serde::Serialize, serde::Deserialize, Debug)]
+#[derive(serde::Serialize, serde::Deserialize, Debug, Clone)]
 pub struct ServerHealthResponse {
     message: String,
     config: core_models::config::Config,

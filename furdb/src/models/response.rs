@@ -1,3 +1,4 @@
+pub mod api_response;
 pub mod database;
 pub mod entries;
 pub mod error_response;
