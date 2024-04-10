@@ -46,7 +46,7 @@ You can pull an image and run it in a container.
 docker run --name furdb -d madhavanraja/furdb:latest
 ```
 
-You can clone this repository, build and run the container.
+You can clone this repository, build and run the container using `compose`.
 
 ```sh
 git clone https://github.com/madhavan-raja/furdb.git
@@ -54,27 +54,33 @@ cd ./furdb
 docker-compose up --build
 ```
 
-You can use the image as a service.
+You can use the image as a service in a `compose` in another application.
 
 ```yaml
 version: "3"
 services:
-  db:
+  furdb:
     image: madhavanraja/furdb:latest
     environment:
       WORKDIR: /furdb
-      PORT: 8080
+      PORT: 5678
     restart: on-failure
 ```
 
-The server can be accessed at `http://db:{PORT}`.
+The server can be accessed at `http://furdb:{PORT}`.
 
 ### Command Line
 
-If the executable is present in `PATH`, you can directly run the application.
+If the executable is present in your `PATH`, you can directly run the application.
 
 ```sh
-furdb --port 8080 --workdir "/furdb" -v
+furdb serve --port 5678 --workdir "/furdb"
+```
+
+You can run the `help` command to see all the available options.
+
+```sh
+furdb help
 ```
 
 ## Usage
@@ -83,7 +89,7 @@ furdb --port 8080 --workdir "/furdb" -v
 
 ### Checking Server Health
 
-`GET` `/health`
+`GET` `/`
 
 ### Create Database
 
@@ -148,20 +154,34 @@ furdb --port 8080 --workdir "/furdb" -v
 
 `GET` `/:database_id/:table_id/data`
 
+#### Get All Entries
+
 ```json
 {
-  "indices": [0, 10]
+  "entries": "All"
 }
 ```
 
-### Query Entries
-
-`GET` `/:database_id/:table_id/query`
+#### Get Entries By Indices
 
 ```json
 {
-  "column_index": 0,
-  "value": 12
+  "entries": {
+    "ByIndices": [2]
+  }
+}
+```
+
+#### Get Entries By Value
+
+```json
+{
+  "entries": {
+    "ByValue": {
+      "column_index": 0,
+      "value": 12
+    }
+  }
 }
 ```
 

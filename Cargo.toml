@@ -6,7 +6,8 @@ authors = ["Madhavan Raja"]
 license-file = "LICENSE"
 readme = "README.md"
 repository = "https://github.com/madhavan-raja/furdb"
-description = """A space-efficient relational database management system."""
+description = """A minimal Database Management System that prioritizes storage space usage
+and fast lookup/query times."""
 
 [dependencies]
 openssl = { version = "0.10", features = ["vendored"] }
