@@ -1,16 +1,18 @@
-use actix_web::{post, web};
-use furdb_core::models as core_models;
+use actix_web::post;
+use actix_web::web::{Data, Json, Path};
 
-use crate::models::{
-    self,
-    response::{error_response::ErrorResponse, success_response::SuccessResponse},
-};
+use furdb_core::models::furdb::FurDB;
+
+use crate::models::params::insert_entries_params::InsertEntriesParams;
+
+use crate::models::response::error_response::ErrorResponse;
+use crate::models::response::success_response::SuccessResponse;
 
 #[post("/{database_id}/{table_id}/data")]
 pub async fn insert_entries_handler(
-    data: web::Data<core_models::furdb::FurDB>,
-    path: web::Path<(String, String)>,
-    insert_entries_params: web::Json<models::params::insert_entries_params::InsertEntriesParams>,
+    data: Data<FurDB>,
+    path: Path<(String, String)>,
+    insert_entries_params: Json<InsertEntriesParams>,
 ) -> Result<SuccessResponse, ErrorResponse> {
     let (database_id, table_id) = path.into_inner();
 
@@ -20,5 +22,5 @@ pub async fn insert_entries_handler(
 
     table.insert_entries(&insert_entries_params.get_data())?;
 
-    Ok(models::response::success_response::SuccessResponse::EntriesCreated)
+    Ok(SuccessResponse::EntriesCreated)
 }

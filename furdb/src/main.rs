@@ -1,7 +1,11 @@
+use std::error::Error;
+
 use actix_web::{middleware, web, App, HttpServer};
 use clap::Parser;
-use furdb_core::models as core_models;
-use std::error::Error;
+
+use furdb_core::models::config::Config;
+use furdb_core::models::furdb::FurDB;
+use models::server_config::ServerConfig;
 
 mod error;
 mod models;
@@ -11,14 +15,14 @@ mod operations;
 async fn main() -> Result<(), Box<dyn Error>> {
     dotenv::dotenv().ok();
 
-    let server_config = models::server_config::ServerConfig::parse();
+    let server_config = ServerConfig::parse();
 
     env_logger::Builder::new()
         .filter_level(server_config.verbose.log_level_filter())
         .init();
 
-    let config = core_models::config::Config::new(&server_config.workdir);
-    let furdb = core_models::furdb::FurDB::new(&config)?;
+    let config = Config::new(&server_config.workdir);
+    let furdb = FurDB::new(&config)?;
 
     HttpServer::new(move || {
         let furdb = furdb.clone();

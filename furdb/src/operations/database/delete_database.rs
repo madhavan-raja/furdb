@@ -1,20 +1,20 @@
-use actix_web::{delete, web};
-use furdb_core::models as core_models;
+use actix_web::delete;
+use actix_web::web::{Data, Path};
 
-use crate::models::{
-    self,
-    response::{error_response::ErrorResponse, success_response::SuccessResponse},
-};
+use furdb_core::models::furdb::FurDB;
+
+use crate::models::response::error_response::ErrorResponse;
+use crate::models::response::success_response::SuccessResponse;
 
 #[delete("/{database_id}")]
 pub async fn delete_database_handler(
-    data: web::Data<core_models::furdb::FurDB>,
-    path: web::Path<String>,
+    data: Data<FurDB>,
+    path: Path<String>,
 ) -> Result<SuccessResponse, ErrorResponse> {
     let database_id = path.into_inner();
 
     let furdb = data.as_ref();
     furdb.delete_database(&database_id)?;
 
-    Ok(models::response::success_response::SuccessResponse::DatabaseDeleted)
+    Ok(SuccessResponse::DatabaseDeleted)
 }

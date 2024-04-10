@@ -1,15 +1,17 @@
-use actix_web::{get, web};
-use furdb_core::models as core_models;
+use actix_web::get;
+use actix_web::web::{Data, Path};
 
-use crate::models::{
-    self,
-    response::{error_response::ErrorResponse, success_response::SuccessResponse},
-};
+use furdb_core::models::furdb::FurDB;
+
+use crate::models::response::table::get_table_response::GetTableResponse;
+
+use crate::models::response::error_response::ErrorResponse;
+use crate::models::response::success_response::SuccessResponse;
 
 #[get("/{database_id}/{table_id}")]
 pub async fn get_table_handler(
-    data: web::Data<core_models::furdb::FurDB>,
-    path: web::Path<(String, String)>,
+    data: Data<FurDB>,
+    path: Path<(String, String)>,
 ) -> Result<SuccessResponse, ErrorResponse> {
     let (database_id, table_id) = path.into_inner();
 
@@ -17,7 +19,7 @@ pub async fn get_table_handler(
     let database = furdb.get_database(&database_id)?;
     let table = database.get_table(&table_id)?;
 
-    let response = models::response::table::get_table_response::GetTableResponse::new(&table);
+    let response = GetTableResponse::new(&table);
 
-    Ok(models::response::success_response::SuccessResponse::TableInfo(response))
+    Ok(SuccessResponse::TableInfo(response))
 }

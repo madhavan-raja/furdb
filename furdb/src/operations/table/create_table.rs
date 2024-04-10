@@ -1,16 +1,18 @@
-use actix_web::{post, web};
-use furdb_core::models as core_models;
+use actix_web::post;
+use actix_web::web::{Data, Json, Path};
 
-use crate::models::{
-    self,
-    response::{error_response::ErrorResponse, success_response::SuccessResponse},
-};
+use furdb_core::models::furdb::FurDB;
+
+use crate::models::params::create_table_params::CreateTableParams;
+
+use crate::models::response::error_response::ErrorResponse;
+use crate::models::response::success_response::SuccessResponse;
 
 #[post("/{database_id}/{table_id}")]
 pub async fn create_table_handler(
-    data: web::Data<core_models::furdb::FurDB>,
-    path: web::Path<(String, String)>,
-    create_table_params: web::Json<models::params::create_table_params::CreateTableParams>,
+    data: Data<FurDB>,
+    path: Path<(String, String)>,
+    create_table_params: Json<CreateTableParams>,
 ) -> Result<SuccessResponse, ErrorResponse> {
     let (database_id, table_id) = path.into_inner();
 
@@ -22,5 +24,5 @@ pub async fn create_table_handler(
 
     database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;
 
-    Ok(models::response::success_response::SuccessResponse::TableCreated)
+    Ok(SuccessResponse::TableCreated)
 }
