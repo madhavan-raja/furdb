@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::core::models::column::Column;
 use crate::core::models::table::Table;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct GetTableResponse {
     database_id: String,
     table_id: String,

@@ -4,14 +4,14 @@ use serde::Serialize;
 use crate::server::models::response::error_response::ErrorResponse;
 use crate::server::models::response::success_response::SuccessResponse;
 
-#[derive(Debug, Serialize, Clone)]
+#[derive(Serialize, Clone)]
 #[serde(untagged)]
 pub enum ApiResponse {
     Success(SuccessResponse),
     Error(ErrorResponse),
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Serialize)]
 pub struct ApiResponseSerializable {
     pub result: String,
     pub status_code: u16,

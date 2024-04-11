@@ -3,13 +3,13 @@ use serde::{Deserialize, Serialize};
 use crate::core::models::query_result::Entry as CoreEntry;
 use crate::core::models::query_result::QueryResult;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct GetEntriesResponse {
     result_count: usize,
     results: Vec<Entry>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Entry {
     index: usize,
     data: Vec<u128>,

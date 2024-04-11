@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::core::furdb_config::FurDBConfig;
 use crate::core::models::column::Column;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Table {
     config: FurDBConfig,
     table_info: TableInfo,
@@ -26,7 +26,7 @@ impl Table {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct TableInfo {
     database_id: String,
     table_id: String,

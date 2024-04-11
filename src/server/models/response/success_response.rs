@@ -10,7 +10,7 @@ use models::response::table::get_table_response::GetTableResponse;
 
 use super::api_response::ApiResponseSerializable;
 
-#[derive(Debug, Serialize, Clone)]
+#[derive(Serialize, Clone)]
 #[serde(untagged)]
 pub enum SuccessResponse {
     ServerInfo(ServerInfoResponse),

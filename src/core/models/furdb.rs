@@ -3,7 +3,7 @@ use crate::core::furdb_config::FurDBConfig;
 use crate::core::error::FurDBInitializationError;
 use std::io::ErrorKind;
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct FurDB {
     config: FurDBConfig,
 }

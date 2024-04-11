@@ -6,14 +6,14 @@ use crate::core::models::table::Table;
 
 use crate::core::error::TableReadError;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct GetDatabaseResponse {
     database_id: String,
     database_name: String,
     database_tables: Vec<GetDatabaseTableResponse>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 struct GetDatabaseTableResponse {
     table_id: String,
     table_name: String,

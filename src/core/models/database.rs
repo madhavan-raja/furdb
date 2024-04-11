@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::core::furdb_config::FurDBConfig;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Database {
     config: FurDBConfig,
     database_info: DatabaseInfo,
@@ -25,7 +25,7 @@ impl Database {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct DatabaseInfo {
     database_id: String,
     database_name: String,
