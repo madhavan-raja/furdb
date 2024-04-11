@@ -71,10 +71,10 @@ The server can be accessed at `http://furdb:{PORT}`.
 
 ### Command Line
 
-If the executable is present in your `PATH`, you can directly run the application.
+If the executable is present in your `PATH`, you can directly run the server.
 
 ```sh
-furdb serve --port 5678 --workdir "/furdb"
+furdb --workdir "/furdb" serve --port 5678
 ```
 
 You can run the `help` command to see all the available options.
@@ -85,7 +85,7 @@ furdb help
 
 ## Usage
 
-**FurDB** provides REST API endpoints for creating, reading, and deleting databases, tables, and entries.
+**FurDB Server** provides REST API endpoints for creating, reading, and deleting databases, tables, and entries.
 
 ### Checking Server Health
 
