@@ -1,20 +1,20 @@
+use crate::core::utils;
+
+use crate::core::models::database::DatabaseInfo;
+use crate::core::models::furdb::FurDB;
+
 use crate::core::errors::database_errors::database_creation_error::DatabaseCreationError;
 use std::io::ErrorKind;
 
-use crate::core::models;
-use crate::core::utils;
-
-impl models::furdb::FurDB {
+impl FurDB {
     pub fn create_database(
         &self,
         database_id: &str,
         database_name: Option<&str>,
     ) -> Result<(), DatabaseCreationError> {
         let config = self.get_config();
-        let database_info = &models::database::DatabaseInfo::new(
-            &database_id,
-            Some(&database_name.unwrap_or(database_id)),
-        );
+        let database_info =
+            &DatabaseInfo::new(&database_id, Some(&database_name.unwrap_or(database_id)));
 
         if !utils::is_id_valid(database_id) {
             return Err(DatabaseCreationError::InvalidId);

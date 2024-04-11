@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-const BASE_ERROR_MESSAGE: &str = "Error inserting entry";
+const BASE_ERROR_MESSAGE: &str = "Cannot insert Entry";
 
 #[derive(Error, Debug)]
 pub enum EntryInsertionError {

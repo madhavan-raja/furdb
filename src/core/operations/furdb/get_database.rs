@@ -1,14 +1,13 @@
+use crate::core::utils;
+
+use crate::core::models::database::Database;
+use crate::core::models::furdb::FurDB;
+
 use crate::core::errors::database_errors::database_read_error::DatabaseReadError;
 use std::io::ErrorKind;
 
-use crate::core::models;
-use crate::core::utils;
-
-impl models::furdb::FurDB {
-    pub fn get_database(
-        &self,
-        database_id: &str,
-    ) -> Result<models::database::Database, DatabaseReadError> {
+impl FurDB {
+    pub fn get_database(&self, database_id: &str) -> Result<Database, DatabaseReadError> {
         let config = self.get_config();
 
         let database_config_path =
@@ -23,7 +22,7 @@ impl models::furdb::FurDB {
         let database_info = serde_json::from_reader(database_config_file)
             .map_err(|e| DatabaseReadError::OtherError(e.to_string()))?;
 
-        let database = models::database::Database::new(&config, &database_info);
+        let database = Database::new(&config, &database_info);
 
         Ok(database)
     }

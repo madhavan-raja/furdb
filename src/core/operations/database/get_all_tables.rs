@@ -1,11 +1,13 @@
+use crate::core::utils;
+
+use crate::core::models::database::Database;
+use crate::core::models::table::Table;
+
 use crate::core::errors::table_errors::table_read_error::TableReadError;
 use std::io::ErrorKind;
 
-use crate::core::models;
-use crate::core::utils;
-
-impl models::database::Database {
-    pub fn get_all_tables(&self) -> Result<Vec<models::table::Table>, TableReadError> {
+impl Database {
+    pub fn get_all_tables(&self) -> Result<Vec<Table>, TableReadError> {
         let config = self.get_config();
         let database_info = self.get_database_info();
 
@@ -23,7 +25,7 @@ impl models::database::Database {
         let tables = table_ids
             .iter()
             .map(|table_id| self.get_table(table_id))
-            .collect::<Result<Vec<models::table::Table>, TableReadError>>()?;
+            .collect::<Result<Vec<Table>, TableReadError>>()?;
 
         Ok(tables)
     }

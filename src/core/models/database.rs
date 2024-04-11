@@ -1,20 +1,22 @@
-use crate::core::models;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+use crate::core::furdb_config::FurDBConfig;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Database {
-    config: models::config::Config,
+    config: FurDBConfig,
     database_info: DatabaseInfo,
 }
 
 impl Database {
-    pub fn new(config: &models::config::Config, database_info: &DatabaseInfo) -> Self {
+    pub fn new(config: &FurDBConfig, database_info: &DatabaseInfo) -> Self {
         Self {
             config: config.to_owned(),
             database_info: database_info.to_owned(),
         }
     }
 
-    pub fn get_config(&self) -> models::config::Config {
+    pub fn get_config(&self) -> FurDBConfig {
         self.config.to_owned()
     }
 
@@ -23,7 +25,7 @@ impl Database {
     }
 }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DatabaseInfo {
     database_id: String,
     database_name: String,

@@ -1,10 +1,11 @@
+use crate::core::utils;
+
+use crate::core::models::database::Database;
+
 use crate::core::errors::table_errors::table_deletion_error::TableDeletionError;
 use std::io::ErrorKind;
 
-use crate::core::models;
-use crate::core::utils;
-
-impl models::database::Database {
+impl Database {
     pub fn delete_table(&self, table_id: &str) -> Result<(), TableDeletionError> {
         let config = self.get_config();
         let database_info = self.get_database_info();

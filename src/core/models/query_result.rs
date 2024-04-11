@@ -1,10 +1,12 @@
-#[derive(serde::Serialize, serde::Deserialize)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize)]
 pub struct QueryResult {
     result_count: usize,
     results: Vec<Entry>,
 }
 
-#[derive(Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Entry {
     index: usize,
     data: Vec<u128>,

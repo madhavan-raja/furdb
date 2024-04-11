@@ -1,20 +1,23 @@
-use crate::core::models;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+use crate::core::furdb_config::FurDBConfig;
+use crate::core::models::column::Column;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Table {
-    config: models::config::Config,
+    config: FurDBConfig,
     table_info: TableInfo,
 }
 
 impl Table {
-    pub fn new(config: &models::config::Config, table_info: &TableInfo) -> Self {
+    pub fn new(config: &FurDBConfig, table_info: &TableInfo) -> Self {
         Self {
             config: config.to_owned(),
             table_info: table_info.to_owned(),
         }
     }
 
-    pub fn get_config(&self) -> models::config::Config {
+    pub fn get_config(&self) -> FurDBConfig {
         self.config.to_owned()
     }
 
@@ -23,12 +26,12 @@ impl Table {
     }
 }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TableInfo {
     database_id: String,
     table_id: String,
     table_name: String,
-    table_columns: Vec<models::column::Column>,
+    table_columns: Vec<Column>,
 }
 
 impl TableInfo {
@@ -36,7 +39,7 @@ impl TableInfo {
         database_id: &str,
         table_id: &str,
         table_name: &str,
-        table_columns: &[models::column::Column],
+        table_columns: &[Column],
     ) -> Self {
         Self {
             database_id: database_id.to_string(),
@@ -58,7 +61,7 @@ impl TableInfo {
         self.table_name.to_owned()
     }
 
-    pub fn get_table_columns(&self) -> Vec<models::column::Column> {
+    pub fn get_table_columns(&self) -> Vec<Column> {
         self.table_columns.to_owned()
     }
 }

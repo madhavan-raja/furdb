@@ -1,11 +1,13 @@
+use crate::core::utils;
+
+use crate::core::models::database::Database;
+use crate::core::models::table::Table;
+
 use crate::core::errors::table_errors::table_read_error::TableReadError;
 use std::io::ErrorKind;
 
-use crate::core::models;
-use crate::core::utils;
-
-impl models::database::Database {
-    pub fn get_table(&self, table_id: &str) -> Result<models::table::Table, TableReadError> {
+impl Database {
+    pub fn get_table(&self, table_id: &str) -> Result<Table, TableReadError> {
         let config = self.get_config();
         let database_info = self.get_database_info();
 
@@ -24,7 +26,7 @@ impl models::database::Database {
         let table_info = serde_json::from_reader(table_info_file)
             .map_err(|e| TableReadError::OtherError(e.to_string()))?;
 
-        let table = models::table::Table::new(&config, &table_info);
+        let table = Table::new(&config, &table_info);
 
         Ok(table)
     }

@@ -1,12 +1,13 @@
-use crate::core::errors::entry_errors::entry_insertion_error::EntryInsertionError;
-
-use crate::core::models;
 use crate::core::utils;
+
+use crate::core::models::table::Table;
 
 use bitvec::prelude::*;
 use std::io::Write;
 
-impl models::table::Table {
+use crate::core::errors::entry_errors::entry_insertion_error::EntryInsertionError;
+
+impl Table {
     pub fn insert_entries(&self, entries: &[Vec<u128>]) -> Result<(), EntryInsertionError> {
         let config = self.get_config();
         let table_info = self.get_table_info();

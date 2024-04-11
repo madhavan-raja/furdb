@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-const BASE_ERROR_MESSAGE: &str = "Error creating Database";
+const BASE_ERROR_MESSAGE: &str = "Cannot create Database";
 
 #[derive(Error, Debug)]
 pub enum DatabaseCreationError {

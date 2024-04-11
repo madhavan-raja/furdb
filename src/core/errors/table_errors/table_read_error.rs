@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-const BASE_ERROR_MESSAGE: &str = "Error reading Table";
+const BASE_ERROR_MESSAGE: &str = "Cannot read Table";
 
 #[derive(Error, Debug)]
 pub enum TableReadError {

@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-const BASE_ERROR_MESSAGE: &str = "Error initializing FurDB";
+const BASE_ERROR_MESSAGE: &str = "Cannot initialize FurDB";
 
 #[derive(Error, Debug)]
 pub enum FurDBInitializationError {

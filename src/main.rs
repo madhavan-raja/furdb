@@ -2,7 +2,7 @@ use std::error::Error;
 
 use clap::Parser;
 
-use core::models::config::Config;
+use core::furdb_config::FurDBConfig;
 use core::models::furdb::FurDB;
 
 use cli::Cli;
@@ -24,7 +24,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .filter_level(args.verbose.log_level_filter())
         .init();
 
-    let config = Config::new(&args.workdir);
+    let config = FurDBConfig::new(&args.workdir);
     let furdb = FurDB::new(&config)?;
 
     match args.command {

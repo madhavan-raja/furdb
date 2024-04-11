@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-const BASE_ERROR_MESSAGE: &str = "Error creating Table";
+const BASE_ERROR_MESSAGE: &str = "Cannot create Table";
 
 #[derive(Error, Debug)]
 pub enum TableCreationError {

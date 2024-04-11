@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-const BASE_ERROR_MESSAGE: &str = "Error reading entry";
+const BASE_ERROR_MESSAGE: &str = "Cannot read Entry";
 
 #[derive(Error, Debug)]
 pub enum EntryReadError {

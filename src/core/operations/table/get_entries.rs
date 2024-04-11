@@ -1,7 +1,5 @@
-use crate::core::errors::entry_errors::entry_read_error::EntryReadError;
-
-use crate::core::models;
 use crate::core::utils;
+
 use bitvec::prelude::*;
 use std::io::ErrorKind;
 use std::io::Read;
@@ -9,12 +7,14 @@ use std::io::Seek;
 use std::io::SeekFrom;
 use std::os::unix::fs::FileExt;
 
-impl models::table::Table {
-    pub fn query(
-        &self,
-        column_index: u64,
-        value: u128,
-    ) -> Result<models::query_result::QueryResult, EntryReadError> {
+use crate::core::models::query_result::Entry;
+use crate::core::models::query_result::QueryResult;
+use crate::core::models::table::Table;
+
+use crate::core::errors::entry_errors::entry_read_error::EntryReadError;
+
+impl Table {
+    pub fn query(&self, column_index: u64, value: u128) -> Result<QueryResult, EntryReadError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -141,10 +141,7 @@ impl models::table::Table {
         self.get_entries(Some(indices))
     }
 
-    pub fn get_entries(
-        &self,
-        indices: Option<Vec<u64>>,
-    ) -> Result<models::query_result::QueryResult, EntryReadError> {
+    pub fn get_entries(&self, indices: Option<Vec<u64>>) -> Result<QueryResult, EntryReadError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -182,18 +179,18 @@ impl models::table::Table {
             }
         }
 
-        let result = models::query_result::QueryResult::new(
+        let result = QueryResult::new(
             &indices
                 .unwrap_or((0..file_size / entry_size).collect())
                 .into_iter()
                 .map(|index| self.get_entry(index).unwrap())
-                .collect::<Vec<models::query_result::Entry>>(),
+                .collect::<Vec<Entry>>(),
         );
 
         Ok(result)
     }
 
-    pub fn get_entry(&self, index: u64) -> Result<models::query_result::Entry, EntryReadError> {
+    pub fn get_entry(&self, index: u64) -> Result<Entry, EntryReadError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -259,6 +256,6 @@ impl models::table::Table {
             })
             .0;
 
-        Ok(models::query_result::Entry::new(index as usize, result))
+        Ok(Entry::new(index as usize, result))
     }
 }

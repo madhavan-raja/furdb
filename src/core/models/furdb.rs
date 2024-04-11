@@ -1,15 +1,15 @@
+use crate::core::furdb_config::FurDBConfig;
+
 use crate::core::errors::furdb_errors::furdb_initialization_error::FurDBInitializationError;
 use std::io::ErrorKind;
 
-use crate::core::models;
-
 #[derive(Debug, Clone)]
 pub struct FurDB {
-    config: models::config::Config,
+    config: FurDBConfig,
 }
 
 impl FurDB {
-    pub fn new(config: &models::config::Config) -> Result<Self, FurDBInitializationError> {
+    pub fn new(config: &FurDBConfig) -> Result<Self, FurDBInitializationError> {
         let fur_directory = &config.fur_directory;
 
         if !fur_directory.exists() {
@@ -25,7 +25,7 @@ impl FurDB {
         })
     }
 
-    pub fn get_config(&self) -> models::config::Config {
+    pub fn get_config(&self) -> FurDBConfig {
         self.config.to_owned()
     }
 }

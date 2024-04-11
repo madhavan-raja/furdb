@@ -1,20 +1,24 @@
+use crate::core::utils;
+
+use crate::core::models::column::Column;
+use crate::core::models::database::Database;
+use crate::core::models::table::Table;
+use crate::core::models::table::TableInfo;
+
 use crate::core::errors::table_errors::table_creation_error::TableCreationError;
 use std::io::ErrorKind;
 
-use crate::core::models;
-use crate::core::utils;
-
-impl models::database::Database {
+impl Database {
     pub fn create_table(
         &self,
         table_id: &str,
         table_name: Option<&str>,
-        table_columns: Vec<models::column::Column>,
-    ) -> Result<models::table::Table, TableCreationError> {
+        table_columns: Vec<Column>,
+    ) -> Result<Table, TableCreationError> {
         let config = self.get_config();
         let database_info = self.get_database_info();
 
-        let table_info = models::table::TableInfo::new(
+        let table_info = TableInfo::new(
             &database_info.get_database_id(),
             &table_id,
             &table_name.unwrap_or(&table_id),
@@ -25,7 +29,7 @@ impl models::database::Database {
             return Err(TableCreationError::InvalidId);
         }
 
-        let table = models::table::Table::new(&config, &table_info);
+        let table = Table::new(&config, &table_info);
 
         let table_path = utils::get_table_path(
             &config.fur_directory,

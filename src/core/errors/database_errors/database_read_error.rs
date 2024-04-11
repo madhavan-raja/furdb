@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-const BASE_ERROR_MESSAGE: &str = "Error reading Database";
+const BASE_ERROR_MESSAGE: &str = "Cannot read Database";
 
 #[derive(Error, Debug)]
 pub enum DatabaseReadError {

@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-const BASE_ERROR_MESSAGE: &str = "Error deleting Table";
+const BASE_ERROR_MESSAGE: &str = "Cannot delete Table";
 
 #[derive(Error, Debug)]
 pub enum TableDeletionError {

@@ -1,9 +1,12 @@
-use crate::core::errors::entry_errors::entry_deletion_error::EntryDeletionError;
-
 use crate::core::utils;
+
 use std::collections::HashSet;
 
-impl crate::core::models::table::Table {
+use crate::core::models::table::Table;
+
+use crate::core::errors::entry_errors::entry_deletion_error::EntryDeletionError;
+
+impl Table {
     pub fn delete_entries(&self, indices: Option<Vec<u64>>) -> Result<(), EntryDeletionError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
