@@ -1,7 +1,7 @@
 use actix_web::get;
 use actix_web::web::{Data, Path};
 
-use crate::core::models::furdb::FurDB;
+use crate::core::furdb::FurDB;
 
 use crate::server::models::response::table::get_table_response::GetTableResponse;
 

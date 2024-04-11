@@ -1,7 +1,7 @@
 use actix_web::get;
 use actix_web::web::Data;
 
-use crate::core::models::furdb::FurDB;
+use crate::core::furdb::FurDB;
 
 use crate::server::models::response::info::server_info_response::ServerInfoResponse;
 

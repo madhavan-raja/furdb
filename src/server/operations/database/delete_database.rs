@@ -1,7 +1,7 @@
 use actix_web::delete;
 use actix_web::web::{Data, Path};
 
-use crate::core::models::furdb::FurDB;
+use crate::core::furdb::FurDB;
 
 use crate::server::models::response::error_response::ErrorResponse;
 use crate::server::models::response::success_response::SuccessResponse;

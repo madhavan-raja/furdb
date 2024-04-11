@@ -1,7 +1,7 @@
 use actix_web::post;
 use actix_web::web::{Data, Json, Path};
 
-use crate::core::models::furdb::FurDB;
+use crate::core::furdb::FurDB;
 
 use crate::server::models::params::create_table_params::CreateTableParams;
 

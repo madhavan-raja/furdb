@@ -2,12 +2,12 @@ use std::error::Error;
 
 use clap::Parser;
 
-use core::models::furdb::FurDB;
+use core::furdb::FurDB;
 
 use cli::Cli;
 use cli::Commands;
 
-use server::start_server::start_server;
+use server::server::Server;
 
 mod cli;
 mod core;
@@ -28,7 +28,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     match args.command {
         Commands::Serve(server_config) => {
-            start_server(server_config, furdb).await?;
+            let server = Server::new(server_config, furdb);
+            server.start().await?;
         }
     }
 
