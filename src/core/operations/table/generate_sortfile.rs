@@ -13,7 +13,7 @@ impl Table {
         let table_info = self.get_table_info();
 
         let all_entries = self
-            .get_entries(None)
+            .get_all_entries()
             .map_err(|e| EntryInsertionError::OtherError(e.to_string()))?
             .get_results();
         let identifier_size = if all_entries.len() > 0 {

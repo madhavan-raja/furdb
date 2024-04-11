@@ -138,10 +138,41 @@ impl Table {
             })
             .collect();
 
-        self.get_entries(Some(indices))
+        self.get_entries(indices)
     }
 
-    pub fn get_entries(&self, indices: Option<Vec<u64>>) -> Result<QueryResult, EntryReadError> {
+    pub fn get_all_entries(&self) -> Result<QueryResult, EntryReadError> {
+        let config = self.get_config();
+        let table_info = self.get_table_info();
+
+        let table_data_path = utils::get_table_data_path(
+            &config.workdir,
+            &table_info.get_database_id(),
+            &table_info.get_table_id(),
+        );
+
+        let table_data_file = std::fs::OpenOptions::new()
+            .read(true)
+            .open(table_data_path)
+            .unwrap();
+
+        let entry_size = table_info
+            .get_table_columns()
+            .iter()
+            .fold(0, |acc, column| acc + column.get_size()) as u64
+            / 8;
+
+        let file_size = table_data_file
+            .metadata()
+            .map_err(|e| EntryReadError::OtherError(e.to_string()))?
+            .len();
+
+        let indices = (0..file_size / entry_size).collect();
+
+        self.get_entries(indices)
+    }
+
+    pub fn get_entries(&self, indices: Vec<u64>) -> Result<QueryResult, EntryReadError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -169,19 +200,14 @@ impl Table {
 
         // TODO: Refactor this in the future
 
-        if indices.is_some() {
-            let indices = indices.clone().unwrap();
-
-            for index in &indices {
-                if *index >= file_size / entry_size {
-                    return Err(EntryReadError::InvalidIndex);
-                }
+        for index in &indices {
+            if *index >= file_size / entry_size {
+                return Err(EntryReadError::InvalidIndex);
             }
         }
 
         let result = QueryResult::new(
             &indices
-                .unwrap_or((0..file_size / entry_size).collect())
                 .into_iter()
                 .map(|index| self.get_entry(index).unwrap())
                 .collect::<Vec<Entry>>(),

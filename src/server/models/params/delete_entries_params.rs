@@ -1,12 +1,18 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
+pub enum DeleteEntriesType {
+    All,
+    ByIndices(Vec<u64>),
+}
+
+#[derive(Serialize, Deserialize, Clone)]
 pub struct DeleteEntriesParams {
-    indices: Option<Vec<u64>>,
+    entries: DeleteEntriesType,
 }
 
 impl DeleteEntriesParams {
-    pub fn get_indices(&self) -> Option<Vec<u64>> {
-        self.indices.to_owned()
+    pub fn get_entries(&self) -> DeleteEntriesType {
+        self.entries.to_owned()
     }
 }

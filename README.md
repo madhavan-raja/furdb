@@ -442,7 +442,9 @@ Delete entries from table with ID `my_table` in the database with ID `my_databas
 **Request**
 
 ```json
-{}
+{
+  "entries": "All"
+}
 ```
 
 **Response**
@@ -462,7 +464,9 @@ Delete entries from table with ID `my_table` in the database with ID `my_databas
 
 ```json
 {
-  "indices": [1]
+  "entries": {
+    "ByIndices": [1]
+  }
 }
 ```
 
