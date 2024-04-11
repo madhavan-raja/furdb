@@ -1,22 +1,18 @@
 use crate::server::models::response::error_response::ErrorResponse;
 
-use crate::core::errors;
+use crate::core::error;
 
-use errors::database_errors;
-use errors::entry_errors;
-use errors::table_errors;
+use error::DatabaseCreationError;
+use error::DatabaseDeletionError;
+use error::DatabaseReadError;
 
-use database_errors::database_creation_error::DatabaseCreationError;
-use database_errors::database_deletion_error::DatabaseDeletionError;
-use database_errors::database_read_error::DatabaseReadError;
+use error::TableCreationError;
+use error::TableDeletionError;
+use error::TableReadError;
 
-use table_errors::table_creation_error::TableCreationError;
-use table_errors::table_deletion_error::TableDeletionError;
-use table_errors::table_read_error::TableReadError;
-
-use entry_errors::entry_deletion_error::EntryDeletionError;
-use entry_errors::entry_insertion_error::EntryInsertionError;
-use entry_errors::entry_read_error::EntryReadError;
+use error::EntryDeletionError;
+use error::EntryInsertionError;
+use error::EntryReadError;
 
 impl From<DatabaseCreationError> for ErrorResponse {
     fn from(error: DatabaseCreationError) -> Self {

@@ -5,7 +5,7 @@ use crate::core::models::database::Database;
 use crate::core::models::table::Table;
 use crate::core::models::table::TableInfo;
 
-use crate::core::errors::table_errors::table_creation_error::TableCreationError;
+use crate::core::error::TableCreationError;
 use std::io::ErrorKind;
 
 impl Database {

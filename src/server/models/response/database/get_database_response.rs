@@ -4,7 +4,7 @@ use crate::core::models::column::Column;
 use crate::core::models::database::Database;
 use crate::core::models::table::Table;
 
-use crate::core::errors::table_errors::table_read_error::TableReadError;
+use crate::core::error::TableReadError;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct GetDatabaseResponse {

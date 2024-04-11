@@ -5,7 +5,7 @@ use std::io::Write;
 
 use crate::core::models::table::Table;
 
-use crate::core::errors::entry_errors::entry_insertion_error::EntryInsertionError;
+use crate::core::error::EntryInsertionError;
 
 impl Table {
     pub fn generate_sortfile(&self) -> Result<(), EntryInsertionError> {

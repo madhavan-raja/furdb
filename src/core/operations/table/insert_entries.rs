@@ -5,7 +5,7 @@ use crate::core::models::table::Table;
 use bitvec::prelude::*;
 use std::io::Write;
 
-use crate::core::errors::entry_errors::entry_insertion_error::EntryInsertionError;
+use crate::core::error::EntryInsertionError;
 
 impl Table {
     pub fn insert_entries(&self, entries: &[Vec<u128>]) -> Result<(), EntryInsertionError> {

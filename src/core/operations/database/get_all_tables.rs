@@ -3,7 +3,7 @@ use crate::core::utils;
 use crate::core::models::database::Database;
 use crate::core::models::table::Table;
 
-use crate::core::errors::table_errors::table_read_error::TableReadError;
+use crate::core::error::TableReadError;
 use std::io::ErrorKind;
 
 impl Database {

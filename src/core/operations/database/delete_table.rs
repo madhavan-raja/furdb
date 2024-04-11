@@ -2,7 +2,7 @@ use crate::core::utils;
 
 use crate::core::models::database::Database;
 
-use crate::core::errors::table_errors::table_deletion_error::TableDeletionError;
+use crate::core::error::TableDeletionError;
 use std::io::ErrorKind;
 
 impl Database {

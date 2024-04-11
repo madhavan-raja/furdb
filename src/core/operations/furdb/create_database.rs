@@ -3,7 +3,7 @@ use crate::core::utils;
 use crate::core::models::database::DatabaseInfo;
 use crate::core::models::furdb::FurDB;
 
-use crate::core::errors::database_errors::database_creation_error::DatabaseCreationError;
+use crate::core::error::DatabaseCreationError;
 use std::io::ErrorKind;
 
 impl FurDB {

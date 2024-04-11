@@ -2,7 +2,7 @@ use crate::core::utils;
 
 use crate::core::models::furdb::FurDB;
 
-use crate::core::errors::database_errors::database_deletion_error::DatabaseDeletionError;
+use crate::core::error::DatabaseDeletionError;
 use std::io::ErrorKind;
 
 impl FurDB {

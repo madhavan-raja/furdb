@@ -1,6 +1,6 @@
 use crate::core::furdb_config::FurDBConfig;
 
-use crate::core::errors::furdb_errors::furdb_initialization_error::FurDBInitializationError;
+use crate::core::error::FurDBInitializationError;
 use std::io::ErrorKind;
 
 #[derive(Debug, Clone)]

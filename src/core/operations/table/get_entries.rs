@@ -11,7 +11,7 @@ use crate::core::models::query_result::Entry;
 use crate::core::models::query_result::QueryResult;
 use crate::core::models::table::Table;
 
-use crate::core::errors::entry_errors::entry_read_error::EntryReadError;
+use crate::core::error::EntryReadError;
 
 impl Table {
     pub fn query(&self, column_index: u64, value: u128) -> Result<QueryResult, EntryReadError> {

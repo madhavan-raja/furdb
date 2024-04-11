@@ -4,7 +4,7 @@ use std::collections::HashSet;
 
 use crate::core::models::table::Table;
 
-use crate::core::errors::entry_errors::entry_deletion_error::EntryDeletionError;
+use crate::core::error::EntryDeletionError;
 
 impl Table {
     pub fn delete_entries(&self, indices: Option<Vec<u64>>) -> Result<(), EntryDeletionError> {

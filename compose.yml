@@ -9,7 +9,7 @@ services:
     environment:
       - WORKDIR=/furdb
     ports:
-      - "5678:80"
+      - "5678:5678"
     develop:
       watch:
         - action: rebuild
