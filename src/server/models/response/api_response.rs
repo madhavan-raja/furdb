@@ -5,6 +5,7 @@ use crate::server::models::response::error_response::ErrorResponse;
 use crate::server::models::response::success_response::SuccessResponse;
 
 #[derive(Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
 #[serde(untagged)]
 pub enum ApiResponse {
     Success(SuccessResponse),
@@ -12,6 +13,7 @@ pub enum ApiResponse {
 }
 
 #[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct ApiResponseSerializable {
     pub result: String,
     pub status_code: u16,

@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::core::furdb_config::FurDBConfig;
 
 #[derive(Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Database {
     config: FurDBConfig,
     database_info: DatabaseInfo,
@@ -26,6 +27,7 @@ impl Database {
 }
 
 #[derive(Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct DatabaseInfo {
     database_id: String,
     database_name: String,

@@ -4,6 +4,7 @@ use crate::core::furdb_config::FurDBConfig;
 use crate::core::models::column::Column;
 
 #[derive(Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Table {
     config: FurDBConfig,
     table_info: TableInfo,
@@ -27,6 +28,7 @@ impl Table {
 }
 
 #[derive(Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct TableInfo {
     database_id: String,
     table_id: String,

@@ -7,6 +7,7 @@ use crate::core::models::table::Table;
 use crate::core::error::TableReadError;
 
 #[derive(Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct GetDatabaseResponse {
     database_id: String,
     database_name: String,
@@ -14,6 +15,7 @@ pub struct GetDatabaseResponse {
 }
 
 #[derive(Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
 struct GetDatabaseTableResponse {
     table_id: String,
     table_name: String,

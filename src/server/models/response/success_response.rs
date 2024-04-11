@@ -11,6 +11,7 @@ use models::response::table::get_table_response::GetTableResponse;
 use super::api_response::ApiResponseSerializable;
 
 #[derive(Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
 #[serde(untagged)]
 pub enum SuccessResponse {
     ServerInfo(ServerInfoResponse),

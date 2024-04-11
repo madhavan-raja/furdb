@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::core::models::column::Column;
 
 #[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CreateTableParams {
     table_name: Option<String>,
     table_columns: Vec<Column>,

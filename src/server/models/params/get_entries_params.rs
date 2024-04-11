@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct GetEntriesByValuesParams {
     column_index: u64,
     value: u128,
@@ -17,6 +18,7 @@ impl GetEntriesByValuesParams {
 }
 
 #[derive(Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
 pub enum GetEntriesType {
     All,
     ByIndices(Vec<u64>),
@@ -24,6 +26,7 @@ pub enum GetEntriesType {
 }
 
 #[derive(Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct GetEntriesParams {
     entries: GetEntriesType,
 }

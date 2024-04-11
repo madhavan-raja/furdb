@@ -5,6 +5,7 @@ use super::api_response::ApiResponseSerializable;
 use std::fmt::{Display, Formatter, Result};
 
 #[derive(Serialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
 #[serde(untagged)]
 pub enum ErrorResponse {
     NotFound(String),

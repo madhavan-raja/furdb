@@ -5,6 +5,7 @@ use std::path::PathBuf;
 
 /// FurDB
 #[derive(Args, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct FurDBConfig {
     /// Working Directory
     #[arg(short, long, env)]

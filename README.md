@@ -100,7 +100,7 @@ Gets server information.
 ```json
 {
   "result": "success",
-  "status_code": 200,
+  "statusCode": 200,
   "status": "OK",
   "response": {
     "message": "Server is running",
@@ -123,7 +123,7 @@ Create a database with ID `my_database`.
 
 ```json
 {
-  "database_name": "Database Name"
+  "databaseName": "My Database"
 }
 ```
 
@@ -132,7 +132,7 @@ Create a database with ID `my_database`.
 ```json
 {
   "result": "success",
-  "status_code": 201,
+  "statusCode": 201,
   "status": "Created",
   "response": null
 }
@@ -151,12 +151,12 @@ Get info of database with ID `my_database`.
 ```json
 {
   "result": "success",
-  "status_code": 200,
+  "statusCode": 200,
   "status": "OK",
   "response": {
-    "database_id": "my_database",
-    "database_name": "My Database",
-    "database_tables": []
+    "databaseId": "my_database",
+    "databaseName": "My Database",
+    "databaseTables": []
   }
 }
 ```
@@ -174,7 +174,7 @@ Delete database with ID `my_database`.
 ```json
 {
   "result": "success",
-  "status_code": 200,
+  "statusCode": 200,
   "status": "OK",
   "response": null
 }
@@ -192,8 +192,8 @@ Creates a table with ID `my_table` in the database with ID `my_database`.
 
 ```json
 {
-  "table_name": "My Table",
-  "table_columns": [
+  "tableName": "My Table",
+  "tableColumns": [
     {
       "name": "First Column",
       "size": 5
@@ -211,7 +211,7 @@ Creates a table with ID `my_table` in the database with ID `my_database`.
 ```json
 {
   "result": "success",
-  "status_code": 201,
+  "statusCode": 201,
   "status": "Created",
   "response": null
 }
@@ -230,13 +230,13 @@ Get info of table with ID `my_table` in the database with ID `my_database`.
 ```json
 {
   "result": "success",
-  "status_code": 200,
+  "statusCode": 200,
   "status": "OK",
   "response": {
-    "database_id": "my_database",
-    "table_id": "my_table",
-    "table_name": "My Table",
-    "table_columns": [
+    "databaseId": "my_database",
+    "tableId": "my_table",
+    "tableName": "My Table",
+    "tableColumns": [
       {
         "name": "First Column",
         "size": 5
@@ -263,7 +263,7 @@ Delete table with ID `my_table` in the database with ID `my_database`.
 ```json
 {
   "result": "success",
-  "status_code": 200,
+  "statusCode": 200,
   "status": "OK",
   "response": null
 }
@@ -317,7 +317,7 @@ Get entries from table with ID `my_table` in the database with ID `my_database`.
 
 ```json
 {
-  "entries": "All"
+  "entries": "all"
 }
 ```
 
@@ -326,10 +326,10 @@ Get entries from table with ID `my_table` in the database with ID `my_database`.
 ```json
 {
   "result": "success",
-  "status_code": 200,
+  "statusCode": 200,
   "status": "OK",
   "response": {
-    "result_count": 6,
+    "resultCount": 6,
     "results": [
       {
         "index": 0,
@@ -367,7 +367,7 @@ Get entries from table with ID `my_table` in the database with ID `my_database`.
 ```json
 {
   "entries": {
-    "ByIndices": [1, 3]
+    "byIndices": [1, 3]
   }
 }
 ```
@@ -377,10 +377,10 @@ Get entries from table with ID `my_table` in the database with ID `my_database`.
 ```json
 {
   "result": "success",
-  "status_code": 200,
+  "statusCode": 200,
   "status": "OK",
   "response": {
-    "result_count": 2,
+    "resultCount": 2,
     "results": [
       {
         "index": 1,
@@ -402,8 +402,8 @@ Get entries from table with ID `my_table` in the database with ID `my_database`.
 ```json
 {
   "entries": {
-    "ByValue": {
-      "column_index": 0,
+    "byValue": {
+      "columnIndex": 0,
       "value": 23
     }
   }
@@ -415,10 +415,10 @@ Get entries from table with ID `my_table` in the database with ID `my_database`.
 ```json
 {
   "result": "success",
-  "status_code": 200,
+  "statusCode": 200,
   "status": "OK",
   "response": {
-    "result_count": 1,
+    "resultCount": 1,
     "results": [
       {
         "index": 2,
@@ -443,7 +443,7 @@ Delete entries from table with ID `my_table` in the database with ID `my_databas
 
 ```json
 {
-  "entries": "All"
+  "entries": "all"
 }
 ```
 
@@ -452,7 +452,7 @@ Delete entries from table with ID `my_table` in the database with ID `my_databas
 ```json
 {
   "result": "success",
-  "status_code": 200,
+  "statusCode": 200,
   "status": "OK",
   "response": null
 }
@@ -465,7 +465,7 @@ Delete entries from table with ID `my_table` in the database with ID `my_databas
 ```json
 {
   "entries": {
-    "ByIndices": [1]
+    "byIndices": [1]
   }
 }
 ```
@@ -475,7 +475,7 @@ Delete entries from table with ID `my_table` in the database with ID `my_databas
 ```json
 {
   "result": "success",
-  "status_code": 200,
+  "statusCode": 200,
   "status": "OK",
   "response": null
 }

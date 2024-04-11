@@ -4,12 +4,14 @@ use crate::core::models::query_result::Entry as CoreEntry;
 use crate::core::models::query_result::QueryResult;
 
 #[derive(Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct GetEntriesResponse {
     result_count: usize,
     results: Vec<Entry>,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct Entry {
     index: usize,
     data: Vec<u128>,
