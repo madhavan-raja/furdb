@@ -31,26 +31,20 @@ impl Database {
 
         let table = Table::new(&config, &table_info);
 
-        let table_path = utils::get_table_path(
-            &config.fur_directory,
-            &database_info.get_database_id(),
-            &table_id,
-        );
+        let table_path =
+            utils::get_table_path(&config.workdir, &database_info.get_database_id(), &table_id);
         let table_config_path = utils::get_table_config_path(
-            &config.fur_directory,
+            &config.workdir,
             &database_info.get_database_id(),
             &table_id,
         );
         let table_data_path = utils::get_table_data_path(
-            &config.fur_directory,
+            &config.workdir,
             &database_info.get_database_id(),
             &table_id,
         );
-        let table_sortfile_path = utils::get_sortfile_path(
-            &config.fur_directory,
-            &database_info.get_database_id(),
-            &table_id,
-        );
+        let table_sortfile_path =
+            utils::get_sortfile_path(&config.workdir, &database_info.get_database_id(), &table_id);
 
         if table_columns.iter().fold(0, |acc, x| acc + x.get_size()) % 8 != 0 {
             return Err(TableCreationError::ColumnsUnfit);

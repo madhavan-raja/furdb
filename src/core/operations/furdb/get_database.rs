@@ -10,8 +10,7 @@ impl FurDB {
     pub fn get_database(&self, database_id: &str) -> Result<Database, DatabaseReadError> {
         let config = self.get_config();
 
-        let database_config_path =
-            utils::get_database_config_path(&config.fur_directory, database_id);
+        let database_config_path = utils::get_database_config_path(&config.workdir, database_id);
 
         let database_config_file =
             std::fs::File::open(&database_config_path).map_err(|e| match e.kind() {

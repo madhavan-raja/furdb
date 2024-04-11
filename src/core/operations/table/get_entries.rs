@@ -30,7 +30,7 @@ impl Table {
             / 8;
 
         let table_data_path = utils::get_table_data_path(
-            &config.fur_directory,
+            &config.workdir,
             &table_info.get_database_id(),
             &table_info.get_table_id(),
         );
@@ -54,7 +54,7 @@ impl Table {
         };
 
         let table_sortfile_path = utils::get_sortfile_path(
-            &config.fur_directory,
+            &config.workdir,
             &table_info.get_database_id(),
             &table_info.get_table_id(),
         );
@@ -146,7 +146,7 @@ impl Table {
         let table_info = self.get_table_info();
 
         let table_data_path = utils::get_table_data_path(
-            &config.fur_directory,
+            &config.workdir,
             &table_info.get_database_id(),
             &table_info.get_table_id(),
         );
@@ -202,7 +202,7 @@ impl Table {
             / 8;
 
         let table_data_path = utils::get_table_data_path(
-            &config.fur_directory,
+            &config.workdir,
             &table_info.get_database_id(),
             &table_info.get_table_id(),
         );

@@ -1,15 +1,12 @@
 use serde::{Deserialize, Serialize};
+
+use clap::Args;
 use std::path::PathBuf;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// FurDB
+#[derive(Args, Debug, Clone, Serialize, Deserialize)]
 pub struct FurDBConfig {
-    pub fur_directory: PathBuf,
-}
-
-impl FurDBConfig {
-    pub fn new(fur_directory: &str) -> Self {
-        Self {
-            fur_directory: PathBuf::from(fur_directory),
-        }
-    }
+    /// Working Directory
+    #[arg(short, long, env)]
+    pub workdir: PathBuf,
 }

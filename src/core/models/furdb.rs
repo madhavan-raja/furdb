@@ -10,7 +10,7 @@ pub struct FurDB {
 
 impl FurDB {
     pub fn new(config: &FurDBConfig) -> Result<Self, FurDBInitializationError> {
-        let fur_directory = &config.fur_directory;
+        let fur_directory = &config.workdir;
 
         if !fur_directory.exists() {
             std::fs::create_dir(&fur_directory).map_err(|e| match e.kind() {

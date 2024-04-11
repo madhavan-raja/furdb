@@ -20,10 +20,9 @@ impl FurDB {
             return Err(DatabaseCreationError::InvalidId);
         }
 
-        let database_path = utils::get_database_path(&config.fur_directory, database_id);
-        let all_tables_path = utils::get_all_tables_path(&config.fur_directory, &database_id);
-        let database_config_path =
-            utils::get_database_config_path(&config.fur_directory, &database_id);
+        let database_path = utils::get_database_path(&config.workdir, database_id);
+        let all_tables_path = utils::get_all_tables_path(&config.workdir, &database_id);
+        let database_config_path = utils::get_database_config_path(&config.workdir, &database_id);
 
         std::fs::create_dir(&database_path).map_err(|e| match e.kind() {
             ErrorKind::AlreadyExists => DatabaseCreationError::AlreadyExists,

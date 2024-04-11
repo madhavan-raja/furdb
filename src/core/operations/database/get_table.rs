@@ -12,7 +12,7 @@ impl Database {
         let database_info = self.get_database_info();
 
         let table_config_path = utils::get_table_config_path(
-            &config.fur_directory,
+            &config.workdir,
             &database_info.get_database_id(),
             table_id,
         );
