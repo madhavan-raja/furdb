@@ -87,13 +87,39 @@ furdb help
 
 **FurDB Server** provides REST API endpoints for creating, reading, and deleting databases, tables, and entries.
 
-### Checking Server Health
+### Checking Server Info
+
+Gets server information.
+
+**Endpoint**
 
 `GET` `/`
 
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 200,
+  "status": "OK",
+  "response": {
+    "message": "Server is running",
+    "config": {
+      "workdir": "/furdb"
+    }
+  }
+}
+```
+
 ### Create Database
 
-`POST` `/:database_id`
+Create a database with ID `my_database`.
+
+**Endpoint**
+
+`POST` `/my_database`
+
+**Request**
 
 ```json
 {
@@ -101,60 +127,193 @@ furdb help
 }
 ```
 
-### Get Database Info
-
-`GET` `/:database_id`
-
-### Delete Database
-
-`DELETE` `/:database_id`
-
-### Create Table
-
-`POST` `/:database_id/:table_id`
+**Response**
 
 ```json
 {
-  "table_name": "Table Name",
+  "result": "success",
+  "status_code": 201,
+  "status": "Created",
+  "response": null
+}
+```
+
+### Get Database Info
+
+Get info of database with ID `my_database`.
+
+**Endpoint**
+
+`GET` `/my_database`
+
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 200,
+  "status": "OK",
+  "response": {
+    "database_id": "my_database",
+    "database_name": "My Database",
+    "database_tables": []
+  }
+}
+```
+
+### Delete Database
+
+Delete database with ID `my_database`.
+
+**Endpoint**
+
+`DELETE` `/my_database`
+
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 200,
+  "status": "OK",
+  "response": null
+}
+```
+
+### Create Table
+
+Creates a table with ID `my_table` in the database with ID `my_database`.
+
+**Endpoint**
+
+`POST` `/my_database/my_table`
+
+**Request**
+
+```json
+{
+  "table_name": "My Table",
   "table_columns": [
     {
-      "name": "Column 1 Name",
+      "name": "First Column",
       "size": 5
     },
     {
-      "name": "Column 2 Name",
+      "name": "Second Column",
       "size": 3
     }
   ]
 }
 ```
 
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 201,
+  "status": "Created",
+  "response": null
+}
+```
+
 ### Get Table Info
 
-`GET` `/:database_id/:table_id`
+Get info of table with ID `my_table` in the database with ID `my_database`.
+
+**Endpoint**
+
+`GET` `/my_database/my_table`
+
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 200,
+  "status": "OK",
+  "response": {
+    "database_id": "my_database",
+    "table_id": "my_table",
+    "table_name": "My Table",
+    "table_columns": [
+      {
+        "name": "First Column",
+        "size": 5
+      },
+      {
+        "name": "Second Column",
+        "size": 3
+      }
+    ]
+  }
+}
+```
 
 ### Delete Table
 
-`DELETE` `/:database_id/:table_id`
+Delete table with ID `my_table` in the database with ID `my_database`.
+
+**Endpoint**
+
+`DELETE` `/my_database/my_table`
+
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 200,
+  "status": "OK",
+  "response": null
+}
+```
 
 ### Insert Entries
 
-`POST` `/:database_id/:table_id/data`
+Insert entries into table with ID `my_table` in the database with ID `my_database`.
+
+**Endpoint**
+
+`POST` `/my_database_/my_table/data`
+
+**Request**
 
 ```json
 {
   "data": [
-    [15, 0],
-    [20, 1]
+    [21, 0],
+    [17, 1],
+    [23, 2],
+    [9, 0],
+    [31, 1],
+    [0, 2]
   ]
+}
+```
+
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 201,
+  "status": "Created",
+  "response": null
 }
 ```
 
 ### Get Entries
 
-`GET` `/:database_id/:table_id/data`
+Get entries from table with ID `my_table` in the database with ID `my_database`.
+
+**Endpoint**
+
+`GET` `/my_database_/my_table/data`
 
 #### Get All Entries
+
+**Request**
 
 ```json
 {
@@ -162,35 +321,158 @@ furdb help
 }
 ```
 
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 200,
+  "status": "OK",
+  "response": {
+    "result_count": 6,
+    "results": [
+      {
+        "index": 0,
+        "data": [21, 0]
+      },
+      {
+        "index": 1,
+        "data": [17, 1]
+      },
+      {
+        "index": 2,
+        "data": [23, 2]
+      },
+      {
+        "index": 3,
+        "data": [9, 0]
+      },
+      {
+        "index": 4,
+        "data": [31, 1]
+      },
+      {
+        "index": 5,
+        "data": [0, 2]
+      }
+    ]
+  }
+}
+```
+
 #### Get Entries By Indices
+
+**Request**
 
 ```json
 {
   "entries": {
-    "ByIndices": [2]
+    "ByIndices": [1, 3]
+  }
+}
+```
+
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 200,
+  "status": "OK",
+  "response": {
+    "result_count": 2,
+    "results": [
+      {
+        "index": 1,
+        "data": [17, 1]
+      },
+      {
+        "index": 3,
+        "data": [9, 0]
+      }
+    ]
   }
 }
 ```
 
 #### Get Entries By Value
 
+**Request**
+
 ```json
 {
   "entries": {
     "ByValue": {
       "column_index": 0,
-      "value": 12
+      "value": 23
     }
+  }
+}
+```
+
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 200,
+  "status": "OK",
+  "response": {
+    "result_count": 1,
+    "results": [
+      {
+        "index": 2,
+        "data": [23, 2]
+      }
+    ]
   }
 }
 ```
 
 ### Delete Entries
 
+Delete entries from table with ID `my_table` in the database with ID `my_database`.
+
+**Endpoint**
+
 `DELETE` `/:database_id/:table_id/data`
+
+#### Delete All Entries
+
+**Request**
+
+```json
+{}
+```
+
+**Response**
 
 ```json
 {
-  "indices": [0, 10]
+  "result": "success",
+  "status_code": 200,
+  "status": "OK",
+  "response": null
+}
+```
+
+#### Delete Entries By Indices
+
+**Request**
+
+```json
+{
+  "indices": [1]
+}
+```
+
+**Response**
+
+```json
+{
+  "result": "success",
+  "status_code": 200,
+  "status": "OK",
+  "response": null
 }
 ```
