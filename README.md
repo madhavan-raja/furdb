@@ -119,14 +119,6 @@ Create a database with ID `my_database`.
 
 `POST` `/my_database`
 
-**Request**
-
-```json
-{
-  "databaseName": "My Database"
-}
-```
-
 **Response**
 
 ```json
@@ -134,7 +126,9 @@ Create a database with ID `my_database`.
   "result": "success",
   "statusCode": 201,
   "status": "Created",
-  "response": null
+  "response": {
+    "databaseId": "my_database"
+  }
 }
 ```
 
@@ -155,7 +149,6 @@ Get info of database with ID `my_database`.
   "status": "OK",
   "response": {
     "databaseId": "my_database",
-    "databaseName": "My Database",
     "databaseTables": []
   }
 }
@@ -192,14 +185,11 @@ Creates a table with ID `my_table` in the database with ID `my_database`.
 
 ```json
 {
-  "tableName": "My Table",
   "tableColumns": [
     {
-      "name": "First Column",
       "size": 5
     },
     {
-      "name": "Second Column",
       "size": 3
     }
   ]
@@ -213,7 +203,18 @@ Creates a table with ID `my_table` in the database with ID `my_database`.
   "result": "success",
   "statusCode": 201,
   "status": "Created",
-  "response": null
+  "response": {
+    "databaseId": "my_database",
+    "tableId": "my_table",
+    "tableColumns": [
+      {
+        "size": 5
+      },
+      {
+        "size": 3
+      }
+    ]
+  }
 }
 ```
 
@@ -235,14 +236,11 @@ Get info of table with ID `my_table` in the database with ID `my_database`.
   "response": {
     "databaseId": "my_database",
     "tableId": "my_table",
-    "tableName": "My Table",
     "tableColumns": [
       {
-        "name": "First Column",
         "size": 5
       },
       {
-        "name": "Second Column",
         "size": 3
       }
     ]
@@ -367,7 +365,7 @@ Get entries from table with ID `my_table` in the database with ID `my_database`.
 ```json
 {
   "entries": {
-    "byIndices": [1, 3]
+    "indices": [1, 3]
   }
 }
 ```
@@ -402,7 +400,7 @@ Get entries from table with ID `my_table` in the database with ID `my_database`.
 ```json
 {
   "entries": {
-    "byValue": {
+    "value": {
       "columnIndex": 0,
       "value": 23
     }
@@ -465,7 +463,7 @@ Delete entries from table with ID `my_table` in the database with ID `my_databas
 ```json
 {
   "entries": {
-    "byIndices": [1]
+    "indices": [1]
   }
 }
 ```

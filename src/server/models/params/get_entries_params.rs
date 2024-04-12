@@ -21,8 +21,8 @@ impl GetEntriesByValuesParams {
 #[serde(rename_all = "camelCase")]
 pub enum GetEntriesType {
     All,
-    ByIndices(Vec<u64>),
-    ByValue(GetEntriesByValuesParams),
+    Indices(Vec<u64>),
+    Value(GetEntriesByValuesParams),
 }
 
 #[derive(Serialize, Deserialize, Clone)]

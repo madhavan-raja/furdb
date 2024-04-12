@@ -24,7 +24,7 @@ pub async fn delete_entries_handler(
 
     match &delete_entries_params.get_entries() {
         DeleteEntriesType::All => table.delete_all_entries(),
-        DeleteEntriesType::ByIndices(indices) => table.delete_entries(indices.to_vec()),
+        DeleteEntriesType::Indices(indices) => table.delete_entries(indices.to_vec()),
     }?;
 
     Ok(SuccessResponse::EntriesDeleted)

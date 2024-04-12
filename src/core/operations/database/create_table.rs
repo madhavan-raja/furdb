@@ -12,7 +12,6 @@ impl Database {
     pub fn create_table(
         &self,
         table_id: &str,
-        table_name: Option<&str>,
         table_columns: Vec<Column>,
     ) -> Result<Table, TableCreationError> {
         let config = self.get_config();
@@ -43,12 +42,7 @@ impl Database {
             _ => TableCreationError::OtherError(e.to_string()),
         })?;
 
-        let table_info = TableInfo::new(
-            &database_info.get_database_id(),
-            table_id,
-            table_name.unwrap_or(table_id),
-            &table_columns,
-        );
+        let table_info = TableInfo::new(&database_info.get_database_id(), table_id, &table_columns);
         let table = Table::new(&config, &table_info);
 
         let table_info_serialized = serde_json::to_string(&table_info)

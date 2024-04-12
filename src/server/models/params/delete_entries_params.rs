@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "camelCase")]
 pub enum DeleteEntriesType {
     All,
-    ByIndices(Vec<u64>),
+    Indices(Vec<u64>),
 }
 
 #[derive(Serialize, Deserialize, Clone)]

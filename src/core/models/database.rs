@@ -39,14 +39,12 @@ impl Database {
 #[serde(rename_all = "camelCase")]
 pub struct DatabaseInfo {
     database_id: String,
-    database_name: String,
 }
 
 impl DatabaseInfo {
-    pub fn new(database_id: &str, database_name: Option<&str>) -> Self {
+    pub fn new(database_id: &str) -> Self {
         Self {
             database_id: database_id.to_string(),
-            database_name: database_name.unwrap_or(database_id).to_string(),
         }
     }
 

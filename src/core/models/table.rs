@@ -32,21 +32,14 @@ impl Table {
 pub struct TableInfo {
     database_id: String,
     table_id: String,
-    table_name: String,
     table_columns: Vec<Column>,
 }
 
 impl TableInfo {
-    pub fn new(
-        database_id: &str,
-        table_id: &str,
-        table_name: &str,
-        table_columns: &[Column],
-    ) -> Self {
+    pub fn new(database_id: &str, table_id: &str, table_columns: &[Column]) -> Self {
         Self {
             database_id: database_id.to_string(),
             table_id: table_id.to_string(),
-            table_name: table_name.to_string(),
             table_columns: table_columns.to_vec(),
         }
     }

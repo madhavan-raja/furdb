@@ -22,8 +22,8 @@ pub async fn get_entries_handler(
 
     let entries_result = match &get_entries_params.get_entries() {
         GetEntriesType::All => table.get_all_entries(),
-        GetEntriesType::ByIndices(indices) => table.get_entries(indices.to_vec()),
-        GetEntriesType::ByValue(get_entries_by_value_params) => table.query(
+        GetEntriesType::Indices(indices) => table.get_entries(indices.to_vec()),
+        GetEntriesType::Value(get_entries_by_value_params) => table.query(
             get_entries_by_value_params.get_column_index(),
             get_entries_by_value_params.get_value(),
         ),

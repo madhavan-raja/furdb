@@ -7,11 +7,7 @@ use crate::core::error::DatabaseCreationError;
 use std::io::ErrorKind;
 
 impl FurDB {
-    pub fn create_database(
-        &self,
-        database_id: &str,
-        database_name: Option<&str>,
-    ) -> Result<Database, DatabaseCreationError> {
+    pub fn create_database(&self, database_id: &str) -> Result<Database, DatabaseCreationError> {
         let config = self.get_config();
 
         if !utils::is_id_valid(database_id) {
@@ -32,7 +28,7 @@ impl FurDB {
             _ => DatabaseCreationError::OtherError(e.to_string()),
         })?;
 
-        let database_info = DatabaseInfo::new(database_id, database_name);
+        let database_info = DatabaseInfo::new(database_id);
         let database = Database::new(&config, &database_info);
 
         let database_info_serialized = serde_json::to_string(&database_info)

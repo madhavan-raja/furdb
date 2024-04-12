@@ -16,13 +16,12 @@ pub async fn create_table_handler(
 ) -> Result<SuccessResponse, ErrorResponse> {
     let (database_id, table_id) = path.into_inner();
 
-    let table_name = create_table_params.get_table_name();
     let table_columns = create_table_params.get_table_columns();
 
     let furdb = data.as_ref();
     let database = furdb.get_database(&database_id)?;
 
-    let table = database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;
+    let table = database.create_table(&table_id, table_columns.to_vec())?;
 
     let table_info = table.get_table_info();
 
