@@ -130,11 +130,9 @@ impl Table {
                     .unwrap();
                 let index_bin = BitVec::<u8, Msb0>::from_slice(&index_bin);
 
-                let index = index_bin
+                index_bin
                     .into_iter()
-                    .fold(0, |acc, bit| (acc << 1) + (bit as u64));
-
-                index
+                    .fold(0, |acc, bit| (acc << 1) + (bit as u64))
             })
             .collect();
 

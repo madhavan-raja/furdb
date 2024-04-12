@@ -13,7 +13,7 @@ impl FurDB {
         let database_config_path = utils::get_database_config_path(&config.workdir, database_id);
 
         let database_config_file =
-            std::fs::File::open(&database_config_path).map_err(|e| match e.kind() {
+            std::fs::File::open(database_config_path).map_err(|e| match e.kind() {
                 ErrorKind::NotFound => DatabaseReadError::NotFound,
                 _ => DatabaseReadError::OtherError(e.to_string()),
             })?;

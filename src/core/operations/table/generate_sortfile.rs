@@ -16,7 +16,7 @@ impl Table {
             .get_all_entries()
             .map_err(|e| EntryInsertionError::OtherError(e.to_string()))?
             .get_results();
-        let identifier_size = if all_entries.len() > 0 {
+        let identifier_size = if !all_entries.is_empty() {
             (1 + ((all_entries.len() - 1) / 256)) * 8
         } else {
             0

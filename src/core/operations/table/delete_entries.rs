@@ -17,7 +17,7 @@ impl Table {
             &table_info.get_table_id(),
         );
 
-        std::fs::write(&data_file_path, "")
+        std::fs::write(data_file_path, "")
             .map_err(|e| EntryDeletionError::OtherError(e.to_string()))?;
 
         Ok(())
@@ -35,7 +35,7 @@ impl Table {
 
         let table_data_file = std::fs::OpenOptions::new()
             .read(true)
-            .open(&data_file_path)
+            .open(data_file_path)
             .map_err(|e| EntryDeletionError::OtherError(e.to_string()))?;
 
         let data_file_size = table_data_file

@@ -13,7 +13,7 @@ impl FurDB {
         let fur_directory = &config.workdir;
 
         if !fur_directory.exists() {
-            std::fs::create_dir(&fur_directory).map_err(|e| match e.kind() {
+            std::fs::create_dir(fur_directory).map_err(|e| match e.kind() {
                 ErrorKind::PermissionDenied => FurDBInitializationError::PermissionDenied,
                 ErrorKind::NotFound => FurDBInitializationError::InvalidPath,
                 _ => FurDBInitializationError::OtherError(e.to_string()),

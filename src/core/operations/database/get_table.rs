@@ -18,7 +18,7 @@ impl Database {
         );
 
         let table_info_file =
-            std::fs::File::open(&table_config_path).map_err(|e| match e.kind() {
+            std::fs::File::open(table_config_path).map_err(|e| match e.kind() {
                 ErrorKind::NotFound => TableReadError::NotFound,
                 _ => TableReadError::OtherError(e.to_string()),
             })?;

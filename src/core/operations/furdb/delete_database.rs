@@ -11,7 +11,7 @@ impl FurDB {
 
         let database_path = utils::get_database_path(&config.workdir, database_id);
 
-        std::fs::remove_dir_all(&database_path).map_err(|e| match e.kind() {
+        std::fs::remove_dir_all(database_path).map_err(|e| match e.kind() {
             ErrorKind::NotFound => DatabaseDeletionError::NotFound,
             _ => DatabaseDeletionError::OtherError(e.to_string()),
         })?;
