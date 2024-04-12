@@ -22,10 +22,6 @@ impl EntriesResult {
         }
     }
 
-    pub fn get_result_count(&self) -> usize {
-        self.result_count
-    }
-
     pub fn get_results(&self) -> Vec<Entry> {
         self.results.to_owned()
     }
@@ -34,10 +30,6 @@ impl EntriesResult {
 impl Entry {
     pub fn new(index: usize, data: Vec<u128>) -> Self {
         Self { index, data }
-    }
-
-    pub fn get_index(&self) -> usize {
-        self.index
     }
 
     pub fn get_data(&self) -> Vec<u128> {

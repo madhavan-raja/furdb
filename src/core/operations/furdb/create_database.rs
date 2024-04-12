@@ -1,7 +1,7 @@
 use crate::core::utils;
 
 use crate::core::furdb::FurDB;
-use crate::core::models::database::DatabaseInfo;
+use crate::core::models::database::{Database, DatabaseInfo};
 
 use crate::core::error::DatabaseCreationError;
 use std::io::ErrorKind;
@@ -11,10 +11,8 @@ impl FurDB {
         &self,
         database_id: &str,
         database_name: Option<&str>,
-    ) -> Result<(), DatabaseCreationError> {
+    ) -> Result<Database, DatabaseCreationError> {
         let config = self.get_config();
-        let database_info =
-            &DatabaseInfo::new(database_id, Some(database_name.unwrap_or(database_id)));
 
         if !utils::is_id_valid(database_id) {
             return Err(DatabaseCreationError::InvalidId);
@@ -34,12 +32,15 @@ impl FurDB {
             _ => DatabaseCreationError::OtherError(e.to_string()),
         })?;
 
+        let database_info = DatabaseInfo::new(database_id, database_name);
+        let database = Database::new(&config, &database_info);
+
         let database_info_serialized = serde_json::to_string(&database_info)
             .map_err(|e| DatabaseCreationError::OtherError(e.to_string()))?;
 
         std::fs::write(database_config_path, database_info_serialized)
             .map_err(|e| DatabaseCreationError::OtherError(e.to_string()))?;
 
-        Ok(())
+        Ok(database)
     }
 }

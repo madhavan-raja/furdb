@@ -18,18 +18,9 @@ impl Database {
         let config = self.get_config();
         let database_info = self.get_database_info();
 
-        let table_info = TableInfo::new(
-            &database_info.get_database_id(),
-            table_id,
-            table_name.unwrap_or(table_id),
-            &table_columns,
-        );
-
         if !utils::is_id_valid(table_id) {
             return Err(TableCreationError::InvalidId);
         }
-
-        let table = Table::new(&config, &table_info);
 
         let table_path =
             utils::get_table_path(&config.workdir, &database_info.get_database_id(), table_id);
@@ -51,6 +42,14 @@ impl Database {
             ErrorKind::AlreadyExists => TableCreationError::AlreadyExists,
             _ => TableCreationError::OtherError(e.to_string()),
         })?;
+
+        let table_info = TableInfo::new(
+            &database_info.get_database_id(),
+            table_id,
+            table_name.unwrap_or(table_id),
+            &table_columns,
+        );
+        let table = Table::new(&config, &table_info);
 
         let table_info_serialized = serde_json::to_string(&table_info)
             .map_err(|e| TableCreationError::OtherError(e.to_string()))?;

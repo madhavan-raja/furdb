@@ -59,10 +59,6 @@ impl TableInfo {
         self.table_id.to_owned()
     }
 
-    pub fn get_table_name(&self) -> String {
-        self.table_name.to_owned()
-    }
-
     pub fn get_table_columns(&self) -> Vec<Column> {
         self.table_columns.to_owned()
     }

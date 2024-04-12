@@ -16,7 +16,7 @@ pub async fn get_database_handler(
     let furdb = data.as_ref();
     let database = furdb.get_database(&database_id)?;
 
-    let database_info = database.get_database_info();
+    let database_info_full = database.get_database_info_full()?;
 
-    Ok(SuccessResponse::DatabaseInfo(database_info))
+    Ok(SuccessResponse::DatabaseInfo(database_info_full))
 }
