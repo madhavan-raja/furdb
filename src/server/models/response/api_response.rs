@@ -25,10 +25,10 @@ impl ApiResponseSerializable {
     pub fn generate_success(response: &SuccessResponse) -> (Self, StatusCode) {
         let status_code = match response {
             SuccessResponse::ServerInfo(_) => StatusCode::OK,
-            SuccessResponse::DatabaseCreated => StatusCode::CREATED,
+            SuccessResponse::DatabaseCreated(_) => StatusCode::CREATED,
             SuccessResponse::DatabaseInfo(_) => StatusCode::OK,
             SuccessResponse::DatabaseDeleted => StatusCode::OK,
-            SuccessResponse::TableCreated => StatusCode::CREATED,
+            SuccessResponse::TableCreated(_) => StatusCode::CREATED,
             SuccessResponse::TableInfo(_) => StatusCode::OK,
             SuccessResponse::TableDeleted => StatusCode::OK,
             SuccessResponse::EntriesCreated => StatusCode::CREATED,

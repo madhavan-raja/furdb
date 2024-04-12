@@ -22,7 +22,9 @@ pub async fn create_table_handler(
     let furdb = data.as_ref();
     let database = furdb.get_database(&database_id)?;
 
-    database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;
+    let table = database.create_table(&table_id, table_name.as_deref(), table_columns.to_vec())?;
 
-    Ok(SuccessResponse::TableCreated)
+    let table_info = table.get_table_info();
+
+    Ok(SuccessResponse::TableCreated(table_info))
 }

@@ -5,9 +5,12 @@ use crate::core::furdb_config::FurDBConfig;
 
 use crate::core::models;
 
+use models::database::DatabaseInfo;
 use models::database::DatabaseInfoExtra;
-use models::entries_result::EntriesResult;
+
 use models::table::TableInfo;
+
+use models::entries_result::EntriesResult;
 
 use super::api_response::ApiResponseSerializable;
 
@@ -16,10 +19,10 @@ use super::api_response::ApiResponseSerializable;
 #[serde(untagged)]
 pub enum SuccessResponse {
     ServerInfo(FurDBConfig),
-    DatabaseCreated,
+    DatabaseCreated(DatabaseInfo),
     DatabaseInfo(DatabaseInfoExtra),
     DatabaseDeleted,
-    TableCreated,
+    TableCreated(TableInfo),
     TableInfo(TableInfo),
     TableDeleted,
     EntriesCreated,
