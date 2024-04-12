@@ -1,20 +1,20 @@
-use std::error::Error;
-
 use clap::Parser;
-
 use core::furdb::FurDB;
 
 use cli::Cli;
 use cli::Commands;
 
-use server::server::Server;
+use server::furdb_server::Server;
+
+use error::ApplicationError;
 
 mod cli;
 mod core;
+mod error;
 mod server;
 
 #[actix_web::main]
-async fn main() -> Result<(), Box<dyn Error>> {
+async fn main() -> Result<(), ApplicationError> {
     dotenv::dotenv().ok();
 
     let args = Cli::parse();

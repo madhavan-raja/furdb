@@ -297,7 +297,7 @@ Insert entries into table with ID `my_table` in the database with ID `my_databas
 ```json
 {
   "result": "success",
-  "status_code": 201,
+  "statusCode": 201,
   "status": "Created",
   "response": null
 }

@@ -1,11 +1,11 @@
-use std::error::Error;
-
 use actix_web::{middleware, web, App, HttpServer};
 
 use crate::core::furdb::FurDB;
 use crate::server::server_config::ServerConfig;
 
 use crate::server::operations;
+
+use crate::error::ApplicationError;
 
 #[derive(Clone)]
 pub struct Server {
@@ -21,7 +21,7 @@ impl Server {
         }
     }
 
-    pub async fn start(&self) -> Result<(), Box<dyn Error>> {
+    pub async fn start(&self) -> Result<(), ApplicationError> {
         let server_config = self.server_config.to_owned();
         let furdb = self.furdb.to_owned();
 
@@ -29,7 +29,7 @@ impl Server {
             App::new()
                 .app_data(web::Data::new(furdb.to_owned()))
                 .wrap(middleware::Logger::default())
-                .service(operations::info::info::info)
+                .service(operations::info::info)
                 .service(operations::database::create_database::create_database_handler)
                 .service(operations::database::get_database::get_database_handler)
                 .service(operations::database::delete_database::delete_database_handler)
@@ -40,9 +40,11 @@ impl Server {
                 .service(operations::entry::get_entries::get_entries_handler)
                 .service(operations::entry::delete_entries::delete_entries_handler)
         })
-        .bind(("0.0.0.0", server_config.port))?
+        .bind(("0.0.0.0", server_config.port))
+        .map_err(|_| ApplicationError::ServerStart)?
         .run()
-        .await?;
+        .await
+        .map_err(|e| ApplicationError::Other(e.to_string()))?;
 
         Ok(())
     }
