@@ -23,8 +23,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .filter_level(args.verbose.log_level_filter())
         .init();
 
-    let config = args.furdb_config;
-    let furdb = FurDB::new(&config)?;
+    let furdb_config = args.furdb_config;
+    let furdb = FurDB::new(&furdb_config)?;
 
     match args.command {
         Commands::Serve(server_config) => {

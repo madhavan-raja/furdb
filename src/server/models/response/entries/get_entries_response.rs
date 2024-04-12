@@ -24,7 +24,7 @@ impl GetEntriesResponse {
             results: entries_result
                 .get_results()
                 .iter()
-                .map(|entry| Entry::new(entry))
+                .map(Entry::new)
                 .collect(),
         }
     }
