@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct QueryResult {
+pub struct EntriesResult {
     result_count: usize,
     results: Vec<Entry>,
 }
@@ -14,7 +14,7 @@ pub struct Entry {
     data: Vec<u128>,
 }
 
-impl QueryResult {
+impl EntriesResult {
     pub fn new(data: &[Entry]) -> Self {
         Self {
             result_count: data.len(),

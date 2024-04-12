@@ -7,14 +7,14 @@ use std::io::Seek;
 use std::io::SeekFrom;
 use std::os::unix::fs::FileExt;
 
-use crate::core::models::query_result::Entry;
-use crate::core::models::query_result::QueryResult;
+use crate::core::models::entries_result::EntriesResult;
+use crate::core::models::entries_result::Entry;
 use crate::core::models::table::Table;
 
 use crate::core::error::EntryReadError;
 
 impl Table {
-    pub fn query(&self, column_index: u64, value: u128) -> Result<QueryResult, EntryReadError> {
+    pub fn query(&self, column_index: u64, value: u128) -> Result<EntriesResult, EntryReadError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -139,7 +139,7 @@ impl Table {
         self.get_entries(indices)
     }
 
-    pub fn get_all_entries(&self) -> Result<QueryResult, EntryReadError> {
+    pub fn get_all_entries(&self) -> Result<EntriesResult, EntryReadError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -170,7 +170,7 @@ impl Table {
         self.get_entries(indices)
     }
 
-    pub fn get_entries(&self, indices: Vec<u64>) -> Result<QueryResult, EntryReadError> {
+    pub fn get_entries(&self, indices: Vec<u64>) -> Result<EntriesResult, EntryReadError> {
         let config = self.get_config();
         let table_info = self.get_table_info();
 
@@ -204,7 +204,7 @@ impl Table {
             }
         }
 
-        let result = QueryResult::new(
+        let result = EntriesResult::new(
             &indices
                 .into_iter()
                 .map(|index| self.get_entry(index).unwrap())

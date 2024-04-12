@@ -4,7 +4,6 @@ use actix_web::web::{Data, Json, Path};
 use crate::core::furdb::FurDB;
 
 use crate::server::models::params::get_entries_params::{GetEntriesParams, GetEntriesType};
-use crate::server::models::response::entries::get_entries_response::GetEntriesResponse;
 
 use crate::server::models::response::error_response::ErrorResponse;
 use crate::server::models::response::success_response::SuccessResponse;
@@ -21,7 +20,7 @@ pub async fn get_entries_handler(
     let database = furdb.get_database(&database_id)?;
     let table = database.get_table(&table_id)?;
 
-    let response = match &get_entries_params.get_entries() {
+    let entries_result = match &get_entries_params.get_entries() {
         GetEntriesType::All => table.get_all_entries(),
         GetEntriesType::ByIndices(indices) => table.get_entries(indices.to_vec()),
         GetEntriesType::ByValue(get_entries_by_value_params) => table.query(
@@ -30,7 +29,5 @@ pub async fn get_entries_handler(
         ),
     }?;
 
-    let response = GetEntriesResponse::new(&response);
-
-    Ok(SuccessResponse::EntriesResult(response))
+    Ok(SuccessResponse::EntriesResult(entries_result))
 }

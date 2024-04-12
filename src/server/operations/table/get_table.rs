@@ -3,8 +3,6 @@ use actix_web::web::{Data, Path};
 
 use crate::core::furdb::FurDB;
 
-use crate::server::models::response::table::get_table_response::GetTableResponse;
-
 use crate::server::models::response::error_response::ErrorResponse;
 use crate::server::models::response::success_response::SuccessResponse;
 
@@ -19,7 +17,7 @@ pub async fn get_table_handler(
     let database = furdb.get_database(&database_id)?;
     let table = database.get_table(&table_id)?;
 
-    let response = GetTableResponse::new(&table);
+    let table_info = table.get_table_info();
 
-    Ok(SuccessResponse::TableInfo(response))
+    Ok(SuccessResponse::TableInfo(table_info))
 }

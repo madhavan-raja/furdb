@@ -1,12 +1,13 @@
 use actix_web::{HttpResponse, Responder};
 use serde::Serialize;
 
-use crate::server::models;
+use crate::core::furdb_config::FurDBConfig;
 
-use models::response::database::get_database_response::GetDatabaseResponse;
-use models::response::entries::get_entries_response::GetEntriesResponse;
-use models::response::info::server_info_response::ServerInfoResponse;
-use models::response::table::get_table_response::GetTableResponse;
+use crate::core::models;
+
+use models::database::DatabaseInfo;
+use models::entries_result::EntriesResult;
+use models::table::TableInfo;
 
 use super::api_response::ApiResponseSerializable;
 
@@ -14,15 +15,15 @@ use super::api_response::ApiResponseSerializable;
 #[serde(rename_all = "camelCase")]
 #[serde(untagged)]
 pub enum SuccessResponse {
-    ServerInfo(ServerInfoResponse),
+    ServerInfo(FurDBConfig),
     DatabaseCreated,
-    DatabaseInfo(GetDatabaseResponse),
+    DatabaseInfo(DatabaseInfo),
     DatabaseDeleted,
     TableCreated,
-    TableInfo(GetTableResponse),
+    TableInfo(TableInfo),
     TableDeleted,
     EntriesCreated,
-    EntriesResult(GetEntriesResponse),
+    EntriesResult(EntriesResult),
     EntriesDeleted,
 }
 
