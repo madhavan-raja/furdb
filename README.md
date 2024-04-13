@@ -17,7 +17,7 @@ A minimal Database Management System that prioritizes storage space usage and fa
   d1       d2   d3
 ```
 
-## Installing
+## Installation
 
 ### Cargo
 
