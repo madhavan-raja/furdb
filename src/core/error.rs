@@ -28,6 +28,8 @@ pub enum DatabaseCreationError {
 pub enum DatabaseDeletionError {
     #[error("{DATABASE_DELETION_ERROR_MESSAGE}: Database not found")]
     NotFound,
+    #[error("{DATABASE_DELETION_ERROR_MESSAGE}: Invalid Database ID")]
+    InvalidId,
     #[error("{DATABASE_DELETION_ERROR_MESSAGE}")]
     OtherError(String),
 }
@@ -36,6 +38,8 @@ pub enum DatabaseDeletionError {
 pub enum DatabaseReadError {
     #[error("{DATABASE_READ_ERROR_MESSAGE}: Database not found")]
     NotFound,
+    #[error("{DATABASE_READ_ERROR_MESSAGE}: Invalid Database ID")]
+    InvalidId,
     #[error("{DATABASE_READ_ERROR_MESSAGE}")]
     OtherError(String),
 }
@@ -92,6 +96,8 @@ pub enum TableCreationError {
 pub enum TableDeletionError {
     #[error("{TABLE_DELETION_ERROR_MESSAGE}: Table not found")]
     NotFound,
+    #[error("{TABLE_DELETION_ERROR_MESSAGE}: Invalid Table ID")]
+    InvalidId,
     #[error("{TABLE_DELETION_ERROR_MESSAGE}")]
     OtherError(String),
 }
@@ -100,6 +106,8 @@ pub enum TableDeletionError {
 pub enum TableReadError {
     #[error("{TABLE_READ_ERROR_MESSAGE}: Table not found")]
     NotFound,
+    #[error("{TABLE_READ_ERROR_MESSAGE}: Invalid Table ID")]
+    InvalidId,
     #[error("{TABLE_READ_ERROR_MESSAGE}")]
     OtherError(String),
 }

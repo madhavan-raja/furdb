@@ -10,6 +10,10 @@ impl FurDB {
     pub fn get_database(&self, database_id: &str) -> Result<Database, DatabaseReadError> {
         let config = self.get_config();
 
+        if !utils::is_id_valid(database_id) {
+            return Err(DatabaseReadError::InvalidId);
+        }
+
         let database_config_path = utils::get_database_config_path(&config.workdir, database_id);
 
         let database_config_file =

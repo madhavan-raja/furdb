@@ -28,6 +28,7 @@ impl From<DatabaseDeletionError> for ErrorResponse {
     fn from(error: DatabaseDeletionError) -> Self {
         match error {
             DatabaseDeletionError::NotFound => ErrorResponse::NotFound(error.to_string()),
+            DatabaseDeletionError::InvalidId => ErrorResponse::BadRequest(error.to_string()),
             DatabaseDeletionError::OtherError(_e) => ErrorResponse::InternalServerError,
         }
     }
@@ -37,6 +38,7 @@ impl From<DatabaseReadError> for ErrorResponse {
     fn from(error: DatabaseReadError) -> Self {
         match error {
             DatabaseReadError::NotFound => ErrorResponse::NotFound(error.to_string()),
+            DatabaseReadError::InvalidId => ErrorResponse::BadRequest(error.to_string()),
             DatabaseReadError::OtherError(_e) => ErrorResponse::InternalServerError,
         }
     }
@@ -57,6 +59,7 @@ impl From<TableDeletionError> for ErrorResponse {
     fn from(error: TableDeletionError) -> Self {
         match error {
             TableDeletionError::NotFound => ErrorResponse::NotFound(error.to_string()),
+            TableDeletionError::InvalidId => ErrorResponse::BadRequest(error.to_string()),
             TableDeletionError::OtherError(_e) => ErrorResponse::InternalServerError,
         }
     }
@@ -66,6 +69,7 @@ impl From<TableReadError> for ErrorResponse {
     fn from(error: TableReadError) -> Self {
         match error {
             TableReadError::NotFound => ErrorResponse::NotFound(error.to_string()),
+            TableReadError::InvalidId => ErrorResponse::BadRequest(error.to_string()),
             TableReadError::OtherError(_e) => ErrorResponse::InternalServerError,
         }
     }
