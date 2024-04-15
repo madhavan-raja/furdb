@@ -21,7 +21,7 @@ A minimal Database Management System that prioritizes storage space usage and fa
 
 ### Cargo
 
-**FurDB** can be directly installed using `cargo`.
+**FurDB** can be installed using `cargo`.
 
 ```sh
 cargo install furdb
@@ -55,7 +55,7 @@ cd ./furdb
 docker-compose up --build
 ```
 
-You can use the image as a service in a `compose` in another application.
+You can use the image as a service using `compose` in another application.
 
 ```yaml
 version: "3"
@@ -72,13 +72,13 @@ The server can be accessed at `http://furdb:{PORT}`.
 
 ### Command Line
 
-If the executable is present in your `PATH`, you can directly run the server.
+If the executable is present in your `PATH`, you can run the server from the command line.
 
 ```sh
 furdb --workdir "/furdb" serve --port 5678
 ```
 
-You can run the `help` command to see all the available options.
+You can use the `help` command to see all the available options.
 
 ```sh
 furdb help
