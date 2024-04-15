@@ -1,12 +1,12 @@
 use actix_web::post;
 use actix_web::web::{Data, Json, Path};
 
-use crate::core::furdb::FurDB;
+use crate::core::FurDB;
 
-use crate::server::models::params::create_table_params::CreateTableParams;
+use crate::server::models::params::CreateTableParams;
 
-use crate::server::models::response::error_response::ErrorResponse;
-use crate::server::models::response::success_response::SuccessResponse;
+use crate::server::models::response::ErrorResponse;
+use crate::server::models::response::SuccessResponse;
 
 #[post("/{database_id}/{table_id}")]
 pub async fn create_table_handler(

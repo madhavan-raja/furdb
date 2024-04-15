@@ -1,6 +1,6 @@
 use crate::core::utils;
 
-use crate::core::models::table::Table;
+use crate::core::models::Table;
 
 use bitvec::prelude::*;
 use std::io::Write;

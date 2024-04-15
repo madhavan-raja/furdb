@@ -1,10 +1,10 @@
 use clap::Parser;
-use core::furdb::FurDB;
+use core::FurDB;
 
 use cli::Cli;
 use cli::Commands;
 
-use server::furdb_server::Server;
+use server::Server;
 
 use error::ApplicationError;
 

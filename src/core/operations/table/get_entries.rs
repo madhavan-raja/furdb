@@ -7,9 +7,9 @@ use std::io::Seek;
 use std::io::SeekFrom;
 use std::os::unix::fs::FileExt;
 
-use crate::core::models::entries_result::EntriesResult;
-use crate::core::models::entries_result::Entry;
-use crate::core::models::table::Table;
+use crate::core::models::EntriesResult;
+use crate::core::models::Entry;
+use crate::core::models::Table;
 
 use crate::core::error::EntryReadError;
 

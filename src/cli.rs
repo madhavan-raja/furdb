@@ -1,8 +1,8 @@
 use clap::{Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 
-use crate::core::furdb_config::FurDBConfig;
-use crate::server::server_config::ServerConfig;
+use crate::core::FurDBConfig;
+use crate::server::ServerConfig;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]

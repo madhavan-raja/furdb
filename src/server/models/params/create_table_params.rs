@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::core::models::column::Column;
+use crate::core::models::Column;
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]

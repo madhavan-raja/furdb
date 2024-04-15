@@ -1,7 +1,7 @@
 use crate::core::utils;
 
 use crate::core::furdb::FurDB;
-use crate::core::models::database::{Database, DatabaseInfo};
+use crate::core::models::{Database, DatabaseInfo};
 
 use crate::core::error::DatabaseCreationError;
 use std::io::ErrorKind;

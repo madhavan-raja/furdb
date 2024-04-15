@@ -1,7 +1,7 @@
 use actix_web::{HttpResponse, ResponseError};
 use serde::Serialize;
 
-use super::api_response::ApiResponseSerializable;
+use crate::server::models::response::ApiResponseSerializable;
 use std::fmt::{Display, Formatter, Result};
 
 #[derive(Serialize, Debug, Clone)]

@@ -2,7 +2,7 @@ use crate::core::utils;
 
 use std::collections::HashSet;
 
-use crate::core::models::table::Table;
+use crate::core::models::Table;
 
 use crate::core::error::EntryDeletionError;
 

@@ -1,6 +1,6 @@
 use crate::core::utils;
 
-use crate::core::models::database::Database;
+use crate::core::models::Database;
 
 use crate::core::error::TableDeletionError;
 use std::io::ErrorKind;

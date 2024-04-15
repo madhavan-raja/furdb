@@ -3,7 +3,7 @@ use crate::core::utils;
 use bitvec::prelude::*;
 use std::io::Write;
 
-use crate::core::models::table::Table;
+use crate::core::models::Table;
 
 use crate::core::error::EntryInsertionError;
 

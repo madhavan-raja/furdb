@@ -1,18 +1,18 @@
 use actix_web::{HttpResponse, Responder};
 use serde::Serialize;
 
-use crate::core::furdb_config::FurDBConfig;
+use crate::core::FurDBConfig;
 
 use crate::core::models;
 
-use models::database::DatabaseInfo;
-use models::database::DatabaseInfoExtra;
+use models::DatabaseInfo;
+use models::DatabaseInfoExtra;
 
-use models::table::TableInfo;
+use models::TableInfo;
 
-use models::entries_result::EntriesResult;
+use models::EntriesResult;
 
-use super::api_response::ApiResponseSerializable;
+use crate::server::models::response::ApiResponseSerializable;
 
 #[derive(Serialize, Clone)]
 #[serde(rename_all = "camelCase")]

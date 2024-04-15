@@ -1,9 +1,9 @@
 use crate::core::utils;
 
-use crate::core::models::column::Column;
-use crate::core::models::database::Database;
-use crate::core::models::table::Table;
-use crate::core::models::table::TableInfo;
+use crate::core::models::Column;
+use crate::core::models::Database;
+use crate::core::models::Table;
+use crate::core::models::TableInfo;
 
 use crate::core::error::TableCreationError;
 use std::io::ErrorKind;

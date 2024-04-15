@@ -1,4 +1,4 @@
-pub mod delete_entries;
-pub mod generate_sortfile;
-pub mod get_entries;
-pub mod insert_entries;
+mod delete_entries;
+mod generate_sortfile;
+mod get_entries;
+mod insert_entries;

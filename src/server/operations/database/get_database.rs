@@ -1,10 +1,10 @@
 use actix_web::get;
 use actix_web::web::{Data, Path};
 
-use crate::core::furdb::FurDB;
+use crate::core::FurDB;
 
-use crate::server::models::response::error_response::ErrorResponse;
-use crate::server::models::response::success_response::SuccessResponse;
+use crate::server::models::response::ErrorResponse;
+use crate::server::models::response::SuccessResponse;
 
 #[get("/{database_id}")]
 pub async fn get_database_handler(

@@ -1,3 +1,3 @@
-pub mod database;
-pub mod furdb;
-pub mod table;
+mod database;
+mod furdb;
+mod table;
